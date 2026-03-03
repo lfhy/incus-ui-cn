@@ -305,16 +305,16 @@ const InstanceSnapshots = (props: Props) => {
           <p>
             {project && snapshotsDisabled ? (
               <>
-                Snapshots are disabled for project{" "}
+                项目{" "}
                 <ResourceLink
                   type="project"
                   value={project.name}
                   to={`/ui/project/${project.name}/configuration`}
                 />
-                .
+                已禁用快照。
               </>
             ) : (
-              "There are no snapshots of this instance."
+              "此实例暂无快照。"
             )}
           </p>
           <p>
@@ -322,7 +322,7 @@ const InstanceSnapshots = (props: Props) => {
               docPath="/howto/storage_backup_volume/#storage-backup-snapshots"
               hasExternalIcon
             >
-              Learn more about snapshots
+              了解更多快照信息
             </DocLink>
           </p>
           <InstanceConfigureSnapshotsBtn

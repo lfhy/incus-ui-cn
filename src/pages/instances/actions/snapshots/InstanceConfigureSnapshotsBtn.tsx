@@ -40,13 +40,9 @@ const InstanceConfigureSnapshotsBtn: FC<Props> = ({
         onClick={openPortal}
         className={className}
         disabled={isDisabled || !canEditInstance(instance)}
-        title={
-          canEditInstance()
-            ? ""
-            : "You do not have permission to configure this instance"
-        }
+        title={canEditInstance() ? "" : "你没有配置此实例的权限"}
       >
-        See configuration
+        查看配置
       </Button>
     </>
   );
