@@ -59,7 +59,7 @@ sudo systemctl start incus
 ```bash
 # 克隆并构建 Incus UI
 cd /tmp
-git clone https://github.com/zabbly/incus-ui-canonical.git
+git clone https://github.com/lfhy/incus-ui-cn.git
 cd incus-ui-canonical
 npm install --legacy-peer-deps
 npm run build
