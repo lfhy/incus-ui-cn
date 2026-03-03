@@ -5,11 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import ConfirmationForce from "components/ConfirmationForce";
 import type { LxdInstance, LxdInstanceAction } from "types/instance";
-import {
-  instanceActionLabel,
-  instanceActions,
-  pluralize,
-} from "util/instanceBulkActions";
+import { instanceActionLabel, instanceActions } from "util/instanceBulkActions";
 import InstanceBulkAction from "pages/instances/actions/InstanceBulkAction";
 import { getPromiseSettledCounts } from "util/promises";
 import { useEventQueue } from "context/eventQueue";
@@ -63,32 +59,28 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         if (fulfilledCount === count) {
           toastNotify.success(
             <>
-              <b>{count}</b> {pluralize("instance", count)} {action}.
+              <b>{count}</b> 个实例已{action}。
             </>,
             viewBulkDetails(results),
           );
           clearCache();
         } else if (rejectedCount === count) {
           toastNotify.failure(
-            `Instance ${desiredAction} failed`,
+            `实例${action}失败`,
             undefined,
             <>
-              <b>{count}</b> {pluralize("instance", count)} could not be{" "}
-              {action}.
+              <b>{count}</b> 个实例无法{action}。
             </>,
             viewBulkDetails(results),
           );
           delayedClearCache();
         } else {
           toastNotify.failure(
-            `Instance ${desiredAction} partially failed`,
+            `实例${action}部分失败`,
             undefined,
             <>
-              <b>{fulfilledCount}</b> {pluralize("instance", fulfilledCount)}{" "}
-              {action}
-              .<br />
-              <b>{rejectedCount}</b> {pluralize("instance", rejectedCount)}{" "}
-              could not be {action}.
+              <b>{fulfilledCount}</b> 个实例已{action}。<br />
+              <b>{rejectedCount}</b> 个实例无法{action}。
             </>,
             viewBulkDetails(results),
           );
@@ -99,7 +91,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
         setActiveAction(null);
       })
       .catch((e) => {
-        toastNotify.failure(`Instance ${desiredAction} failed`, e);
+        toastNotify.failure(`实例${instanceActionLabel(desiredAction)}失败`, e);
         delayedClearCache();
       });
   };
@@ -121,7 +113,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           confirmAppearance="positive"
           action="start"
           instances={instances}
-          confirmLabel="Start"
+          confirmLabel="启动"
           restrictedInstances={restrictedInstances}
         />
         <InstanceBulkAction
@@ -133,12 +125,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           }}
           action="restart"
           instances={instances}
-          confirmLabel="Restart"
+          confirmLabel="重启"
           confirmExtra={
-            <ConfirmationForce
-              label="Force restart"
-              force={[isForce, setForce]}
-            />
+            <ConfirmationForce label="强制重启" force={[isForce, setForce]} />
           }
           restrictedInstances={restrictedInstances}
         />
@@ -151,7 +140,7 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           }}
           action="freeze"
           instances={instances}
-          confirmLabel="Freeze"
+          confirmLabel="冻结"
           restrictedInstances={restrictedInstances}
         />
         <InstanceBulkAction
@@ -163,9 +152,9 @@ const InstanceBulkActions: FC<Props> = ({ instances, onStart, onFinish }) => {
           }}
           action="stop"
           instances={instances}
-          confirmLabel="Stop"
+          confirmLabel="停止"
           confirmExtra={
-            <ConfirmationForce label="Force stop" force={[isForce, setForce]} />
+            <ConfirmationForce label="强制停止" force={[isForce, setForce]} />
           }
           restrictedInstances={restrictedInstances}
         />

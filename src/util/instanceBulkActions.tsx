@@ -60,11 +60,11 @@ export const instanceActions = (
 
 export const instanceActionLabel = (action: LxdInstanceAction): string => {
   return {
-    unfreeze: "started",
-    start: "started",
-    restart: "restarted",
-    freeze: "frozen",
-    stop: "stopped",
+    unfreeze: "启动",
+    start: "启动",
+    restart: "重启",
+    freeze: "冻结",
+    stop: "停止",
   }[action];
 };
 
@@ -84,9 +84,9 @@ export const pluralize = (item: string, count: number): string => {
 
 export const statusLabel = (status: LxdInstanceStatus): string | undefined => {
   const statusToLabel: Partial<Record<LxdInstanceStatus, string>> = {
-    Frozen: "frozen",
-    Stopped: "stopped",
-    Running: "running",
+    Frozen: "已冻结",
+    Stopped: "已停止",
+    Running: "运行中",
   };
   return statusToLabel[status];
 };
