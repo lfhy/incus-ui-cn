@@ -33,7 +33,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
               forId="ports.0.listenPort"
               className="u-no-margin--bottom"
             >
-              Listen port
+              监听端口
             </Label>
           </th>
           <th className="protocol">
@@ -42,7 +42,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
               forId="ports.0.protocol"
               className="u-no-margin--bottom"
             >
-              Protocol
+              协议
             </Label>
           </th>
           <th className="target-address">
@@ -51,15 +51,15 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
               forId="ports.0.targetAddress"
               className="u-no-margin--bottom"
             >
-              Target address
+              目标地址
             </Label>
           </th>
           <th className="target-port">
             <Label forId="ports.0.targetPort" className="u-no-margin--bottom">
-              Target port
+              目标端口
             </Label>
           </th>
-          <th className="u-off-screen">Actions</th>
+          <th className="u-off-screen">操作</th>
         </tr>
       </thead>
       <tbody>
@@ -75,11 +75,11 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.listenPort`)}
                   id={`ports.${index}.listenPort`}
                   type="text"
-                  aria-label={`Port ${index} listen port`}
-                  placeholder="Port number(s)"
+                  aria-label={`端口 ${index} 监听端口`}
+                  placeholder="端口号"
                   help={
                     index === formik.values.ports.length - 1 && (
-                      <>e.g. 80,90-99.</>
+                      <>例如：80、90-99。</>
                     )
                   }
                   error={
@@ -97,7 +97,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                     { label: "TCP", value: "tcp" },
                     { label: "UDP", value: "udp" },
                   ]}
-                  aria-label={`Port ${index} protocol`}
+                  aria-label={`端口 ${index} 协议`}
                 />
               </td>
               <td className="target-address">
@@ -105,12 +105,12 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.targetAddress`)}
                   id={`ports.${index}.targetAddress`}
                   type="text"
-                  aria-label={`Port ${index} target address`}
-                  placeholder="Enter IP address"
+                  aria-label={`端口 ${index} 目标地址`}
+                  placeholder="请输入 IP 地址"
                   help={
                     index === formik.values.ports.length - 1 && (
                       <>
-                        Must be from the network <b>{network?.name}</b>.
+                        必须属于网络 <b>{network?.name}</b>。
                       </>
                     )
                   }
@@ -126,11 +126,11 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   {...formik.getFieldProps(`ports.${index}.targetPort`)}
                   id={`ports.${index}.targetPort`}
                   type="text"
-                  aria-label={`Port ${index} target port`}
-                  placeholder="Port number(s)"
+                  aria-label={`端口 ${index} 目标端口`}
+                  placeholder="端口号"
                   help={
                     index === formik.values.ports.length - 1 &&
-                    "Same as listen port if empty"
+                    "留空则与监听端口相同"
                   }
                   error={
                     formik.touched.ports?.[index]?.targetPort
@@ -150,7 +150,7 @@ const NetworkForwardFormPorts: FC<Props> = ({ formik, network }) => {
                   hasIcon
                   className="u-no-margin--bottom"
                   type="button"
-                  aria-label={`Delete port ${index}`}
+                  aria-label={`删除端口 ${index}`}
                 >
                   <Icon name="delete" />
                 </Button>

@@ -184,7 +184,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           className="p-button--positive u-no-margin--bottom u-float-right"
           to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(network.name)}/forwards/create`}
         >
-          Create forward
+          创建转发
         </Link>
       )}
       {!canEditNetwork(network) && (
@@ -192,9 +192,9 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           appearance="positive"
           className="u-float-right u-no-margin--bottom"
           disabled
-          title="You do not have permission to create network forwards for this network"
+          title="你没有为此网络创建转发规则的权限"
         >
-          <span>Create forward</span>
+          <span>创建转发</span>
         </Button>
       )}
       <Row>
@@ -224,10 +224,10 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
             image={<Icon className="empty-state-icon" name="exposed" />}
             title="未找到网络转发规则"
           >
-            <p>There are no network forwards in this project.</p>
+            <p>此项目中没有网络转发规则。</p>
             <p>
               <DocLink docPath="/howto/network_forwards/" hasExternalIcon>
-                Learn more about network forwards
+                了解更多网络转发规则信息
               </DocLink>
             </p>
           </EmptyState>

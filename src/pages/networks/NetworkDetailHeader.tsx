@@ -31,12 +31,12 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
     name: Yup.string()
       .test(
         "deduplicate",
-        "A network with this name already exists",
+        "已存在同名网络",
         async (value) =>
           network?.name === value ||
           checkDuplicateName(value, project, controllerState, "networks"),
       )
-      .required("Network name is required"),
+      .required("网络名称不能为空"),
   });
 
   const formik = useFormik<RenameHeaderValues>({
@@ -57,14 +57,14 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
           navigate(url);
           toastNotify.success(
             <>
-              Network <strong>{name}</strong> renamed to{" "}
+              网络 <strong>{name}</strong> 已重命名为{" "}
               <ResourceLink type="network" value={values.name} to={url} />.
             </>,
           );
           formik.setFieldValue("isRenaming", false);
         })
         .catch((e) => {
-          notify.failure("Renaming failed", e);
+          notify.failure("重命名失败", e);
         })
         .finally(() => {
           formik.setSubmitting(false);
@@ -77,15 +77,15 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
 
   const getRenameDisableReason = () => {
     if (!canEditNetwork(network)) {
-      return "You do not have permission to rename this network";
+      return "你没有重命名此网络的权限";
     }
 
     if (!isManaged) {
-      return "Can not rename, network is not managed";
+      return "无法重命名，网络未托管";
     }
 
     if (isUsed) {
-      return "Can not rename, network is currently in use.";
+      return "无法重命名，网络正在使用中。";
     }
 
     return undefined;
@@ -108,7 +108,7 @@ const NetworkDetailHeader: FC<Props> = ({ name, network, project }) => {
           to={`/ui/project/${encodeURIComponent(project)}/networks`}
           key={1}
         >
-          Networks
+          网络
         </Link>,
       ]}
       renameDisabledReason={getRenameDisableReason()}

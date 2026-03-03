@@ -66,13 +66,13 @@ export const sortIpv6Addresses = (ipv6Addresses: IpAddress[]): IpAddress[] => {
   });
 };
 
-export const getMACAddresses = (
-  instance: LxdInstance,
-) => {
+export const getMACAddresses = (instance: LxdInstance) => {
   if (!instance.state?.network) return [];
   return Object.entries(instance.state.network)
     .filter(([_key, value]) => value.type == "broadcast")
-    .map(([key, value]) => {return { iface: key, hwaddr: value.hwaddr }});
+    .map(([key, value]) => {
+      return { iface: key, hwaddr: value.hwaddr };
+    });
 };
 
 export const networkFormFieldToPayloadName: Record<
@@ -199,6 +199,12 @@ export const testValidPort = (port: string | null | undefined): boolean => {
 
 export const renderNetworkType = (type: LxdNetwork["type"]) => {
   switch (type) {
+    case bridgeType:
+      return "桥接";
+    case physicalType:
+      return "物理";
+    case macvlanType:
+      return "MACVLAN";
     case ovnType:
       return "OVN";
     case sriovType:

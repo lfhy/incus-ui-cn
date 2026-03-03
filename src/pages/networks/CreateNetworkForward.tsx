@@ -38,7 +38,7 @@ const CreateNetworkForward: FC = () => {
 
   useEffect(() => {
     if (networkError) {
-      notify.failure("Loading networks failed", networkError);
+      notify.failure("加载网络失败", networkError);
     }
   }, [networkError]);
 
@@ -78,12 +78,12 @@ const CreateNetworkForward: FC = () => {
             `/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`,
           );
           toastNotify.success(
-            `Network forward with listen address ${listenAddress} created.`,
+            `监听地址为 ${listenAddress} 的网络转发规则已创建。`,
           );
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Network forward creation failed", e);
+          notify.failure("创建网络转发规则失败", e);
         });
     },
   });
@@ -92,7 +92,7 @@ const CreateNetworkForward: FC = () => {
     <BaseLayout
       title={
         <HelpLink docPath="/howto/network_forwards/" title="了解更多网络转发">
-          Create a network forward
+          创建网络转发规则
         </HelpLink>
       }
       contentClassName="create-network"

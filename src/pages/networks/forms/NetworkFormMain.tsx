@@ -65,7 +65,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
   return (
     <>
       <h2 className="p-heading--4" id={slugify(GENERAL)}>
-        General
+        主配置
       </h2>
       <div className="u-sv3">
         <div className="general-field">

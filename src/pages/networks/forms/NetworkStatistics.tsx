@@ -36,7 +36,7 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
 
   useEffect(() => {
     if (error) {
-      notify.failure("Loading network state failed", error);
+      notify.failure("加载网络状态失败", error);
     }
   }, [error]);
 
@@ -48,21 +48,23 @@ const NetworkStatistics: FC<Props> = ({ formik, project }) => {
         <div className="general-field-label">RX</div>
         <div className="general-field-content">
           {humanFileSize(networkState?.counters?.bytes_received ?? 0)} (
-          {networkState?.counters?.packets_received ?? 0} packets)
+          {networkState?.counters?.packets_received ?? 0} 个数据包)
         </div>
       </div>
       <div className="general-field">
         <div className="general-field-label">TX</div>
         <div className="general-field-content">
           {humanFileSize(networkState?.counters?.bytes_sent ?? 0)} (
-          {networkState?.counters?.packets_sent ?? 0} packets)
+          {networkState?.counters?.packets_sent ?? 0} 个数据包)
         </div>
       </div>
       {isManagedNetwork && (
         <div className="general-field">
-          <div className="general-field-label">Status</div>
+          <div className="general-field-label">状态</div>
           <div className="general-field-content">
-            {formik.values.bareNetwork?.status ?? "-"}
+            {formik.values.bareNetwork?.status === "Created"
+              ? "已创建"
+              : (formik.values.bareNetwork?.status ?? "-")}
           </div>
         </div>
       )}

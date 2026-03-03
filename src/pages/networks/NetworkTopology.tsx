@@ -87,7 +87,7 @@ const NetworkTopology: FC<Props> = ({ formik, project, isServerClustered }) => {
   return (
     <>
       <h2 className="p-heading--4" id={slugify(CONNECTIONS)}>
-        Connections
+        连接关系
       </h2>
       <div className="u-sv3 network-topology">
         {hasUplink && (

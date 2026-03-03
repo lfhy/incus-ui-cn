@@ -11,6 +11,7 @@ import {
   CustomLayout,
 } from "@canonical/react-components";
 import TabLinks from "components/TabLinks";
+import type { TabLink } from "@canonical/react-components/dist/components/Tabs/Tabs";
 import NetworkForwards from "pages/networks/NetworkForwards";
 import NetworkLoadBalancers from "pages/networks/NetworkLoadBalancers";
 import { useNetwork } from "context/useNetworks";
@@ -28,18 +29,18 @@ const NetworkDetail: FC = () => {
   }>();
 
   if (!name) {
-    return <>Missing name</>;
+    return <>缺少名称参数</>;
   }
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: network, error, isLoading } = useNetwork(name, project, member);
 
   useEffect(() => {
     if (error) {
-      notify.failure("Loading network failed", error);
+      notify.failure("加载网络失败", error);
     }
   }, [error]);
 
@@ -49,17 +50,44 @@ const NetworkDetail: FC = () => {
 
   const isManagedNetwork = network?.managed;
 
-  const getTabs = () => {
+  const getTabs = (): TabLink[] => {
+    const baseUrl = `/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(name)}`;
+    const configurationTab: TabLink = {
+      label: "配置",
+      id: "configuration",
+      active: !activeTab,
+      href: baseUrl,
+    };
+
     const type = network?.type ?? "";
     if (!typesWithForwards.includes(type) || !isManagedNetwork) {
-      return ["Configuration"];
+      return [configurationTab];
     }
+
+    const forwardsTab: TabLink = {
+      label: "转发",
+      id: "forwards",
+      active: activeTab === "forwards",
+      href: `${baseUrl}/forwards`,
+    };
+    const loadBalancersTab: TabLink = {
+      label: "负载均衡器",
+      id: "load-balancers",
+      active: activeTab === "load-balancers",
+      href: `${baseUrl}/load-balancers`,
+    };
+    const leasesTab: TabLink = {
+      label: "租约",
+      id: "leases",
+      active: activeTab === "leases",
+      href: `${baseUrl}/leases`,
+    };
 
     if (network?.type === ovnType) {
-      return ["Configuration", "Forwards", "Load balancers", "Leases"];
+      return [configurationTab, forwardsTab, loadBalancersTab, leasesTab];
     }
 
-    return ["Configuration", "Forwards", "Leases"];
+    return [configurationTab, forwardsTab, leasesTab];
   };
 
   return (

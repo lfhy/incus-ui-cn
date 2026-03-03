@@ -18,7 +18,7 @@ const NetworkProfiles: FC<Props> = ({ formik, project }) => {
 
   return (
     <div className="general-field">
-      <div className="general-field-label">Used by profiles</div>
+      <div className="general-field-label">被配置文件使用</div>
       <div className="general-field-content">
         {profileList.length === 0 ? (
           "-"
