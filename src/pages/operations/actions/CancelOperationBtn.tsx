@@ -25,10 +25,10 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
     setLoading(true);
     cancelOperation(operation.id)
       .then(() => {
-        toastNotify.success("Operation cancelled");
+        toastNotify.success("操作已取消");
       })
       .catch((e) => {
-        notify.failure("Operation cancellation failed", e);
+        notify.failure("取消操作失败", e);
       })
       .finally(() => {
         setLoading(false);
@@ -42,20 +42,16 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
 
   return operation.status !== "Running" ? null : (
     <ConfirmationButton
-      onHoverText={
-        operation.may_cancel
-          ? "Cancel operation"
-          : "Cannot cancel operation at this stage"
-      }
+      onHoverText={operation.may_cancel ? "取消操作" : "当前阶段无法取消操作"}
       className="u-no-margin--bottom"
       loading={isLoading}
       disabled={!operation.may_cancel || isLoading}
       confirmationModalProps={{
-        title: "Confirm cancel",
-        children: <p>This will cancel the operation.</p>,
-        confirmButtonLabel: "Cancel operation",
+        title: "确认取消",
+        children: <p>这将取消当前操作。</p>,
+        confirmButtonLabel: "取消操作",
         onConfirm: handleCancel,
-        cancelButtonLabel: "Go back",
+        cancelButtonLabel: "返回",
       }}
       shiftClickEnabled
       showShiftClickHint

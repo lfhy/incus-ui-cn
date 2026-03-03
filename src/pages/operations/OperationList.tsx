@@ -23,6 +23,45 @@ import RefreshOperationsBtn from "pages/operations/actions/RefreshOperationsBtn"
 import useSortTableData from "util/useSortTableData";
 import PageHeader from "components/PageHeader";
 
+const getOperationStatusLabel = (status: LxdOperationStatus): string => {
+  return (
+    {
+      Cancelled: "已取消",
+      Failure: "失败",
+      Running: "进行中",
+      Success: "成功",
+    }[status] ?? status
+  );
+};
+
+const getOperationDescriptionLabel = (description: string): string => {
+  return (
+    {
+      "Executing operation": "执行操作",
+      "Executing command": "执行命令",
+      "Creating instance": "创建实例",
+      "Updating instance": "更新实例",
+      "Deleting instance": "删除实例",
+      "Starting instance": "启动实例",
+      "Stopping instance": "停止实例",
+      "Restarting instance": "重启实例",
+      "Freezing instance": "冻结实例",
+      "Unfreezing instance": "解冻实例",
+      "Snapshotting instance": "创建实例快照",
+      "Restoring snapshot": "恢复快照",
+      "Deleting snapshot": "删除快照",
+      "Updating snapshot": "更新快照",
+      "Showing console": "显示控制台",
+      "Updating profile": "更新配置文件",
+      "Deleting profile": "删除配置文件",
+      "Updating network": "更新网络",
+      "Deleting network": "删除网络",
+      "Creating image": "创建镜像",
+      "Deleting image": "删除镜像",
+    }[description] ?? description
+  );
+};
+
 const OperationList: FC = () => {
   const notify = useNotify();
   const { operations, isLoading, error } = useOperations();
@@ -33,11 +72,11 @@ const OperationList: FC = () => {
   }
 
   const headers = [
-    { content: "Time", className: "time", sortKey: "created_at" },
-    { content: "Action", className: "action", sortKey: "action" },
-    { content: "Info", className: "info" },
-    { content: "Status", className: "status status-header", sortKey: "status" },
-    { "aria-label": "Actions", className: "cancel u-align--right" },
+    { content: "时间", className: "time", sortKey: "created_at" },
+    { content: "动作", className: "action", sortKey: "action" },
+    { content: "信息", className: "info" },
+    { content: "状态", className: "status status-header", sortKey: "status" },
+    { "aria-label": "操作", className: "cancel u-align--right" },
   ];
 
   const getIconNameForStatus = (status: LxdOperationStatus) => {
@@ -69,11 +108,11 @@ const OperationList: FC = () => {
           content: (
             <>
               <div className="date-pair">
-                Initiated:{" "}
+                发起时间：{" "}
                 {nonBreakingSpaces(isoTimeToString(operation.created_at))}
               </div>
               <div className="date-pair u-text--muted">
-                Last update:{" "}
+                最近更新：{" "}
                 {nonBreakingSpaces(isoTimeToString(operation.updated_at))}
               </div>
             </>
@@ -85,10 +124,10 @@ const OperationList: FC = () => {
         {
           content: (
             <>
-              <div>{operation.description}</div>
+              <div>{getOperationDescriptionLabel(operation.description)}</div>
               <OperationInstanceName operation={operation} />
               <div className="u-text--muted u-truncate" title={projectName}>
-                Project: {projectName}
+                项目：{projectName}
               </div>
             </>
           ),
@@ -102,15 +141,15 @@ const OperationList: FC = () => {
               {operation.err && <div>{operation.err}</div>}
               {Object.entries(operation.metadata ?? {}).map(
                 ([key, value], index) => (
-                  <span key={index} title={JSON.stringify(value)}>
+                  <div key={index} title={JSON.stringify(value)}>
                     {key}: {JSON.stringify(value)}
-                  </span>
+                  </div>
                 ),
               )}
             </>
           ),
           role: "cell",
-          "aria-label": "Info",
+          "aria-label": "信息",
           className: "info",
         },
         {
@@ -120,24 +159,24 @@ const OperationList: FC = () => {
                 name={getIconNameForStatus(operation.status)}
                 className="status-icon"
               />
-              {operation.status}
+              {getOperationStatusLabel(operation.status)}
             </>
           ),
           role: "cell",
-          "aria-label": "Status",
+          "aria-label": "状态",
           className: "status",
         },
         {
           content: <CancelOperationBtn operation={operation} />,
           role: "cell",
           className: "u-align--right cancel",
-          "aria-label": "Actions",
+          "aria-label": "操作",
         },
       ],
       sortData: {
         created_at: operation.created_at,
-        action: operation.description,
-        status: operation.status,
+        action: getOperationDescriptionLabel(operation.description),
+        status: getOperationStatusLabel(operation.status),
       },
     };
   });
@@ -186,6 +225,7 @@ const OperationList: FC = () => {
                 itemName="操作"
                 className="u-no-margin--top"
                 aria-label="Table pagination control"
+                description={`显示全部 ${sortedRows.length} 条操作`}
               >
                 <MainTable
                   id="operation-table"
