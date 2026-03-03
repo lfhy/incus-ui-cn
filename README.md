@@ -60,7 +60,7 @@ sudo systemctl start incus
 # 克隆并构建 Incus UI
 cd /tmp
 git clone https://github.com/lfhy/incus-ui-cn.git
-cd incus-ui-canonical
+cd incus-ui-cn
 npm install --legacy-peer-deps
 npm run build
 
