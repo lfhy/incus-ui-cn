@@ -61,8 +61,9 @@ sudo systemctl start incus
 cd /tmp
 git clone https://github.com/lfhy/incus-ui-cn.git
 cd incus-ui-cn
-npm install --legacy-peer-deps
-npm run build
+npm install -g yarn
+yarn install
+yarn build
 
 # 复制构建产物到目标目录
 sudo mkdir -p /opt/incus/ui
