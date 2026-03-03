@@ -28,32 +28,32 @@ const StoragePools: FC = () => {
   const isClustered = useIsClustered();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: pools = [], error, isLoading } = useStoragePools(true, project);
 
   if (error) {
-    notify.failure("Loading storage pools failed", error);
+    notify.failure("加载存储池失败", error);
   }
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Driver", sortKey: "driver", className: "driver" },
+    { content: "名称", sortKey: "name" },
+    { content: "驱动", sortKey: "driver", className: "driver" },
     ...(isClustered
-      ? [{ content: "Cluster member", className: "cluster-member" }]
+      ? [{ content: "集群成员", className: "cluster-member" }]
       : []),
     {
-      content: "Size",
+      content: "容量",
       className: classNames("size", { clustered: isClustered }),
     },
     {
-      content: <>Used by</>,
+      content: <>使用量</>,
       sortKey: "usedBy",
       className: "u-align--right volumes-total",
     },
-    { content: "Status", sortKey: "status", className: "status" },
-    { "aria-label": "Actions", className: "u-align--right actions" },
+    { content: "状态", sortKey: "status", className: "status" },
+    { "aria-label": "操作", className: "u-align--right actions" },
   ];
 
   const rows = pools.map((pool) => {
@@ -69,12 +69,12 @@ const StoragePools: FC = () => {
             </Link>
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
         },
         {
           content: pool.driver,
           role: "cell",
-          "aria-label": "Driver",
+          "aria-label": "驱动",
           className: "driver",
         },
         ...(isClustered
@@ -82,7 +82,7 @@ const StoragePools: FC = () => {
               {
                 content: <StoragePoolClusterMember pool={pool} />,
                 role: "cell",
-                "aria-label": "Cluster member",
+                "aria-label": "集群成员",
                 className: "cluster-member",
               },
             ]
@@ -90,19 +90,19 @@ const StoragePools: FC = () => {
         {
           content: <StoragePoolSize pool={pool} hasMeterBar />,
           role: "cell",
-          "aria-label": "Size",
+          "aria-label": "容量",
           className: classNames("size", { clustered: isClustered }),
         },
         {
           content: pool.used_by?.length ?? 0,
           role: "cell",
           className: "u-align--right volumes-total",
-          "aria-label": "Volumes in all projects",
+          "aria-label": "所有项目中的卷数量",
         },
         {
           content: pool.status,
           role: "cell",
-          "aria-label": "Status",
+          "aria-label": "状态",
           className: "status",
         },
         {
@@ -115,7 +115,7 @@ const StoragePools: FC = () => {
           ),
           role: "cell",
           className: "u-align--right actions",
-          "aria-label": "Actions",
+          "aria-label": "操作",
         },
       ],
       sortData: {
@@ -128,7 +128,7 @@ const StoragePools: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const content =
@@ -152,12 +152,12 @@ const StoragePools: FC = () => {
       <EmptyState
         className="empty-state"
         image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
-        title="No pools found in this project"
+        title="此项目中未找到存储池"
       >
-        <p>Storage pools will appear here.</p>
+        <p>存储池会显示在这里。</p>
         <p>
           <DocLink docPath="/explanation/storage/" hasExternalIcon>
-            Learn more about storage pools, volumes and buckets
+            了解更多存储池、卷与存储桶
           </DocLink>
         </p>
         <CreateStoragePoolBtn
@@ -176,9 +176,9 @@ const StoragePools: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/explanation/storage/"
-                title="Learn more about storage pools, volumes and buckets"
+                title="了解更多存储池、卷与存储桶"
               >
-                Pools
+                存储池
               </HelpLink>
             </PageHeader.Title>
           </PageHeader.Left>

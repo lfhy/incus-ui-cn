@@ -174,7 +174,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -214,7 +214,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
               defaultSort="listenAddress"
               defaultSortDirection="ascending"
               className="u-table-layout--auto network-forwards-table"
-              emptyStateMsg="No data to display"
+              emptyStateMsg="暂无数据"
             />
           </ScrollableTable>
         )}
@@ -222,7 +222,7 @@ const NetworkForwards: FC<Props> = ({ network, project }) => {
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No network forwards found"
+            title="未找到网络转发规则"
           >
             <p>There are no network forwards in this project.</p>
             <p>

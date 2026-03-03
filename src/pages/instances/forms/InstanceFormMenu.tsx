@@ -40,7 +40,7 @@ const InstanceFormMenu: FC<Props> = ({
   const { hasMetadataConfiguration } = useSupportedFeatures();
 
   const disableReason = isDisabled
-    ? "Please select an image before adding custom configuration"
+    ? "请先选择镜像，再添加自定义配置"
     : undefined;
 
   const menuItemProps = {
@@ -57,9 +57,13 @@ const InstanceFormMenu: FC<Props> = ({
 
   return (
     <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Instance form navigation">
+      <nav aria-label="实例表单导航">
         <ul className="p-side-navigation__list">
-          <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
+          <MenuItem
+            label={MAIN_CONFIGURATION}
+            displayLabel="主配置"
+            {...menuItemProps}
+          />
           <li className="p-side-navigation__item">
             <Button
               type="button"
@@ -73,7 +77,7 @@ const InstanceFormMenu: FC<Props> = ({
               disabled={isDisabled}
               title={disableReason}
             >
-              Devices
+              设备
             </Button>
             <ul
               className="p-side-navigation__list"
@@ -81,28 +85,58 @@ const InstanceFormMenu: FC<Props> = ({
             >
               <MenuItem
                 label={DISK_DEVICES}
+                displayLabel="磁盘"
                 hasError={hasDiskError}
                 {...menuItemProps}
               />
               <MenuItem
                 label={NETWORK_DEVICES}
+                displayLabel="网络"
                 hasError={hasNetworkError}
                 {...menuItemProps}
               />
-              <MenuItem label={GPU_DEVICES} {...menuItemProps} />
-              <MenuItem label={PROXY_DEVICES} {...menuItemProps} />
+              <MenuItem
+                label={GPU_DEVICES}
+                displayLabel="GPU"
+                {...menuItemProps}
+              />
+              <MenuItem
+                label={PROXY_DEVICES}
+                displayLabel="代理"
+                {...menuItemProps}
+              />
               {hasMetadataConfiguration && (
-                <MenuItem label={OTHER_DEVICES} {...menuItemProps} />
+                <MenuItem
+                  label={OTHER_DEVICES}
+                  displayLabel="其它"
+                  {...menuItemProps}
+                />
               )}
             </ul>
           </li>
-          <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
-          <MenuItem label={SECURITY_POLICIES} {...menuItemProps} />
-          <MenuItem label={SNAPSHOTS} {...menuItemProps} />
-          <MenuItem label={MIGRATION} {...menuItemProps} />
-          <MenuItem label={BOOT} {...menuItemProps} />
-          <MenuItem label={CLOUD_INIT} {...menuItemProps} />
-          <MenuItem label={USER_PROPERTIES} {...menuItemProps} />
+          <MenuItem
+            label={RESOURCE_LIMITS}
+            displayLabel="资源限制"
+            {...menuItemProps}
+          />
+          <MenuItem
+            label={SECURITY_POLICIES}
+            displayLabel="安全策略"
+            {...menuItemProps}
+          />
+          <MenuItem label={SNAPSHOTS} displayLabel="快照" {...menuItemProps} />
+          <MenuItem label={MIGRATION} displayLabel="迁移" {...menuItemProps} />
+          <MenuItem label={BOOT} displayLabel="启动" {...menuItemProps} />
+          <MenuItem
+            label={CLOUD_INIT}
+            displayLabel="Cloud 初始化"
+            {...menuItemProps}
+          />
+          <MenuItem
+            label={USER_PROPERTIES}
+            displayLabel="用户属性"
+            {...menuItemProps}
+          />
         </ul>
       </nav>
     </div>

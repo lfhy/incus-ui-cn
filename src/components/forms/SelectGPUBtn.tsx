@@ -26,7 +26,7 @@ const SelectGPUBtn: FC<Props> = ({ onSelect, disabledReason }) => {
         title={disabledReason}
       >
         <Icon name="plus" />
-        <span>Attach GPU</span>
+        <span>挂载 GPU</span>
       </Button>
       {isOpen && (
         <Portal>

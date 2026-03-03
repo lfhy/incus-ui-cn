@@ -124,7 +124,7 @@ const EditNetworkLoadBalancer: FC = () => {
       title={
         <HelpLink
           href={`${docBaseLink}/howto/network_load_balancers/`}
-          title="Learn more about network load balancers"
+          title="了解更多网络负载均衡"
         >
           Edit a network load balancer
         </HelpLink>
@@ -137,7 +137,7 @@ const EditNetworkLoadBalancer: FC = () => {
           className="p-button--base"
           to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/load-balancers`}
         >
-          Cancel
+          取消
         </Link>
         <ActionButton
           appearance="positive"

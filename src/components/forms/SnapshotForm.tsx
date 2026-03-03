@@ -31,7 +31,7 @@ const SnapshotForm: FC<Props> = (props) => {
     <Modal
       className="snapshot-creation-modal"
       close={close}
-      title={`${isEdit ? "Edit" : "Create"} snapshot`}
+      title={`${isEdit ? "编辑" : "创建"}快照`}
       buttonRow={
         <>
           <Button
@@ -40,7 +40,7 @@ const SnapshotForm: FC<Props> = (props) => {
             type="button"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -48,7 +48,7 @@ const SnapshotForm: FC<Props> = (props) => {
             disabled={!formik.isValid || formik.isSubmitting}
             onClick={() => void formik.submitForm()}
           >
-            {isEdit ? "Save changes" : "Create snapshot"}
+            {isEdit ? "保存更改" : "创建快照"}
           </ActionButton>
         </>
       }
@@ -59,7 +59,7 @@ const SnapshotForm: FC<Props> = (props) => {
           id="name"
           name="name"
           type="text"
-          label="Snapshot name"
+          label="快照名称"
           onChange={formik.handleChange}
           onBlur={formik.handleBlur}
           value={formik.values.name}
@@ -76,7 +76,7 @@ const SnapshotForm: FC<Props> = (props) => {
               id="expirationDate"
               name="expirationDate"
               type="date"
-              label="Expiry date"
+              label="到期日期"
               min={getTomorrow()}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -93,7 +93,7 @@ const SnapshotForm: FC<Props> = (props) => {
               id="expirationTime"
               name="expirationTime"
               type="time"
-              label="Expiry time"
+              label="到期时间"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.expirationTime ?? ""}

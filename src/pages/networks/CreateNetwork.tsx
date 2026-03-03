@@ -58,22 +58,19 @@ const CreateNetwork: FC = () => {
   const { data: clusterMembers = [] } = useClusterMembers();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const NetworkSchema = Yup.object().shape({
     name: Yup.string()
-      .test(
-        "deduplicate",
-        "A network with this name already exists",
-        async (value) =>
-          checkDuplicateName(value, project, controllerState, "networks"),
+      .test("deduplicate", "该名称的网络已存在", async (value) =>
+        checkDuplicateName(value, project, controllerState, "networks"),
       )
-      .required("Network name is required"),
+      .required("网络名称为必填项"),
   });
 
   const formik = useFormik<NetworkFormValues>({
@@ -113,19 +110,19 @@ const CreateNetwork: FC = () => {
           navigate(`/ui/project/${encodeURIComponent(project)}/networks`);
           toastNotify.success(
             <>
-              Network{" "}
+              网络{" "}
               <ResourceLink
                 type="network"
                 value={values.name}
                 to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
               />{" "}
-              created.
+              已创建。
             </>,
           );
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Network creation failed", e);
+          notify.failure("网络创建失败", e);
 
           // load the network that we just created
           fetchNetwork(values.name, project, isFineGrained)
@@ -138,16 +135,16 @@ const CreateNetwork: FC = () => {
                     `/ui/project/${encodeURIComponent(project)}/networks`,
                   );
                   toastNotify.failure(
-                    "Error during network creation",
+                    "创建网络时发生错误",
                     e,
                     <>
-                      Network{" "}
+                      网络{" "}
                       <ResourceLink
                         type="network"
                         value={values.name}
                         to={`/ui/project/${encodeURIComponent(project)}/network/${encodeURIComponent(values.name)}`}
                       />{" "}
-                      created with error status.
+                      创建成功但状态为错误。
                     </>,
                   );
                 });
@@ -174,7 +171,7 @@ const CreateNetwork: FC = () => {
   };
 
   return (
-    <BaseLayout title="Create a network" contentClassName="create-network">
+    <BaseLayout title="创建网络" contentClassName="create-network">
       <Row>
         <NotificationRow />
         <NetworkForm
@@ -200,9 +197,7 @@ const CreateNetwork: FC = () => {
               );
             }}
             disableReason={
-              formik.values.name
-                ? undefined
-                : "Please enter a network name to enable this section"
+              formik.values.name ? undefined : "请先输入网络名称以启用该部分"
             }
           />
         </div>
@@ -212,7 +207,7 @@ const CreateNetwork: FC = () => {
             navigate(`/ui/project/${encodeURIComponent(project)}/networks`)
           }
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -222,7 +217,7 @@ const CreateNetwork: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

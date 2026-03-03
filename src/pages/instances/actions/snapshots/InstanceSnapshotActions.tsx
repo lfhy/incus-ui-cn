@@ -190,7 +190,7 @@ const InstanceSnapshotActions: FC<Props> = ({
                   This action cannot be undone, and can result in data loss.
                 </p>
               ),
-              confirmButtonLabel: disabledReason ?? "Delete snapshot",
+              confirmButtonLabel: disabledReason ?? "删除快照",
               onConfirm: handleDelete,
             }}
             disabled={isDeleting || isRestoring || !!disabledReason}

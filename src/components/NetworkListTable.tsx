@@ -24,7 +24,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
   } = useNetworks(project as string);
 
   if (error) {
-    onFailure("Loading networks failed", error);
+    onFailure("加载网络失败", error);
   }
 
   const networkDevices = Object.values(devices ?? {}).filter(isNicDevice);
@@ -32,20 +32,20 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
   const userHasNetworks = networks.length > 0;
 
   const networksHeaders = [
-    { content: "Name", sortKey: "name", className: "u-text--muted" },
+    { content: "名称", sortKey: "name", className: "u-text--muted" },
     {
-      content: "Interface",
+      content: "接口",
       sortKey: "interfaceName",
       className: "u-text--muted",
     },
-    { content: "Type", sortKey: "type", className: "u-text--muted" },
+    { content: "类型", sortKey: "type", className: "u-text--muted" },
     {
-      content: "MAC address",
+      content: "MAC 地址",
       sortKey: "macAddress",
       className: "u-text--muted u-hide--small u-hide--medium",
     },
     {
-      content: "ACLs",
+      content: "ACL",
       sortKey: "acls",
       className: "u-text--muted u-hide--small u-hide--medium",
     },
@@ -84,29 +84,29 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
               />
             ),
             role: "rowheader",
-            "aria-label": "Name",
+            "aria-label": "名称",
           },
           {
             content: deviceName,
             role: "cell",
-            "aria-label": "Interface",
+            "aria-label": "接口",
           },
           {
             content: (
               <>
                 {network.type}
                 <span className="u-text--muted">
-                  , {network.managed ? "managed" : "unmanaged"}
+                  ，{network.managed ? "受管" : "非受管"}
                 </span>
               </>
             ),
             role: "cell",
-            "aria-label": "Type",
+            "aria-label": "类型",
           },
           {
             content: instance?.config?.[`volatile.${deviceName}.hwaddr`] || "-",
             role: "cell",
-            "aria-label": "MAC address",
+            "aria-label": "MAC 地址",
           },
           {
             content:
@@ -116,7 +116,7 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
                 <>-</>
               ),
             role: "cell",
-            "aria-label": "ACLs count",
+            "aria-label": "ACL 数量",
           },
         ],
         sortData: {
@@ -132,13 +132,13 @@ const NetworkListTable: FC<Props> = ({ onFailure, devices, instance }) => {
 
   const getContent = () => {
     if (isLoading) {
-      return <Spinner className="u-loader" text="Loading networks..." />;
+      return <Spinner className="u-loader" text="正在加载网络..." />;
     }
 
     if (instanceHasNetworks && !userHasNetworks) {
       return (
-        <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to view network details.
+        <Notification severity="caution" title="权限受限">
+          你没有查看网络详情的权限。
         </Notification>
       );
     }

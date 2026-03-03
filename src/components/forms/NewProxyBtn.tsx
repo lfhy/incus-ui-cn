@@ -16,7 +16,7 @@ const NewProxyBtn: FC<Props> = ({ onSelect, disabledReason }) => {
       title={disabledReason}
     >
       <Icon name="plus" />
-      <span>New Proxy Device</span>
+      <span>新增代理设备</span>
     </Button>
   );
 };

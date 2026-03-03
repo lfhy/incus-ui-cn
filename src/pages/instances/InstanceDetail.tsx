@@ -6,10 +6,11 @@ import {
   Strip,
   Spinner,
   CustomLayout,
+  useNotify,
 } from "@canonical/react-components";
 import InstanceOverview from "./InstanceOverview";
 import InstanceTerminal from "./InstanceTerminal";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InstanceSnapshots from "./InstanceSnapshots";
 import InstanceConsole from "pages/instances/InstanceConsole";
 import InstanceLogs from "pages/instances/InstanceLogs";
@@ -21,16 +22,18 @@ import type { TabLink } from "@canonical/react-components/dist/components/Tabs/T
 import { useInstance } from "context/useInstances";
 import { buildGrafanaUrl } from "util/grafanaUrl";
 
-const tabs: string[] = [
-  "Overview",
-  "Configuration",
-  "Snapshots",
-  "Terminal",
-  "Console",
-  "Logs",
+const tabDefinitions = [
+  { id: "overview", label: "概览", path: "" },
+  { id: "configuration", label: "配置", path: "configuration" },
+  { id: "snapshots", label: "快照", path: "snapshots" },
+  { id: "terminal", label: "终端", path: "terminal" },
+  { id: "console", label: "控制台", path: "console" },
+  { id: "logs", label: "日志", path: "logs" },
 ];
 
 const InstanceDetail: FC = () => {
+  const navigate = useNavigate();
+  const notify = useNotify();
   const { data: settings } = useSettings();
 
   const { name, project, activeTab } = useParams<{
@@ -40,10 +43,10 @@ const InstanceDetail: FC = () => {
   }>();
 
   if (!name) {
-    return <>Missing name</>;
+    return <>缺少实例名称</>;
   }
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目名称</>;
   }
 
   const {
@@ -53,14 +56,28 @@ const InstanceDetail: FC = () => {
     isLoading,
   } = useInstance(name, project);
 
-  const renderTabs: (string | TabLink)[] = [...tabs];
+  const tabUrl = `/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`;
+  const renderTabs: (string | TabLink)[] = tabDefinitions.map((tab) => {
+    const href = tab.path ? `${tabUrl}/${tab.path}` : tabUrl;
+    return {
+      label: tab.label,
+      id: tab.id,
+      active: (activeTab ?? "overview") === tab.id,
+      onClick: (e) => {
+        e.preventDefault();
+        notify.clear();
+        navigate(href);
+      },
+      href,
+    };
+  });
 
   const grafanaUrl = buildGrafanaUrl(name, project, settings);
   if (grafanaUrl) {
     renderTabs.push({
       label: (
         <div>
-          <Icon name="external-link" /> Metrics
+          <Icon name="external-link" /> 指标
         </div>
       ) as unknown as string,
       href: grafanaUrl,
@@ -82,12 +99,12 @@ const InstanceDetail: FC = () => {
       contentClassName="detail-page"
     >
       {isLoading && (
-        <Spinner className="u-loader" text="Loading instance details..." />
+        <Spinner className="u-loader" text="正在加载实例详情..." />
       )}
-      {!isLoading && !instance && !error && <>Loading instance failed</>}
+      {!isLoading && !instance && !error && <>加载实例失败</>}
       {error && (
         <Strip>
-          <Notification severity="negative" title="Error">
+          <Notification severity="negative" title="错误">
             {error.message}
           </Notification>
         </Strip>
@@ -97,7 +114,7 @@ const InstanceDetail: FC = () => {
           <TabLinks
             tabs={renderTabs}
             activeTab={activeTab}
-            tabUrl={`/ui/project/${encodeURIComponent(project)}/instance/${encodeURIComponent(name)}`}
+            tabUrl={tabUrl}
           />
 
           {!activeTab && (

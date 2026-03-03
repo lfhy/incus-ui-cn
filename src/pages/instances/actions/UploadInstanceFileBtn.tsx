@@ -12,7 +12,7 @@ const UploadInstanceFileBtn: FC<Props> = ({ name }) => {
   return (
     <>
       <Button onClick={openPortal} type="button">
-        <span>Upload instance file</span>
+        <span>上传实例文件</span>
       </Button>
       {isOpen && (
         <Portal>

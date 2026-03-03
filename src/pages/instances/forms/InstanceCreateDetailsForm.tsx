@@ -110,8 +110,8 @@ const InstanceCreateDetailsForm: FC<Props> = ({
             id="name"
             name="name"
             type="text"
-            label="Instance name"
-            placeholder="Enter name"
+            label="实例名称"
+            placeholder="请输入名称"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -120,8 +120,8 @@ const InstanceCreateDetailsForm: FC<Props> = ({
           <AutoExpandingTextArea
             id="description"
             name="description"
-            label="Description"
-            placeholder="Enter description"
+            label="描述"
+            placeholder="请输入描述"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.description}
@@ -130,7 +130,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
       </Row>
       <Row>
         <Col size={12}>
-          <p className="p-form__label">Base Image*</p>
+          <p className="p-form__label">基础镜像*</p>
           <div className="p-form__control u-clearfix base-image">
             {formik.values.image ? (
               <>
@@ -141,7 +141,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
                   appearance="base"
                   type="button"
                   onClick={async () => formik.setFieldValue("image", undefined)}
-                  title="Clear"
+                  title="清除"
                   hasIcon
                 >
                   <Icon name="close" />
@@ -160,7 +160,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
           </div>
           <Select
             id="instanceType"
-            label="Instance type"
+            label="实例类型"
             name="instanceType"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
@@ -171,11 +171,7 @@ const InstanceCreateDetailsForm: FC<Props> = ({
               isContainerOnlyImage(formik.values.image) ||
               isVmOnlyImage(formik.values.image)
             }
-            title={
-              !formik.values.image
-                ? "Please select an image before adding a type"
-                : ""
-            }
+            title={!formik.values.image ? "请先选择镜像，再设置实例类型" : ""}
           />
           <InstanceLocationSelect formik={formik} />
         </Col>
@@ -185,18 +181,12 @@ const InstanceCreateDetailsForm: FC<Props> = ({
         selected={formik.values.profiles}
         setSelected={(value) => void formik.setFieldValue("profiles", value)}
         readOnly={!formik.values.image}
-        title={
-          !formik.values.image
-            ? "Please select an image before adding profiles"
-            : ""
-        }
+        title={!formik.values.image ? "请先选择镜像，再添加配置文件" : ""}
       />
       <SshKeyForm
         formik={formik}
         disabledReason={
-          !formik.values.image
-            ? "Please select an image before adding SSH Keys"
-            : ""
+          !formik.values.image ? "请先选择镜像，再添加 SSH 密钥" : ""
         }
       />
     </ScrollableForm>

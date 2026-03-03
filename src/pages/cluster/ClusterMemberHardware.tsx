@@ -61,6 +61,16 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
     "PCI",
     "USB",
   ];
+  const sectionLabels: Record<string, string> = {
+    System: "系统",
+    CPU: "CPU",
+    GPU: "GPU",
+    Memory: "内存",
+    Networks: "网络",
+    Storage: "存储",
+    PCI: "PCI",
+    USB: "USB",
+  };
 
   useEffect(() => {
     const wrapper = document.getElementById("content-details");
@@ -76,16 +86,13 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
   }, [isLoading, sections]);
 
   if (isLoading || isStateLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   return (
     <>
       {!resources && (
-        <Notification
-          severity="negative"
-          title="Could not load details for this member"
-        />
+        <Notification severity="negative" title="无法加载该成员的详细信息" />
       )}
       {resources && (
         <ScrollableContainer dependencies={[resources]}>
@@ -93,7 +100,7 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
             <Row className="hardware-section" key={sectionName}>
               <Col size={2}>
                 <h2 className="p-heading--5" id={sectionName.toLowerCase()}>
-                  {sectionName}
+                  {sectionLabels[sectionName] ?? sectionName}
                 </h2>
               </Col>
               <Col size={10}>
@@ -131,7 +138,7 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
             </Row>
           ))}
           <div className="aside">
-            <nav aria-label="Hardware navigation" className="toc-tree">
+            <nav aria-label="硬件导航" className="toc-tree">
               <ul>
                 {sections.map((sectionName) => (
                   <li className="p-side-navigation__item" key={sectionName}>
@@ -144,7 +151,7 @@ const ClusterMemberHardware: FC<Props> = ({ member }) => {
                           : undefined
                       }
                     >
-                      {sectionName}
+                      {sectionLabels[sectionName] ?? sectionName}
                     </a>
                   </li>
                 ))}

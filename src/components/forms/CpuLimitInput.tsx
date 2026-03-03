@@ -27,11 +27,11 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading resources..." />;
+    return <Spinner className="u-loader" text="正在加载资源..." />;
   }
 
   if (error) {
-    notify.failure("Loading resources failed", error);
+    notify.failure("加载资源失败", error);
   }
 
   const getNumberOfCores = () => {
@@ -47,7 +47,7 @@ const CpuLimitInput: FC<Props> = ({ help, project, ...props }) => {
   const numberOfCores = getNumberOfCores();
   const totalAvailable = numberOfCores ? (
     <>
-      Total number of CPU cores: <b>{numberOfCores}</b>
+      CPU 核心总数：<b>{numberOfCores}</b>
     </>
   ) : null;
 

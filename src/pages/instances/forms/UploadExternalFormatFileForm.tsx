@@ -238,7 +238,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
   }, [formik.resetForm, close, notify, socket]);
 
   const noFileSelectedMessage = !formik.values.file
-    ? "Please select a file before adding custom configuration."
+    ? "请先选择文件，再添加自定义配置。"
     : "";
 
   return (
@@ -252,7 +252,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           id="image-file"
           name="file"
           type="file"
-          label="External format (.qcow2, .vmdk, etc...)"
+          label="外部格式（.qcow2、.vmdk 等）"
           accept=".img, .qcow, .qcow2, .vdi, .vhdx, .vmdk"
           labelClassName="u-hide"
           onChange={(e) => void handleFileChange(e)}
@@ -261,8 +261,8 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           {...formik.getFieldProps("name")}
           id="name"
           type="text"
-          label="New instance name"
-          placeholder="Enter name"
+          label="新实例名称"
+          placeholder="请输入名称"
           error={formik.touched.name ? formik.errors.name : null}
           disabled={!!noFileSelectedMessage}
           title={noFileSelectedMessage}
@@ -270,14 +270,14 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         <ClusterMemberSelector
           {...formik.getFieldProps("member")}
           id="member"
-          label="Target cluster member"
+          label="目标集群成员"
         />
         <StoragePoolSelector
           value={formik.values.pool}
           setValue={(value) => void formik.setFieldValue("pool", value)}
           selectProps={{
             id: "pool",
-            label: "Root storage pool",
+            label: "根存储池",
             disabled: !project || !!noFileSelectedMessage,
             title: noFileSelectedMessage,
           }}
@@ -285,24 +285,24 @@ const UploadExternalFormatFileForm: FC<Props> = ({
         <Select
           {...formik.getFieldProps("architecture")}
           id="architecture"
-          label="Image architecture"
+          label="镜像架构"
           options={archOptions}
           disabled={!!noFileSelectedMessage}
           title={noFileSelectedMessage}
         />
-        <label htmlFor="">Conversion options</label>
+        <label htmlFor="">转换选项</label>
         <Input
           {...formik.getFieldProps("formatConversion")}
           type="checkbox"
           label={
             <span title={noFileSelectedMessage}>
-              Convert to raw format{" "}
+              转换为 raw 格式{" "}
               <Icon
                 name="information"
                 title={
                   noFileSelectedMessage
                     ? noFileSelectedMessage
-                    : "Can be skipped if the image is already in raw format to speed up the import."
+                    : "如果镜像本身已是 raw 格式，可跳过此步骤以加快导入。"
                 }
               />
             </span>
@@ -315,13 +315,13 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           type="checkbox"
           label={
             <span title={noFileSelectedMessage}>
-              Add Virtio drivers{" "}
+              添加 Virtio 驱动{" "}
               <Icon
                 name="information"
                 title={
                   noFileSelectedMessage
                     ? noFileSelectedMessage
-                    : "Mandatory, if the image does not have Virtio drivers installed."
+                    : "若镜像未安装 Virtio 驱动，此项为必选。"
                 }
               />
             </span>
@@ -337,7 +337,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           type="button"
           onClick={handleCloseModal}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -351,7 +351,7 @@ const UploadExternalFormatFileForm: FC<Props> = ({
           }
           onClick={() => void formik.submitForm()}
         >
-          Upload and create
+          上传并创建
         </ActionButton>
       </footer>
     </>

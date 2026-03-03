@@ -16,7 +16,7 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
   return (
     <div className="general-field">
       <div className="general-field-label can-edit">
-        <Label forId="description">Description</Label>
+        <Label forId="description">描述</Label>
       </div>
       <div
         className={classnames("general-field-content", {
@@ -37,7 +37,7 @@ const NetworkDescriptionField: FC<Props> = ({ props, formik }) => {
               className="u-no-margin--bottom"
               type="button"
               appearance="base"
-              title={formik.values.editRestriction ?? "Edit"}
+              title={formik.values.editRestriction ?? "编辑"}
               hasIcon
               disabled={!!formik.values.editRestriction}
             >

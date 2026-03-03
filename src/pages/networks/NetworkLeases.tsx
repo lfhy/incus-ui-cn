@@ -120,7 +120,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -139,7 +139,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
             responsive
             sortable
             className="u-table-layout--auto"
-            emptyStateMsg="No data to display"
+            emptyStateMsg="暂无数据"
           />
         </ScrollableTable>
       )}
@@ -147,7 +147,7 @@ const NetworkLeases: FC<Props> = ({ network, project }) => {
         <EmptyState
           className="empty-state"
           image={<Icon className="empty-state-icon" name="exposed" />}
-          title="No network leases found"
+          title="未找到网络租约"
         >
           <p>There are no network leases in this project.</p>
           <p>

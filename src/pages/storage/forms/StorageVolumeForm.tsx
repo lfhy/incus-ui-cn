@@ -124,6 +124,12 @@ export const getFormProps = (
   formik: FormikProps<StorageVolumeFormValues>,
   id: keyof StorageVolumeFormValues,
 ) => {
+  const placeholders: Partial<Record<keyof StorageVolumeFormValues, string>> = {
+    name: "请输入名称",
+    pool: "请选择存储池",
+    size: "请输入大小",
+  };
+
   return {
     id,
     name: id,
@@ -131,7 +137,7 @@ export const getFormProps = (
     onChange: formik.handleChange,
     value: (formik.values[id] as string | undefined) ?? "",
     error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-    placeholder: `Enter ${id.replaceAll("_", " ")}`,
+    placeholder: placeholders[id] ?? "",
   };
 };
 
@@ -147,14 +153,14 @@ const StorageVolumeForm: FC<Props> = ({ formik, section, setSection }) => {
   const { data: settings } = useSettings();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: clusterMembers = [] } = useClusterMembers();
   const { data: pools = [], error } = useStoragePools(true, project);
 
   if (error) {
-    notify.failure("Loading storage pools failed", error);
+    notify.failure("加载存储池失败", error);
   }
 
   const updateFormHeight = () => {

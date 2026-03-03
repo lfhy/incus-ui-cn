@@ -93,21 +93,21 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
   };
 
   return (
-    <Modal close={onClose} title="Add SSH key" className="ssh-key-add-modal">
+    <Modal close={onClose} title="添加 SSH 密钥" className="ssh-key-add-modal">
       <Form onSubmit={handleAdd}>
         {/* hidden submit to enable enter key in inputs */}
         <Input type="submit" hidden value="Hidden input" />
         <Input
-          label="Name"
+          label="名称"
           type="text"
-          placeholder="Enter name"
+          placeholder="请输入名称"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
           }}
         />
         <Input
-          label="Linux User"
+          label="Linux 用户"
           type="text"
           placeholder="ubuntu"
           value={user}
@@ -116,17 +116,17 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
           }}
         />
 
-        <Label forId="source">Source</Label>
+        <Label forId="source">来源</Label>
         <div className="p-segmented-control">
           <div
             className="p-segmented-control__list"
             id="source"
             role="tablist"
-            aria-label="Source"
+            aria-label="来源"
           >
-            {segmentButton("clipboard", "Clipboard")}
-            {segmentButton("generate", "Generate key")}
-            {segmentButton("fileUpload", "File upload")}
+            {segmentButton("clipboard", "剪贴板")}
+            {segmentButton("generate", "生成密钥")}
+            {segmentButton("fileUpload", "上传文件")}
             {segmentButton("github", "Github")}
             {segmentButton("launchpad", "Launchpad")}
           </div>
@@ -137,7 +137,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             "clipboard",
             <AutoExpandingTextArea
               placeholder="ecdsa-sha2-nistp384 ..."
-              help="Paste the contents of the public key file (.pub)"
+              help="粘贴公钥文件（.pub）的内容"
               className="u-break-all"
               autoFocus
               cols={50}
@@ -160,7 +160,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             "fileUpload",
             <div className="u-flex">
               <Button type="button" onClick={openFilePicker}>
-                Choose file
+                选择文件
               </Button>
               <Input
                 id="ssh-file-upload"
@@ -197,8 +197,8 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             "github",
             <Input
               type="text"
-              placeholder="Enter github username"
-              help="Instance must have internet access to import SSH keys from Github."
+              placeholder="请输入 Github 用户名"
+              help="实例必须能访问互联网，才能从 Github 导入 SSH 密钥。"
               autoFocus
               value={source.github}
               onChange={(e) => {
@@ -211,8 +211,8 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             "launchpad",
             <Input
               type="text"
-              placeholder="Enter launchpad username"
-              help="Instance must have internet access to import SSH keys from Launchpad."
+              placeholder="请输入 Launchpad 用户名"
+              help="实例必须能访问互联网，才能从 Launchpad 导入 SSH 密钥。"
               autoFocus
               value={source.launchpad}
               onChange={(e) => {
@@ -225,7 +225,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
 
       <footer className="p-modal__footer" id="modal-footer">
         <Button appearance="" className="u-no-margin--bottom" onClick={onClose}>
-          Cancel
+          取消
         </Button>
         <Button
           appearance="positive"
@@ -237,7 +237,7 @@ const SshKeyAddModal: FC<Props> = ({ initialName, onSelect, onClose }) => {
             source[sourceType].length === 0
           }
         >
-          Add key
+          添加密钥
         </Button>
       </footer>
     </Modal>

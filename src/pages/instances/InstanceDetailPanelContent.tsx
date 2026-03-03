@@ -40,13 +40,13 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
     <table className="u-table-layout--auto u-no-margin--bottom">
       <tbody>
         <tr>
-          <th className="u-text--muted">Name</th>
+          <th className="u-text--muted">名称</th>
           <td>
             <InstanceLink instance={instance} />
           </td>
         </tr>
         <tr>
-          <th className="u-text--muted">Base image</th>
+          <th className="u-text--muted">基础镜像</th>
           <td>
             <div
               className="u-truncate base-image"
@@ -57,23 +57,25 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           </td>
         </tr>
         <tr>
-          <th className="u-text--muted">Status</th>
+          <th className="u-text--muted">状态</th>
           <td key={instance.status + loadingType}>
             <InstanceStatusIcon instance={instance} />
           </td>
         </tr>
         <tr>
-          <th className="u-text--muted">Description</th>
+          <th className="u-text--muted">描述</th>
           <td>{instance.description ? instance.description : "-"}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Type</th>
+          <th className="u-text--muted">类型</th>
           <td>
-            {
-              instanceCreationTypes.filter(
-                (item) => item.value === instance.type,
-              )[0].label
-            }
+            {instance.type === "container"
+              ? "容器"
+              : instance.type === "virtual-machine"
+                ? "虚拟机"
+                : instanceCreationTypes.filter(
+                    (item) => item.value === instance.type,
+                  )[0].label}
           </td>
         </tr>
         <tr>
@@ -89,25 +91,25 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           </td>
         </tr>
         <tr>
-          <th className="u-text--muted">MAC addresses</th>
+          <th className="u-text--muted">MAC 地址</th>
           <td key={getIpAddresses(instance, "inet6").length}>
             <InstanceMACAddresses instance={instance} />
           </td>
         </tr>
         <tr>
-          <th className="u-text--muted">Architecture</th>
+          <th className="u-text--muted">架构</th>
           <td>{instance.architecture}</td>
         </tr>
         {isClustered && (
           <tr>
-            <th className="u-text--muted">Cluster member</th>
+            <th className="u-text--muted">集群成员</th>
             <td>
               <InstanceClusterMemberChip instance={instance} />
             </td>
           </tr>
         )}
         <tr>
-          <th className="u-text--muted">Root storage pool</th>
+          <th className="u-text--muted">根存储池</th>
           <td>
             <ResourceLink
               type="pool"
@@ -121,11 +123,11 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <td>{pid}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Created</th>
+          <th className="u-text--muted">创建时间</th>
           <td>{isoTimeToString(instance.created_at)}</td>
         </tr>
         <tr>
-          <th className="u-text--muted last-used">Last used</th>
+          <th className="u-text--muted last-used">最近使用</th>
           <td>{isoTimeToString(instance.last_used_at)}</td>
         </tr>
         <tr>
@@ -134,7 +136,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               <Link
                 to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration`}
               >
-                Profiles
+                配置文件
               </Link>
             </h3>
           </th>
@@ -155,7 +157,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         {networkDevices.length > 0 ? (
           <tr>
             <th>
-              <h3 className="p-muted-heading p-heading--5">Networks</h3>
+              <h3 className="p-muted-heading p-heading--5">网络</h3>
             </th>
             <td>
               <List
@@ -174,14 +176,14 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
         ) : (
           <tr>
             <td colSpan={2}>
-              <h3 className="p-muted-heading p-heading--5">Networks</h3>
+              <h3 className="p-muted-heading p-heading--5">网络</h3>
               <p>
-                No networks found.
+                未找到网络。
                 <br />
                 <Link
                   to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/configuration/networks`}
                 >
-                  Configure instance networks
+                  配置实例网络
                 </Link>
               </p>
             </td>
@@ -193,7 +195,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
               <Link
                 to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
               >
-                Snapshots
+                快照
               </Link>
             </h3>
           </th>
@@ -229,7 +231,7 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
                   <Link
                     to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
                   >
-                    {`View all (${instance.snapshots.length})`}
+                    {`查看全部（${instance.snapshots.length}）`}
                   </Link>
                 </td>
               </tr>
@@ -239,12 +241,12 @@ const InstanceDetailPanelContent: FC<Props> = ({ instance }) => {
           <tr>
             <td colSpan={2}>
               <p className="no-snapshots">
-                No snapshots found.
+                未找到快照。
                 <br />
                 <Link
                   to={`/ui/project/${encodeURIComponent(instance.project)}/instance/${encodeURIComponent(instance.name)}/snapshots`}
                 >
-                  Manage instance snapshots
+                  管理实例快照
                 </Link>
               </p>
             </td>

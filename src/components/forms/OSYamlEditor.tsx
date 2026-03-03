@@ -100,7 +100,7 @@ const OSYamlEditor: FC<Props> = ({ yamlData, onSubmit }) => {
                 setShowButtons(false);
               }}
             >
-              Cancel
+              取消
             </Button>
             <ActionButton
               appearance="positive"
@@ -108,7 +108,7 @@ const OSYamlEditor: FC<Props> = ({ yamlData, onSubmit }) => {
               disabled={!formik.isValid || formik.isSubmitting}
               onClick={() => void formik.submitForm()}
             >
-              Save changes
+              保存更改
             </ActionButton>
           </>
         )}

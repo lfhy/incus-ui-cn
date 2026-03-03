@@ -116,13 +116,13 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
   };
 
   const headers = [
-    { content: "Name", className: "name" },
-    { content: "User", className: "user" },
-    { content: "Key", className: "key" },
+    { content: "名称", className: "name" },
+    { content: "用户", className: "user" },
+    { content: "密钥", className: "key" },
     ...(inheritedSshKeys.length > 0
-      ? [{ content: "Profile", className: "profile" }]
+      ? [{ content: "配置文件", className: "profile" }]
       : []),
-    { "aria-label": "Actions", className: "actions" },
+    { "aria-label": "操作", className: "actions" },
   ];
 
   const inheritedRows: MainTableRow[] = inheritedSshKeys.map((inheritedKey) => {
@@ -158,20 +158,20 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
         {
           content: inheritedKey.sshKey.name,
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
           className: "name",
         },
         {
           content: inheritedKey.sshKey.user,
           role: "cell",
-          "aria-label": "User",
+          "aria-label": "用户",
           className: "user",
         },
         {
           content: inheritedKey.sshKey.fingerprint,
           title: inheritedKey.sshKey.fingerprint,
           role: "cell",
-          "aria-label": "Key",
+          "aria-label": "密钥",
           className: "key u-truncate",
         },
         ...(inheritedSshKeys.length > 0
@@ -186,7 +186,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
                   />
                 ),
                 role: "cell",
-                "aria-label": "Profile",
+                "aria-label": "配置文件",
                 className: "profile",
               },
             ]
@@ -203,7 +203,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               title={disabledReason}
             >
               <Icon name="connected" />
-              <span>Reattach</span>
+              <span>重新关联</span>
             </Button>
           ) : (
             <Button
@@ -216,11 +216,11 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
               title={disabledReason}
             >
               <Icon name="disconnect" />
-              <span>Detach</span>
+              <span>取消关联</span>
             </Button>
           ),
           role: "cell",
-          "aria-label": "Actions",
+          "aria-label": "操作",
           className: "actions u-align--right",
         },
       ],
@@ -246,20 +246,20 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
           {
             content: sshKey.name,
             role: "cell",
-            "aria-label": "Name",
+            "aria-label": "名称",
             className: "name",
           },
           {
             content: sshKey.user,
             role: "cell",
-            "aria-label": "User",
+            "aria-label": "用户",
             className: "user",
           },
           {
             content: sshKey.fingerprint,
             title: sshKey.fingerprint,
             role: "cell",
-            "aria-label": "Key",
+            "aria-label": "密钥",
             className: "key u-truncate",
           },
           ...(inheritedSshKeys.length > 0
@@ -267,7 +267,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
                 {
                   content: "",
                   role: "cell",
-                  "aria-label": "Profile",
+                  "aria-label": "配置文件",
                   className: "profile",
                 },
               ]
@@ -284,11 +284,11 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
                 title={disabledReason}
               >
                 <Icon name="delete" />
-                <span>Delete</span>
+                <span>删除</span>
               </Button>
             ),
             role: "cell",
-            "aria-label": "Actions",
+            "aria-label": "操作",
             className: "actions u-align--right",
           },
         ],
@@ -300,9 +300,9 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
   return (
     <div className="ssh-key-form">
       <p className="p-form__label u-sv-1">
-        SSH keys{" "}
+        SSH 密钥{" "}
         <Tooltip
-          message={`Cloud init must be enabled on the instance to apply the keys.\nAdditional keys get applied on instance creation or restart.\nSSH Keys are not removed automatically.`}
+          message={`必须在实例上启用 Cloud init 才能应用密钥。\n新增密钥会在实例创建或重启时生效。\nSSH 密钥不会被自动移除。`}
         >
           <Icon name="information" />
         </Tooltip>
@@ -329,7 +329,7 @@ const SshKeyForm: FC<Props> = ({ formik, disabledReason }) => {
         title={disabledReason}
       >
         <Icon name="plus" />
-        <span>New SSH key</span>
+        <span>新增 SSH 密钥</span>
       </Button>
       {isOpen && (
         <Portal>

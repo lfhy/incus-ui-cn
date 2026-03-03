@@ -48,7 +48,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
   } = useProfiles(project);
 
   if (profileError) {
-    notify.failure("Loading profiles failed", profileError);
+    notify.failure("加载配置文件失败", profileError);
   }
 
   const inheritedProxies = getInheritedProxies(formik.values, profiles);
@@ -136,14 +136,14 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
         ),
         inherited: (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
+            来源：{item.source}
           </div>
         ),
         override: isNoneDevice ? (
           <Button
             appearance="base"
             type="button"
-            title="Reattach volume"
+            title="重新挂载设备"
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -151,7 +151,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
             className="has-icon u-no-margin--bottom"
           >
             <Icon name="connected"></Icon>
-            <span>Reattach</span>
+            <span>重新挂载</span>
           </Button>
         ) : (
           <Button
@@ -167,7 +167,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
             dense
           >
             <Icon name="disconnect"></Icon>
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -233,10 +233,10 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
             hasIcon
             dense
             disabled={!!formik.values.editRestriction}
-            title={formik.values.editRestriction ?? "Detach Proxy"}
+            title={formik.values.editRestriction ?? "卸载代理设备"}
           >
             <Icon name="disconnect" />
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -244,16 +244,16 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
 
     customRows.push(
       getProxyDeviceFormRows(
-        "Bind",
+        "绑定目标",
         "bind",
         index,
         [
-          { label: "Select option", value: "", disabled: true },
-          { label: "Host", value: "host" },
-          { label: "Instance", value: "instance" },
+          { label: "请选择", value: "", disabled: true },
+          { label: "主机", value: "host" },
+          { label: "实例", value: "instance" },
         ],
         device.bind,
-        "Whether to bind the listen address to the instance or host",
+        "监听地址绑定到实例或主机",
         (value) => {
           if (value === "instance") {
             formik.setFieldValue(`devices.${index}.nat`, undefined);
@@ -264,7 +264,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
 
     customRows.push(
       getProxyDeviceFormRows(
-        "NAT mode",
+        "NAT 模式",
         "nat",
         index,
         optionEnabledDisabled,
@@ -279,18 +279,18 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
           }
         },
         device.bind === "instance"
-          ? "Only host-bound proxies can use NAT"
+          ? "只有绑定到主机的代理可使用 NAT"
           : undefined,
       ),
     );
 
-    getProxyAddress(customRows, device, index, "listen", formik, "Listen");
+    getProxyAddress(customRows, device, index, "listen", formik, "监听");
 
-    getProxyAddress(customRows, device, index, "connect", formik, "Connect");
+    getProxyAddress(customRows, device, index, "connect", formik, "连接");
   });
 
   if (isProfileLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   return (
@@ -300,7 +300,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
 
       {inheritedRows.length > 0 && (
         <div className="inherited-devices">
-          <h2 className="p-heading--4">Inherited Proxy devices</h2>
+          <h2 className="p-heading--4">继承代理设备</h2>
           <ConfigurationTable rows={inheritedRows} />
         </div>
       )}
@@ -308,7 +308,7 @@ const ProxyDeviceForm: FC<Props> = ({ formik, project }) => {
       {hasCustomProxy && (
         <div className="custom-devices">
           <h2 className="p-heading--4 custom-devices-heading">
-            Custom Proxy devices
+            自定义代理设备
           </h2>
           <ConfigurationTable rows={customRows} />
         </div>

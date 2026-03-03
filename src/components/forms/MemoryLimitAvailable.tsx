@@ -27,11 +27,11 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading resources..." />;
+    return <Spinner className="u-loader" text="正在加载资源..." />;
   }
 
   if (error) {
-    notify.failure("Loading resources failed", error);
+    notify.failure("加载资源失败", error);
   }
 
   const getAvailableMemory = () => {
@@ -51,7 +51,7 @@ const MemoryLimitAvailable: FC<Props> = ({ project }) => {
 
   return maxMemory ? (
     <>
-      Total memory: <b>{humanFileSize(maxMemory)}</b>
+      总内存：<b>{humanFileSize(maxMemory)}</b>
     </>
   ) : null;
 };

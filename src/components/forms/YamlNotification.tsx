@@ -1,7 +1,6 @@
 import type { FC } from "react";
 import { useState } from "react";
 import { Notification } from "@canonical/react-components";
-import { pluralize } from "util/instanceBulkActions";
 import DocLink from "components/DocLink";
 
 const loadClosed = (entity: string) => {
@@ -20,6 +19,8 @@ interface Props {
 
 const YamlNotification: FC<Props> = ({ entity, docPath }) => {
   const [closed, setClosed] = useState(loadClosed(entity));
+  const entityLabel =
+    entity === "instance" ? "实例" : entity === "profile" ? "配置文件" : entity;
 
   if (closed) {
     return null;
@@ -37,15 +38,15 @@ const YamlNotification: FC<Props> = ({ entity, docPath }) => {
   return (
     <Notification
       severity="information"
-      title="YAML Configuration"
+      title="YAML 配置"
       onDismiss={handleClose}
       actions={[
         <DocLink docPath={docPath} key="learn-more-link">
-          Learn more about {pluralize(entity, 2)}
+          了解更多{entityLabel}相关信息
         </DocLink>,
       ]}
     >
-      This is the YAML representation of the {entity}.
+      这是该{entityLabel}的 YAML 表示。
     </Notification>
   );
 };

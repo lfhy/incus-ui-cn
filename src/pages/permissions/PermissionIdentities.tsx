@@ -253,7 +253,7 @@ const PermissionIdentities: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -290,7 +290,7 @@ const PermissionIdentities: FC = () => {
               <PageHeader.Title>
                 <HelpLink
                   docPath="/explanation/authorization"
-                  title="Learn more about permissions"
+                  title="了解更多权限"
                 >
                   Identities
                 </HelpLink>
@@ -344,7 +344,7 @@ const PermissionIdentities: FC = () => {
                 headers={headers}
                 rows={sortedRows}
                 sortable
-                emptyStateMsg="No identities found matching this search"
+                emptyStateMsg="未找到匹配搜索的身份"
                 onUpdateSort={updateSort}
                 itemName="identity"
                 parentName=""

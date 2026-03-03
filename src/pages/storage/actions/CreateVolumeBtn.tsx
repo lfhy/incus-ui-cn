@@ -36,12 +36,12 @@ const CreateVolumeBtn: FC<Props> = ({
       disabled={!canCreateStorageVolumes(project)}
       title={
         canCreateStorageVolumes(project)
-          ? "Create volume"
-          : "You do not have permission to create volumes in this project"
+          ? "创建卷"
+          : "你没有在此项目中创建卷的权限"
       }
     >
       {!isSmallScreen && <Icon name="plus" light />}
-      <span>Create volume</span>
+      <span>创建卷</span>
     </Button>
   );
 };

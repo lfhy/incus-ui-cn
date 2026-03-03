@@ -31,7 +31,7 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
     : [poolResources];
 
   if (!hasMeterBar && hasMemberSpecificSize) {
-    return "Cluster member dependent";
+    return "取决于集群成员";
   }
 
   return (
@@ -47,7 +47,7 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
         if (!hasMeterBar) {
           return (
             <div key={poolResource.memberName}>
-              {`${humanFileSize(used)} of ${humanFileSize(total)} used`}
+              {`已用 ${humanFileSize(used)} / ${humanFileSize(total)}`}
             </div>
           );
         }
@@ -56,7 +56,7 @@ const StoragePoolSize: FC<Props> = ({ pool, hasMeterBar }) => {
           <Meter
             key={poolResource.memberName}
             percentage={(100 / total) * used || 0}
-            text={`${humanFileSize(used)} of ${humanFileSize(total)} used`}
+            text={`已用 ${humanFileSize(used)} / ${humanFileSize(total)}`}
           />
         );
       })}

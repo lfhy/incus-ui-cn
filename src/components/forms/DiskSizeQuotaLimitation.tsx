@@ -12,9 +12,9 @@ const DiskSizeQuotaLimitation: FC<Props> = ({ driver }) => {
     if (driver === dirDriver) {
       return (
         <>
-          Size limit might not be applied. See{" "}
+          大小限制可能不会生效。请参阅{" "}
           <DocLink docPath="/reference/storage_dir/#quotas">
-            directory driver quotas
+            directory 驱动配额
           </DocLink>
           .
         </>
@@ -23,9 +23,9 @@ const DiskSizeQuotaLimitation: FC<Props> = ({ driver }) => {
     if (driver === btrfsDriver) {
       return (
         <>
-          Size limit might not be applied. See{" "}
+          大小限制可能不会生效。请参阅{" "}
           <DocLink docPath="/reference/storage_btrfs/#quotas">
-            btrfs driver quotas
+            btrfs 驱动配额
           </DocLink>
           .
         </>
@@ -42,7 +42,7 @@ const DiskSizeQuotaLimitation: FC<Props> = ({ driver }) => {
   return (
     <>
       <Icon name="warning" style={{ marginRight: "0.5rem" }} />
-      {message} Use a storage pool with another driver for full quota support.
+      {message} 如需完整配额支持，请使用其他驱动类型的存储池。
       <br />
       <br />
     </>

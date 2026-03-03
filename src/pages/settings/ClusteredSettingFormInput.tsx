@@ -97,7 +97,7 @@ const ClusteredSettingFormInput: FC<Props> = ({
       {!readonly && (
         <>
           <Button appearance="base" onClick={onCancel}>
-            Cancel
+            取消
           </Button>
           <Button appearance="positive" type="submit">
             Save

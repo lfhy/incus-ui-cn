@@ -165,7 +165,7 @@ const EditClusterMemberPanel: FC<Props> = ({ onClose }) => {
           onClick={closePanel}
           className="u-no-margin--bottom"
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"

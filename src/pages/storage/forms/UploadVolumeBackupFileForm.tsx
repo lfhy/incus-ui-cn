@@ -267,7 +267,7 @@ const UploadVolumeBackupFileForm: FC<Props> = ({
           type="button"
           onClick={handleCloseModal}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"

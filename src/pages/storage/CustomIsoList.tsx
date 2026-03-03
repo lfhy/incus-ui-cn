@@ -34,7 +34,7 @@ const CustomIsoList: FC = () => {
   }>();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: images = [], isLoading } = useLoadIsoVolumes(project);
@@ -75,9 +75,9 @@ const CustomIsoList: FC = () => {
             onFinish={() =>
               toastNotify.success(
                 <>
-                  Custom iso{" "}
+                  自定义 ISO{" "}
                   <ResourceLabel bold type="iso-volume" value={image.aliases} />{" "}
-                  deleted.
+                  已删除。
                 </>,
               )
             }
@@ -148,7 +148,7 @@ const CustomIsoList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const hasImages = images.length !== 0;
@@ -157,15 +157,15 @@ const CustomIsoList: FC = () => {
     <EmptyState
       className="empty-state"
       image={<Icon name="iso" className="empty-state-icon" />}
-      title="No custom ISOs found in this project"
+      title="此项目中未找到自定义 ISO"
     >
-      <p>Custom ISOs will appear here</p>
+      <p>自定义 ISO 会显示在这里</p>
       <p>
         <DocLink
           docPath="/howto/instances_create/#instances-create-iso"
           hasExternalIcon
         >
-          Learn how to create a VM that boots from an ISO
+          了解如何创建从 ISO 启动的虚拟机
         </DocLink>
       </p>
       <UploadCustomIsoBtn
@@ -183,7 +183,7 @@ const CustomIsoList: FC = () => {
         <TablePagination
           data={sortedRows}
           id="pagination"
-          itemName="custom ISO"
+          itemName="自定义 ISO"
           className="u-no-margin--top"
           aria-label="Table pagination control"
         >
@@ -193,7 +193,7 @@ const CustomIsoList: FC = () => {
             sortable
             className="custom-iso-table"
             onUpdateSort={updateSort}
-            emptyStateMsg="No custom ISOs found matching this search"
+            emptyStateMsg="未找到匹配搜索的自定义 ISO"
           />
         </TablePagination>
       </ScrollableTable>
@@ -209,9 +209,9 @@ const CustomIsoList: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/howto/instances_create/#instances-create-iso"
-                title="Learn how to create a VM that boots from an ISO"
+                title="了解如何创建从 ISO 启动的虚拟机"
               >
-                Custom ISOs
+                自定义 ISO
               </HelpLink>
             </PageHeader.Title>
             {hasImages && (
@@ -224,9 +224,9 @@ const CustomIsoList: FC = () => {
                     onChange={(value) => {
                       setQuery(value);
                     }}
-                    placeholder="Search for custom ISOs"
+                    placeholder="搜索自定义 ISO"
                     value={query}
-                    aria-label="Search for custom ISOs"
+                    aria-label="搜索自定义 ISO"
                   />
                 </div>
               </PageHeader.Search>

@@ -12,7 +12,7 @@ const UploadVolumeFileBtn: FC<Props> = ({ name }) => {
   return (
     <>
       <Button onClick={openPortal} type="button">
-        <span>Upload volume file</span>
+        <span>上传卷文件</span>
       </Button>
       {isOpen && (
         <Portal>

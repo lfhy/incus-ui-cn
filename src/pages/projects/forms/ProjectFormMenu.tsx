@@ -2,12 +2,12 @@ import type { FC } from "react";
 import MenuItem from "components/forms/FormMenuItem";
 import { Button } from "@canonical/react-components";
 
-export const PROJECT_DETAILS = "Project details";
-export const RESOURCE_LIMITS = "Resource limits";
-export const CLUSTERS = "Clusters";
-export const INSTANCES = "Instances";
-export const DEVICE_USAGE = "Device usage";
-export const NETWORKS = "Networks";
+export const PROJECT_DETAILS = "项目详情";
+export const RESOURCE_LIMITS = "资源限制";
+export const CLUSTERS = "集群";
+export const INSTANCES = "实例";
+export const DEVICE_USAGE = "设备使用";
+export const NETWORKS = "网络";
 
 interface Props {
   isRestrictionsOpen: boolean;
@@ -31,7 +31,7 @@ const ProjectFormMenu: FC<Props> = ({
 
   return (
     <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Project form navigation">
+      <nav aria-label="项目表单导航">
         <ul className="p-side-navigation__list">
           <MenuItem label={PROJECT_DETAILS} {...menuItemProps} />
           <MenuItem label={RESOURCE_LIMITS} {...menuItemProps} />
@@ -43,7 +43,7 @@ const ProjectFormMenu: FC<Props> = ({
               onClick={toggleRestrictionsOpen}
               disabled={isRestrictionsDisabled}
             >
-              Restrictions
+              限制
             </Button>
             <ul
               className="p-side-navigation__list"

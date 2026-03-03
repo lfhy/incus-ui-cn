@@ -26,12 +26,12 @@ const CreateStorageBucketBtn: FC<Props> = ({ className }) => {
       disabled={!canCreateStorageBuckets(project)}
       title={
         canCreateStorageBuckets(project)
-          ? "Create bucket"
-          : "You do not have permission to create buckets in this project"
+          ? "创建存储桶"
+          : "你没有在此项目中创建存储桶的权限"
       }
     >
       {!isSmallScreen && <Icon name="plus" light />}
-      <span>Create bucket</span>
+      <span>创建存储桶</span>
     </Button>
   );
 };

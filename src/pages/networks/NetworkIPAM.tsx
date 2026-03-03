@@ -38,21 +38,34 @@ const NetworkIPAM: FC = () => {
 
   useEffect(() => {
     if (error) {
-      notify.failure("Loading network allocations failed", error);
+      notify.failure("加载网络地址分配失败", error);
     }
   }, [error]);
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
+  const typeLabel = (type: string) => {
+    switch (type) {
+      case "network":
+        return "网络";
+      case "instance":
+        return "实例";
+      case "network-forward":
+        return "网络转发";
+      default:
+        return type;
+    }
+  };
+
   const headers = [
-    { content: "Type", sortKey: "type", className: "type" },
-    { content: "Used by", sortKey: "usedBy", className: "usedBy" },
-    { content: "Address", sortKey: "address", className: "address" },
-    { content: "Network", sortKey: "network", className: "network" },
+    { content: "类型", sortKey: "type", className: "type" },
+    { content: "使用方", sortKey: "usedBy", className: "usedBy" },
+    { content: "地址", sortKey: "address", className: "address" },
+    { content: "网络", sortKey: "network", className: "network" },
     { content: "NAT", sortKey: "nat", className: "nat" },
-    { content: "MAC address", sortKey: "hwaddress", className: "hwaddr" },
+    { content: "MAC 地址", sortKey: "hwaddress", className: "hwaddr" },
   ];
 
   const rows = allocations.map((allocation) => {
@@ -75,7 +88,7 @@ const NetworkIPAM: FC = () => {
     return {
       columns: [
         {
-          content: allocation.type,
+          content: typeLabel(allocation.type),
           role: "cell",
           className: "type",
         },
@@ -114,7 +127,7 @@ const NetworkIPAM: FC = () => {
           className: "network",
         },
         {
-          content: allocation.nat ? "Yes" : "No",
+          content: allocation.nat ? "是" : "否",
           role: "cell",
           className: "nat",
         },
@@ -127,7 +140,7 @@ const NetworkIPAM: FC = () => {
       sortData: {
         usedBy: allocation.used_by.toLowerCase(),
         address: allocation.addresses,
-        type: allocation.type,
+        type: typeLabel(allocation.type),
         nat: allocation.nat,
         hwaddress: allocation.hwaddr,
         network: allocation.network?.toLowerCase(),
@@ -136,7 +149,7 @@ const NetworkIPAM: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -147,9 +160,9 @@ const NetworkIPAM: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/howto/network_ipam/"
-                title="Learn more about IPAM"
+                title="了解更多 IP 地址管理"
               >
-                IP Address Management
+                IP 地址管理
               </HelpLink>
             </PageHeader.Title>
           </PageHeader.Left>
@@ -171,7 +184,7 @@ const NetworkIPAM: FC = () => {
               rows={rows}
               responsive
               sortable
-              emptyStateMsg="No data to display"
+              emptyStateMsg="暂无数据"
             />
           </ScrollableTable>
         )}
@@ -179,12 +192,12 @@ const NetworkIPAM: FC = () => {
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No network allocations found"
+            title="未找到网络分配"
           >
-            <p>There are no network allocations in this project.</p>
+            <p>当前项目中没有网络地址分配。</p>
             <p>
               <DocLink docPath="/howto/network_ipam/" hasExternalIcon>
-                Learn more about network allocations
+                了解更多网络地址分配
               </DocLink>
             </p>
           </EmptyState>

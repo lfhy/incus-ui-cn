@@ -25,7 +25,7 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
   } = useProfiles(project);
 
   if (profileError) {
-    notify.failure("Loading profiles failed", profileError);
+    notify.failure("加载配置文件失败", profileError);
   }
 
   const {
@@ -35,11 +35,11 @@ const DiskDeviceForm: FC<Props> = ({ formik, project }) => {
   } = useStoragePools(true, project);
 
   if (storageError) {
-    notify.failure("Loading storage pools failed", storageError);
+    notify.failure("加载存储池失败", storageError);
   }
 
   if (isProfileLoading || isStorageLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   const inheritedDiskDevices = getInheritedDiskDevices(formik.values, profiles);

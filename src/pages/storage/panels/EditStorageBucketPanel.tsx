@@ -124,7 +124,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -136,7 +136,7 @@ const EditStorageBucketPanel: FC<Props> = ({ bucket }) => {
             }
           >
             {changeCount === 0
-              ? "Save changes"
+              ? "保存更改"
               : `Save ${changeCount} ${pluralize("change", changeCount)}`}
           </ActionButton>
         </SidePanel.Footer>

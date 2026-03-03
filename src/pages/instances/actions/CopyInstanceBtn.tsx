@@ -38,7 +38,7 @@ const CopyInstanceBtn: FC<Props> = ({
     }
 
     if (isLoading) {
-      return "Loading...";
+      return "加载中...";
     }
 
     return "";

@@ -125,12 +125,12 @@ const CreateInstance: FC = () => {
   const { hasInstanceCreateStart } = useSupportedFeatures();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const InstanceSchema = Yup.object().shape({
     name: instanceNameValidation(project, controllerState).optional(),
-    instanceType: Yup.string().required("Instance type is required"),
+    instanceType: Yup.string().required("实例类型为必填项"),
   });
 
   const updateFormHeight = () => {
@@ -463,7 +463,7 @@ const CreateInstance: FC = () => {
     !formik.isValid || !formik.values.image || diskError || networkError;
 
   return (
-    <BaseLayout title="Create an instance" contentClassName="create-instance">
+    <BaseLayout title="创建实例" contentClassName="create-instance">
       <Form onSubmit={formik.handleSubmit} className="form">
         {section !== YAML_CONFIGURATION && (
           <InstanceFormMenu
@@ -539,9 +539,7 @@ const CreateInstance: FC = () => {
             section={section}
             setSection={updateSection}
             disableReason={
-              formik.values.image
-                ? undefined
-                : "Please select an image before adding custom configuration"
+              formik.values.image ? undefined : "请先选择镜像，再添加自定义配置"
             }
           />
         </div>
@@ -554,7 +552,7 @@ const CreateInstance: FC = () => {
             )
           }
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           loading={formik.isSubmitting}
@@ -564,7 +562,7 @@ const CreateInstance: FC = () => {
             submit(formik.values, false);
           }}
         >
-          Create
+          创建
         </ActionButton>
         {!isLocalIsoImage && (
           <ActionButton
@@ -575,7 +573,7 @@ const CreateInstance: FC = () => {
               submit(formik.values);
             }}
           >
-            Create and start
+            创建并启动
           </ActionButton>
         )}
       </FormFooterLayout>

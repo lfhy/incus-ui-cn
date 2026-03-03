@@ -27,14 +27,10 @@ const UploadImageBtn: FC<Props> = ({ projectName }) => {
         onClick={openPortal}
         hasIcon={!isSmallScreen}
         disabled={!canCreateImages(project)}
-        title={
-          canCreateImages(project)
-            ? ""
-            : "You do not have permission to create images"
-        }
+        title={canCreateImages(project) ? "上传镜像" : "你没有创建镜像的权限"}
       >
         {!isSmallScreen && <Icon name="upload" />}
-        <span>{isSmallScreen ? "Upload" : "Upload image"}</span>
+        <span>{isSmallScreen ? "上传" : "上传镜像"}</span>
       </Button>
     </>
   );

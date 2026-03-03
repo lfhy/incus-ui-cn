@@ -57,7 +57,7 @@ const NetworkAclRuleModal: FC<Props> = ({
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" onClick={onClose}>
-            Cancel
+            取消
           </Button>
           <Button
             appearance="positive"

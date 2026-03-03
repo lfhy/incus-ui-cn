@@ -266,7 +266,7 @@ const CreateProfile: FC = () => {
             disableReason={
               formik.values.name
                 ? undefined
-                : "Please enter a profile name before adding custom configuration"
+                : "请先输入配置文件名称，再添加自定义配置"
             }
           />
         </div>
@@ -276,7 +276,7 @@ const CreateProfile: FC = () => {
             navigate(`/ui/project/${encodeURIComponent(project)}/profiles`)
           }
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -290,7 +290,7 @@ const CreateProfile: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

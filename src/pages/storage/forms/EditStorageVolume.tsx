@@ -144,7 +144,7 @@ const EditStorageVolume: FC<Props> = ({ volume }) => {
                 formik.setValues(getStorageVolumeEditValues(volume))
               }
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

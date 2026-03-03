@@ -67,10 +67,10 @@ const NetworkSelector: FC<
       options.push({
         label: (
           <div className="label">
-            <span title="No network" className="network-option u-truncate">
+            <span title="无网络" className="network-option u-truncate">
               No network
             </span>
-            <span title="No network type" className="network-option u-truncate">
+            <span title="无网络类型" className="network-option u-truncate">
               -
             </span>
             <span

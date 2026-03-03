@@ -23,7 +23,7 @@ const SelectImageBtn: FC<Props> = ({ onSelect }) => {
         type="button"
         id="select-image"
       >
-        <span>Browse images</span>
+        <span>浏览镜像</span>
       </Button>
       {isOpen && (
         <Portal>

@@ -15,7 +15,7 @@ const InstanceMAC: FC<Props> = ({ instance }) => {
         <div
           key={item.hwaddr}
           className="u-truncate"
-          title={`MAC ${item.hwaddr} (${item.iface})`}
+          title={`MAC 地址  ()`}
         >
           {item.hwaddr} ({item.iface})
         </div>

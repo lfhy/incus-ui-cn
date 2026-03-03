@@ -12,7 +12,6 @@ import {
   useListener,
 } from "@canonical/react-components";
 import classnames from "classnames";
-import { pluralize } from "util/instanceBulkActions";
 
 interface SelectableMainTableProps {
   filteredNames: string[];
@@ -93,7 +92,7 @@ const SelectableMainTable: FC<Props> = ({
       content: (
         <>
           <CheckboxInput
-            label={<div className="u-off-screen">Select all</div>}
+            label={<div className="u-off-screen">全选</div>}
             labelClassName="multiselect-checkbox"
             checked={isAllSelected}
             indeterminate={isSomeSelected && !isAllSelected}
@@ -104,21 +103,21 @@ const SelectableMainTable: FC<Props> = ({
             <ContextualMenu
               className="select-context-menu"
               position="left"
-              title="Multiselect"
+              title="多选"
               toggleAppearance="base"
               toggleClassName="has-icon u-no-margin--bottom"
               toggleLabel={<Icon name="chevron-down" />}
               toggleProps={{
-                "aria-label": "multiselect rows",
+                "aria-label": "多选行",
                 disabled: disableSelect,
               }}
               links={[
                 {
-                  children: `Select all ${pluralize(itemName, 2)} on this page`,
+                  children: `全选本页${itemName}`,
                   onClick: selectPage,
                 },
                 {
-                  children: `Select all ${parentName} ${pluralize(itemName, 2)}`,
+                  children: `全选${parentName}中的${itemName}`,
                   onClick: selectAll,
                 },
               ]}
@@ -129,7 +128,7 @@ const SelectableMainTable: FC<Props> = ({
       className: classnames("select select-header", {
         "no-menu": hideContextualMenu,
       }),
-      "aria-label": "select",
+      "aria-label": "选择",
     },
     ...(headers ?? []),
   ];
@@ -184,9 +183,7 @@ const SelectableMainTable: FC<Props> = ({
       {
         content: (
           <CheckboxInput
-            label={
-              <div className="u-off-screen">Select {row.name ?? "row"}</div>
-            }
+            label={<div className="u-off-screen">选择 {row.name ?? "行"}</div>}
             labelClassName="u-no-margin--bottom"
             checked={isRowSelected}
             onChange={toggleRow}

@@ -238,7 +238,7 @@ const EditNetwork: FC<Props> = ({ network, project }) => {
                 );
               }}
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

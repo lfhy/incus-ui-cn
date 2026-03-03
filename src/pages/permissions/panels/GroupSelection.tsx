@@ -146,7 +146,7 @@ const GroupSelection: FC<Props> = ({
             headers={headers}
             rows={sortedRows}
             sortable
-            emptyStateMsg="No groups found"
+            emptyStateMsg="未找到组"
             itemName="group"
             parentName=""
             selectedNames={Array.from(selectedGroups)}
@@ -162,7 +162,7 @@ const GroupSelection: FC<Props> = ({
         <EmptyState
           className="empty-state empty-state__full-width"
           image={<Icon name="user-group" className="empty-state-icon" />}
-          title="No groups found"
+          title="未找到组"
         >
           <p>
             Groups are an easy way to manage the structured assignment of

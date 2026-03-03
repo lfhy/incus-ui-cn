@@ -42,13 +42,13 @@ const MigrationForm: FC<Props> = ({ formik }) => {
       rows={[
         getConfigurationRow({
           formik,
-          label: "Stateful migration",
+          label: "有状态迁移",
           name: "migration_stateful",
+          help: "是否允许有状态停止/启动和快照",
+          inputHelp: "控制是否允许实例执行有状态停止/启动及快照操作。",
           defaultValue: "",
           disabled: isVmOnlyDisabled,
-          disabledReason: isVmOnlyDisabled
-            ? "Only available for virtual machines"
-            : undefined,
+          disabledReason: isVmOnlyDisabled ? "仅虚拟机可用" : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select options={optionAllowDeny} disabled={isVmOnlyDisabled} />
@@ -56,8 +56,10 @@ const MigrationForm: FC<Props> = ({ formik }) => {
         }),
         getConfigurationRow({
           formik,
-          label: "Cluster evacuation",
+          label: "集群疏散策略",
           name: "cluster_evacuate",
+          help: "实例疏散时的处理策略",
+          inputHelp: "定义在集群疏散实例时应采取的操作。",
           defaultValue: "auto",
           readOnlyRenderer: (val) =>
             optionRenderer(val, clusterEvacuationOptions),

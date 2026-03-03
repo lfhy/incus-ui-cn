@@ -211,7 +211,7 @@ const CreateProject: FC = () => {
       />
       <FormFooterLayout>
         <Button appearance="base" onClick={async () => navigate(-1)}>
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -221,7 +221,7 @@ const CreateProject: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

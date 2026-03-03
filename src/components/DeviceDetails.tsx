@@ -15,7 +15,7 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
     if (isRootDisk(device as FormDevice)) {
       return (
         <>
-          Pool{" "}
+          存储池{" "}
           <ResourceLink
             type="pool"
             value={device.pool || ""}
@@ -31,13 +31,13 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
 
     return (
       <>
-        Volume{" "}
+        卷{" "}
         <ResourceLink
           type="volume"
           value={device.source as string}
           to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(device.pool ?? "")}/volumes/custom/${encodeURIComponent(device.source ?? "")}`}
         />{" "}
-        on pool{" "}
+        所在存储池{" "}
         <ResourceLink
           type="pool"
           value={device.pool || ""}
@@ -59,10 +59,10 @@ const DeviceDetails: FC<Props> = ({ device, project }) => {
     return (
       <>
         <div title={device.listen} className="u-truncate">
-          Listen: {device.listen}
+          监听: {device.listen}
         </div>
         <div title={device.connect} className="u-truncate">
-          Connect: {device.connect}
+          连接: {device.connect}
         </div>
       </>
     );

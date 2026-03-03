@@ -28,6 +28,7 @@ export default defineConfig({
   server: {
     port: process.env.VITE_PORT ? Number(process.env.VITE_PORT) : 3000,
     strictPort: true,
+    allowedHosts: ["eoslhcb01.ihep.ac.cn"],
     hmr: process.env.CI ? false : undefined,
     proxy: {
       "/ui/assets": {

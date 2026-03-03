@@ -181,7 +181,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
             isLoading || isFetching ? (
               <Spinner className="u-loader" text="Loading volumes..." />
             ) : (
-              "No custom volumes found"
+              "未找到自定义卷"
             )
           }
         />
@@ -193,7 +193,7 @@ const CustomVolumeSelectModal: FC<Props> = ({
             onClick={onCancel}
             appearance="base"
           >
-            {hasPrevStep ? "Back" : "Cancel"}
+            {hasPrevStep ? "Back" : "取消"}
           </Button>
           <Button
             className="u-no-margin--bottom"

@@ -3,17 +3,17 @@ import { Button, CustomLayout, Icon, Spinner } from "@canonical/react-components
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "context/auth";
 import { useSettings } from "context/useSettings";
-import DocLink from "components/DocLink";
-import classnames from "classnames";
+import { useI18n } from "i18n/context";
 
 const Login: FC = () => {
+  const { t } = useI18n();
   const { isAuthenticated, isAuthLoading } = useAuth();
   const { data: settings } = useSettings();
   const hasOidc = settings?.auth_methods?.includes("oidc");
   const hasSSOOnly = settings?.config?.["user.ui.sso_only"] == "true";
 
   if (isAuthLoading) {
-    return <Spinner className="u-loader" text="Loading resources..." />;
+    return <Spinner className="u-loader" text={t("loadingResources")} />;
   }
 
   if (isAuthenticated) {
@@ -24,17 +24,17 @@ const Login: FC = () => {
     <>
       <CustomLayout>
         <div className="empty-state login-page">
-          <h1 className="p-heading--4 u-sv-2">Login</h1>
+          <h1 className="p-heading--4 u-sv-2">{t("login")}</h1>
 
           <>
             {!hasSSOOnly && (
-            <p className="u-sv1">Choose your login method</p>
+            <p className="u-sv1">{t("chooseLoginMethod")}</p>
             )}
             <div className="auth-container">
               {hasOidc && (
                 <a className="p-button--positive has-icon" href="/oidc/login">
                   <Icon name="security" light />
-                  <span>Login with SSO</span>
+                  <span>{t("loginWithSSO")}</span>
                 </a>
               )}
               {!hasSSOOnly && (
@@ -44,7 +44,7 @@ const Login: FC = () => {
                   to="/ui/login/certificate-generate"
                 >
                   <Icon name="certificate" />
-                  <span>Login with TLS</span>
+                  <span>{t("loginWithTLS")}</span>
                 </Link>
               </>
               )}

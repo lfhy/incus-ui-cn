@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   MainTable,
   Notification,
@@ -27,6 +27,7 @@ import { useClusteredSettings } from "context/useSettings";
 import type { LXDSettingOnClusterMember } from "types/server";
 import { useProjects } from "context/useProjects";
 import { getDefaultProject } from "util/loginProject";
+import { translateSettingCategory } from "util/settingsI18n";
 
 const Settings: FC = () => {
   const [query, setQuery] = useState("");
@@ -48,16 +49,26 @@ const Settings: FC = () => {
 
   const { data: projects = [] } = useProjects();
 
+  useEffect(() => {
+    const searchBtn = document.querySelector<HTMLButtonElement>(
+      ".settings .p-search-box__button",
+    );
+    if (searchBtn?.textContent?.trim() === "Search") {
+      searchBtn.textContent = "搜索";
+      searchBtn.setAttribute("aria-label", "搜索");
+    }
+  }, [query]);
+
   if (clusterError) {
     notify.failure("Loading clustered settings failed", clusterError);
   }
 
   if (isConfigOptionsLoading || isSettingsLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   if (settingsError) {
-    notify.failure("Loading settings failed", settingsError);
+    notify.failure("加载设置失败", settingsError);
   }
 
   const getValue = (configField: ConfigField): string | undefined => {
@@ -90,9 +101,9 @@ const Settings: FC = () => {
   };
 
   const headers = [
-    { content: "Group", className: "group" },
-    { content: "Key", className: "key" },
-    { content: "Value" },
+    { content: "分组", className: "group" },
+    { content: "键", className: "key" },
+    { content: "值" },
   ];
 
   const configFields = toConfigFields(configOptions?.configs?.server ?? {});
@@ -168,11 +179,13 @@ const Settings: FC = () => {
         columns: [
           {
             content: isNewCategory && (
-              <h2 className="p-heading--5">{configField.category}</h2>
+              <h2 className="p-heading--5">
+                {translateSettingCategory(configField.category)}
+              </h2>
             ),
             role: "rowheader",
             className: "group",
-            "aria-label": "Group",
+            "aria-label": "分组",
           },
           {
             content: (
@@ -189,7 +202,7 @@ const Settings: FC = () => {
             ),
             role: "cell",
             className: "key",
-            "aria-label": "Key",
+            "aria-label": "键",
           },
           {
             content: (
@@ -201,7 +214,7 @@ const Settings: FC = () => {
               />
             ),
             role: "cell",
-            "aria-label": "Value",
+            "aria-label": "值",
             className: "u-vertical-align-middle",
           },
         ],
@@ -215,11 +228,8 @@ const Settings: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/server/"
-                  title="Learn more about server configuration"
-                >
-                  Settings
+                <HelpLink docPath="/server/" title="了解更多服务器配置">
+                  设置
                 </HelpLink>
               </PageHeader.Title>
               <PageHeader.Search>
@@ -230,8 +240,9 @@ const Settings: FC = () => {
                   onChange={(value) => {
                     setQuery(value);
                   }}
-                  placeholder="Search"
+                  placeholder="搜索"
                   value={query}
+                  aria-label="搜索设置"
                 />
               </PageHeader.Search>
             </PageHeader.Left>
@@ -242,21 +253,17 @@ const Settings: FC = () => {
         <NotificationRow />
         <Row>
           {!canEditServerConfiguration() && (
-            <Notification
-              severity="caution"
-              title="Restricted permissions"
-              titleElement="h2"
-            >
-              You do not have permission to view or edit server settings
+            <Notification severity="caution" title="权限受限" titleElement="h2">
+              你没有查看或编辑服务器设置的权限
             </Notification>
           )}
           {!hasMetadataConfiguration && canEditServerConfiguration() && (
             <Notification
               severity="information"
-              title="Get more server settings"
+              title="获取更多服务器设置"
               titleElement="h2"
             >
-              Update to LXD v5.19.0 or later to access more server settings
+              升级到 LXD v5.19.0 或更高版本以访问更多服务器设置
             </Notification>
           )}
           {canEditServerConfiguration() && (
@@ -269,7 +276,7 @@ const Settings: FC = () => {
                 id="settings-table"
                 headers={headers}
                 rows={rows}
-                emptyStateMsg="No data to display"
+                emptyStateMsg="暂无数据"
               />
             </ScrollableTable>
           )}

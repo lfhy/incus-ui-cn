@@ -191,7 +191,7 @@ const EditIdentitiesForm: FC<Props> = ({
           headers={headers}
           rows={sortedRows}
           sortable
-          emptyStateMsg="No identities found"
+          emptyStateMsg="未找到身份"
           itemName="identity"
           parentName="server"
           selectedNames={selected

@@ -31,7 +31,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             type="button"
             title={
               canEditGroup(group)
-                ? "Edit group"
+                ? "编辑组"
                 : "Edit group - You do not have permission to edit this group"
             }
             disabled={!canEditGroup(group)}
@@ -47,7 +47,7 @@ const GroupActions: FC<Props> = ({ group }) => {
             type="button"
             title={
               canDeleteGroup(group)
-                ? "Delete group"
+                ? "删除组"
                 : "Delete group - You do not have permission to delete this group"
             }
             disabled={!canDeleteGroup(group)}

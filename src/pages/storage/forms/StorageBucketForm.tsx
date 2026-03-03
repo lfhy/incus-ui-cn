@@ -23,6 +23,11 @@ interface Props {
 const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
   const { canEditBucket } = useStorageBucketEntitlements();
   const getFormProps = (id: "name" | "description") => {
+    const placeholders: Record<"name" | "description", string> = {
+      name: "请输入名称",
+      description: "请输入描述",
+    };
+
     return {
       id: id,
       name: id,
@@ -30,16 +35,14 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
       onChange: formik.handleChange,
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-      placeholder: `Enter ${id.replaceAll("_", " ")}`,
+      placeholder: placeholders[id],
     };
   };
 
   const isEditing = !!bucket;
 
   const bucketEditRestriction =
-    !isEditing || canEditBucket(bucket)
-      ? ""
-      : "You do not have permission to modify this bucket";
+    !isEditing || canEditBucket(bucket) ? "" : "你没有修改此存储桶的权限";
 
   return (
     <Form onSubmit={formik.handleSubmit} className={"bucket-create-form"}>
@@ -51,26 +54,24 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
         invalidDrivers={[]}
         selectProps={{
           id: "bucket-create-pool",
-          label: "Storage pool",
+          label: "存储池",
           disabled: !!bucketEditRestriction || isEditing,
-          help: isEditing
-            ? "Storage bucket pool can't be changed"
-            : "",
+          help: isEditing ? "创建后不可更改存储池" : "",
         }}
       />
 
       <Input
         {...getFormProps("name")}
         type="text"
-        label="Name"
+        label="名称"
         required
         disabled={!!bucketEditRestriction || isEditing}
-        help={isEditing && "Storage bucket name can't be changed"}
+        help={isEditing && "创建后不可更改存储桶名称"}
         title={bucketEditRestriction}
       />
 
       <DiskSizeSelector
-        label="Size"
+        label="大小"
         value={formik.values.size}
         setMemoryLimit={(val?: string) => {
           formik.setFieldValue("size", val);
@@ -80,7 +81,7 @@ const StorageBucketForm: FC<Props> = ({ formik, bucket }) => {
       />
       <AutoExpandingTextArea
         {...getFormProps("description")}
-        label="Description"
+        label="描述"
         disabled={!!bucketEditRestriction}
         title={bucketEditRestriction}
       />

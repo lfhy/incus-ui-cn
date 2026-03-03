@@ -146,7 +146,7 @@ const PermissionIdpGroups: FC = () => {
                   aria-label="Edit IDP group details"
                   title={
                     canEditIdpGroup(idpGroup)
-                      ? "Edit details"
+                      ? "编辑详情"
                       : "You do not have permission to modify this IDP group"
                   }
                   disabled={!canEditIdpGroup(idpGroup)}
@@ -174,7 +174,7 @@ const PermissionIdpGroups: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -241,7 +241,7 @@ const PermissionIdpGroups: FC = () => {
             headers={headers}
             rows={sortedRows}
             sortable
-            emptyStateMsg="No identity provider groups found matching this search"
+            emptyStateMsg="未找到匹配搜索的身份提供方组"
             onUpdateSort={updateSort}
             itemName="IDP group"
             parentName=""
@@ -258,7 +258,7 @@ const PermissionIdpGroups: FC = () => {
     <EmptyState
       className="empty-state"
       image={<Icon name="user-group" className="empty-state-icon" />}
-      title="No IDP group mappings"
+      title="无 IDP 组映射"
     >
       <p>{idpGroupsInfo}</p>
       <Button
@@ -290,7 +290,7 @@ const PermissionIdpGroups: FC = () => {
               <PageHeader.Title>
                 <HelpLink
                   docPath="/explanation/authorization"
-                  title="Learn more about permissions"
+                  title="了解更多权限"
                 >
                   IDP&nbsp;groups
                 </HelpLink>

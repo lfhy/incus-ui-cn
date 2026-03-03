@@ -49,7 +49,7 @@ const BulkDeleteWarningBtn: FC<Props> = ({ warningIds, onStart, onFinish }) => {
     if (!canDeleteWarnings) {
       return "You do not have permission to delete warnings";
     }
-    return "Delete Warning";
+    return "删除告警";
   };
 
   return (

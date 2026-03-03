@@ -115,7 +115,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
   const { canEditInstance } = useInstanceEntitlements();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: profiles = [] } = useProfiles(project);
@@ -128,7 +128,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
 
   const editRestriction = canEditInstance(instance)
     ? undefined
-    : "You do not have permission to edit this instance";
+    : "你没有权限编辑此实例";
 
   const formik = useFormik<EditInstanceFormValues>({
     initialValues: getInstanceEditValues(instance, editRestriction),
@@ -150,12 +150,12 @@ const EditInstance: FC<Props> = ({ instance }) => {
           eventQueue.set(
             operation.metadata.id,
             () => {
-              toastNotify.success(<>Instance {instanceLink} updated.</>);
+              toastNotify.success(<>实例 {instanceLink} 已更新。</>);
               void formik.setValues(getInstanceEditValues(instancePayload));
             },
             (msg) =>
               toastNotify.failure(
-                "Instance update failed.",
+                "实例更新失败。",
                 new Error(msg),
                 instanceLink,
               ),
@@ -169,7 +169,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          toastNotify.failure("Instance update failed.", e, instanceLink);
+          toastNotify.failure("实例更新失败。", e, instanceLink);
         });
     },
   });
@@ -307,7 +307,7 @@ const EditInstance: FC<Props> = ({ instance }) => {
                 setVersion((old) => old + 1);
               }}
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

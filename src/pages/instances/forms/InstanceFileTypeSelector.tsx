@@ -11,11 +11,11 @@ interface Props {
 const InstanceFileTypeSelector: FC<Props> = ({ value, onChange }) => {
   return (
     <>
-      <label htmlFor="file-type">Select upload file type</label>
+      <label htmlFor="file-type">选择上传文件类型</label>
       <div id="file-type">
         <div className="u-sv1">
           <RadioInput
-            label="LXD backup archive (.tar.gz)"
+            label="LXD 备份归档（.tar.gz）"
             checked={value === "instance-backup"}
             onChange={() => {
               onChange("instance-backup");
@@ -26,8 +26,8 @@ const InstanceFileTypeSelector: FC<Props> = ({ value, onChange }) => {
           <RadioInput
             label={
               <span>
-                External format (.qcow2, .vmdk,{" "}
-                <abbr title=".qcow, .vdi, .vhdx">etc...</abbr>)
+                外部格式（.qcow2、.vmdk、
+                <abbr title=".qcow、.vdi、.vhdx">等</abbr>）
               </span>
             }
             checked={value === "external-format"}

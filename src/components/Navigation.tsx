@@ -15,11 +15,7 @@ import { useAuth } from "context/auth";
 import classnames from "classnames";
 import Logo from "./Logo";
 import ProjectSelector from "pages/projects/ProjectSelector";
-import {
-  capitalizeFirstLetter,
-  getElementAbsoluteHeight,
-  logout,
-} from "util/helpers";
+import { getElementAbsoluteHeight, logout } from "util/helpers";
 import { useCurrentProject } from "context/useCurrentProject";
 import { useMenuCollapsed } from "context/menuCollapsed";
 import NavLink from "components/NavLink";
@@ -34,9 +30,9 @@ import { useSettings } from "context/useSettings";
 import type { LxdProject } from "types/project";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 import { useIsClustered } from "context/useIsClustered";
-import { getReportBugURL } from "util/reportBug";
 import { queryKeys } from "util/queryKeys";
-import DocLink from "components/DocLink";
+import { useI18n } from "i18n/context";
+import { ALL_PROJECTS } from "util/loginProject";
 
 const initialiseOpenNavMenus = (location: Location) => {
   const openPermissions = location.pathname.includes("/permissions/");
@@ -63,8 +59,6 @@ const initialiseOpenNavMenus = (location: Location) => {
   return initialOpenMenus;
 };
 
-const ALL_PROJECTS = "All projects";
-
 const initializeProjectName = (
   isAllProjectsFromUrl: boolean,
   isLoading: boolean,
@@ -82,6 +76,7 @@ const initializeProjectName = (
 };
 
 const Navigation: FC = () => {
+  const { t } = useI18n();
   const { isRestricted, isOidc } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
@@ -95,6 +90,7 @@ const Navigation: FC = () => {
     initializeProjectName(isAllProjectsFromUrl, isLoading, project),
   );
   const isAllProjects = projectName === ALL_PROJECTS;
+  const displayProjectName = isAllProjects ? t("allProjects") : projectName;
   const { hasCustomVolumeIso, hasAccessManagement } = useSupportedFeatures();
   const { loggedInUserName, loggedInUserID, authMethod } = useLoggedInUser();
   const [scroll, setScroll] = useState(false);
@@ -205,10 +201,10 @@ const Navigation: FC = () => {
 
   const getNavTitle = (title: string) => {
     if (isAllProjects) {
-      return `Select a project to explore ${title}`;
+      return t("selectProjectToExplore", { title });
     }
 
-    return `${capitalizeFirstLetter(title)} (${projectName})`;
+    return t("navTitleWithProject", { title, project: displayProjectName });
   };
 
   const isDark = isAuthenticated || isDarkTheme(loadTheme());
@@ -231,14 +227,14 @@ const Navigation: FC = () => {
                 className="p-panel__toggle"
                 onClick={hardToggleMenu}
               >
-                Menu
+                {t("menu")}
               </Button>
             </div>
           </div>
         </div>
       </header>
       <nav
-        aria-label="main navigation"
+        aria-label={t("mainNavigation")}
         className={classnames("l-navigation", {
           "is-collapsed": menuCollapsed,
           "is-pinned": !menuCollapsed,
@@ -259,7 +255,7 @@ const Navigation: FC = () => {
                   appearance="base"
                   hasIcon
                   className="u-no-margin"
-                  aria-label="close navigation"
+                  aria-label={t("closeNavigation")}
                   onClick={hardToggleMenu}
                 >
                   <Icon name="close" />
@@ -283,7 +279,7 @@ const Navigation: FC = () => {
                       >
                         <ProjectSelector
                           key={location.pathname}
-                          activeProject={projectName}
+                          activeProject={displayProjectName}
                         />
                       </li>
                       <SideNavigationItem>
@@ -293,20 +289,23 @@ const Navigation: FC = () => {
                               ? "/ui/all-projects/instances"
                               : `/ui/project/${encodeURIComponent(projectName)}/instances`
                           }
-                          title={`Instances (${projectName})`}
+                          title={t("navTitleWithProject", {
+                            title: t("instances"),
+                            project: displayProjectName,
+                          })}
                           onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="pods"
                           />{" "}
-                          Instances
+                          {t("instances")}
                         </NavLink>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${encodeURIComponent(projectName)}/profiles`}
-                          title={getNavTitle("profiles")}
+                          title={getNavTitle(t("profiles"))}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
@@ -314,17 +313,17 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             name="repository"
                           />{" "}
-                          Profiles
+                          {t("profiles")}
                         </NavLink>
                       </SideNavigationItem>
 
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${encodeURIComponent(projectName)}/network`}
-                          title={getNavTitle("networking")}
+                          title={getNavTitle(t("networking"))}
                           disabled={isAllProjects}
                           iconName="exposed"
-                          label="Networking"
+                          label={t("networking")}
                           onOpen={() => {
                             toggleAccordionNav("networking");
                           }}
@@ -336,7 +335,10 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/networks`}
-                                title={`Networks (${projectName})`}
+                                title={t("navTitleWithProject", {
+                                  title: t("networks"),
+                                  project: displayProjectName,
+                                })}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 ignoreUrlMatches={[
@@ -345,7 +347,7 @@ const Navigation: FC = () => {
                                   "network-ipam",
                                 ]}
                               >
-                                Networks
+                                {t("networks")}
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
@@ -353,11 +355,14 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/network-acls`}
-                                title={`ACLs (${projectName})`}
+                                title={t("navTitleWithProject", {
+                                  title: t("acls"),
+                                  project: displayProjectName,
+                                })}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                ACLs
+                                {t("acls")}
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
@@ -365,11 +370,14 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/network-ipam`}
-                                title={`IPAM (${projectName})`}
+                                title={t("navTitleWithProject", {
+                                  title: t("ipam"),
+                                  project: displayProjectName,
+                                })}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                               >
-                                IPAM
+                                {t("ipam")}
                               </NavLink>
                             </SideNavigationItem>,
                           ]}
@@ -378,10 +386,10 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavAccordion
                           baseUrl={`/ui/project/${encodeURIComponent(projectName)}/storage`}
-                          title={getNavTitle("storage")}
+                          title={getNavTitle(t("storage"))}
                           disabled={isAllProjects}
                           iconName="switcher-dashboard"
-                          label="Storage"
+                          label={t("storage")}
                           onOpen={() => {
                             toggleAccordionNav("storage");
                           }}
@@ -393,7 +401,7 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/storage/pools`}
-                                title="Pools"
+                                title={t("pools")}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 ignoreUrlMatches={[
@@ -401,7 +409,7 @@ const Navigation: FC = () => {
                                   "/bucket/",
                                 ]}
                               >
-                                Pools
+                                {t("pools")}
                               </NavLink>
                             </SideNavigationItem>,
                             <SideNavigationItem
@@ -409,12 +417,12 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/storage/volumes`}
-                                title="Volumes"
+                                title={t("volumes")}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 activeUrlMatches={["volumes/custom"]}
                               >
-                                Volumes
+                                {t("volumes")}
                               </NavLink>
                             </SideNavigationItem>,
                             ...(hasCustomVolumeIso
@@ -424,11 +432,11 @@ const Navigation: FC = () => {
                                   >
                                     <NavLink
                                       to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
-                                      title="Custom ISOs"
+                                      title={t("customIsos")}
                                       onClick={softToggleMenu}
                                       className="accordion-nav-secondary"
                                     >
-                                      Custom ISOs
+                                      {t("customIsos")}
                                     </NavLink>
                                   </SideNavigationItem>,
                                 ]
@@ -438,12 +446,12 @@ const Navigation: FC = () => {
                             >
                               <NavLink
                                 to={`/ui/project/${encodeURIComponent(projectName)}/storage/buckets`}
-                                title="Buckets"
+                                title={t("buckets")}
                                 onClick={softToggleMenu}
                                 className="accordion-nav-secondary"
                                 activeUrlMatches={["/bucket/"]}
                               >
-                                Buckets
+                                {t("buckets")}
                               </NavLink>
                             </SideNavigationItem>,
                           ]}
@@ -452,7 +460,7 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${encodeURIComponent(projectName)}/images`}
-                          title={getNavTitle("images")}
+                          title={getNavTitle(t("images"))}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
@@ -460,13 +468,13 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             name="image"
                           />{" "}
-                          Images
+                          {t("images")}
                         </NavLink>
                       </SideNavigationItem>
                       <SideNavigationItem>
                         <NavLink
                           to={`/ui/project/${encodeURIComponent(projectName)}/configuration`}
-                          title={getNavTitle("configuration")}
+                          title={getNavTitle(t("configuration"))}
                           disabled={isAllProjects}
                           onClick={softToggleMenu}
                         >
@@ -474,7 +482,7 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             name="switcher-environments"
                           />{" "}
-                          Configuration
+                          {t("configuration")}
                         </NavLink>
                       </SideNavigationItem>
                       <hr
@@ -486,9 +494,9 @@ const Navigation: FC = () => {
                         <SideNavigationItem>
                           <NavAccordion
                             baseUrl="/ui/cluster"
-                            title={getNavTitle("clustering")}
+                            title={getNavTitle(t("clustering"))}
                             iconName="cluster-host"
-                            label="Clustering"
+                            label={t("clustering")}
                             onOpen={() => {
                               toggleAccordionNav("clustering");
                             }}
@@ -498,21 +506,21 @@ const Navigation: FC = () => {
                               <SideNavigationItem key="members">
                                 <NavLink
                                   to="/ui/cluster/members"
-                                  title="Members"
+                                  title={t("members")}
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
                                 >
-                                  Members
+                                  {t("members")}
                                 </NavLink>
                               </SideNavigationItem>,
                               <SideNavigationItem key="groups">
                                 <NavLink
                                   to="/ui/cluster/groups"
-                                  title="Groups"
+                                  title={t("groups")}
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
                                 >
-                                  Groups
+                                  {t("groups")}
                                 </NavLink>
                               </SideNavigationItem>,
                             ]}
@@ -523,42 +531,45 @@ const Navigation: FC = () => {
                         <SideNavigationItem>
                           <NavLink
                             to="/ui/server"
-                            title="Server"
+                            title={t("server")}
                             onClick={softToggleMenu}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"
                               name="cluster-host"
                             />{" "}
-                            Server
+                            {t("server")}
                           </NavLink>
                         </SideNavigationItem>
                       )}
                       <SideNavigationItem>
                         <NavLink
-                          to={`/ui/operations`}
-                          title={`Operations (${projectName})`}
+                          to="/ui/operations"
+                          title={t("navTitleWithProject", {
+                            title: t("operations"),
+                            project: displayProjectName,
+                          })}
                           onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="status"
                           />{" "}
-                          Operations
+                          {t("operations")}
                         </NavLink>
                       </SideNavigationItem>
                       {!isRestricted && (
                         <SideNavigationItem>
                           <NavLink
                             to="/ui/warnings?status=new"
-                            title="Warnings"
+                            title={t("warnings")}
                             onClick={softToggleMenu}
                           >
                             <Icon
                               className="is-light p-side-navigation__icon"
                               name="warning-grey"
                             />{" "}
-                            Warnings
+                            {t("warnings")}
                           </NavLink>
                         </SideNavigationItem>
                       )}
@@ -566,9 +577,9 @@ const Navigation: FC = () => {
                         <SideNavigationItem>
                           <NavAccordion
                             baseUrl="/ui/permissions"
-                            title={`Permissions`}
+                            title={t("permissions")}
                             iconName="user"
-                            label="Permissions"
+                            label={t("permissions")}
                             onOpen={() => {
                               toggleAccordionNav("permissions");
                             }}
@@ -578,34 +589,34 @@ const Navigation: FC = () => {
                               <SideNavigationItem key="/ui/permissions/identities">
                                 <NavLink
                                   to="/ui/permissions/identities?system-identities=hide"
-                                  title="Identities"
+                                  title={t("identities")}
                                   onClick={softToggleMenu}
                                   activeUrlMatches={[
                                     "/ui/permissions/identities",
                                   ]}
                                   className="accordion-nav-secondary"
                                 >
-                                  Identities
+                                  {t("identities")}
                                 </NavLink>
                               </SideNavigationItem>,
                               <SideNavigationItem key="/ui/permissions/groups">
                                 <NavLink
                                   to="/ui/permissions/groups"
-                                  title="Groups"
+                                  title={t("groups")}
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
                                 >
-                                  Groups
+                                  {t("groups")}
                                 </NavLink>
                               </SideNavigationItem>,
                               <SideNavigationItem key="/ui/permissions/idp-groups">
                                 <NavLink
                                   to="/ui/permissions/idp-groups"
-                                  title="Identity provider groups"
+                                  title={t("idpGroups")}
                                   onClick={softToggleMenu}
                                   className="accordion-nav-secondary"
                                 >
-                                  IDP groups
+                                  {t("idpGroups")}
                                 </NavLink>
                               </SideNavigationItem>,
                             ]}
@@ -615,14 +626,14 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to="/ui/settings"
-                          title="Settings"
+                          title={t("settings")}
                           onClick={softToggleMenu}
                         >
                           <Icon
                             className="is-light p-side-navigation__icon"
                             name="settings"
                           />{" "}
-                          Settings
+                          {t("settings")}
                         </NavLink>
                       </SideNavigationItem>
                     </>
@@ -637,7 +648,7 @@ const Navigation: FC = () => {
                       <SideNavigationItem>
                         <NavLink
                           to="/ui/os"
-                          title="OS"
+                          title={t("os")}
                           onClick={softToggleMenu}
                           ignoreUrlMatches={["operations"]}
                         >
@@ -645,7 +656,7 @@ const Navigation: FC = () => {
                             className="is-light p-side-navigation__icon"
                             name="desktop"
                           />{" "}
-                          OS
+                          {t("os")}
                         </NavLink>
                       </SideNavigationItem>
                     </>
@@ -662,7 +673,7 @@ const Navigation: FC = () => {
                           href="/oidc/login"
                         >
                           <Icon name="security" />
-                          <span>Login with SSO instead</span>
+                          <span>{t("loginWithSSOInstead")}</span>
                         </a>
                       )}
                       <Stepper
@@ -673,7 +684,7 @@ const Navigation: FC = () => {
                               navigate("/ui/login/certificate-generate");
                             }}
                             index={1}
-                            title="Browser certificate"
+                            title={t("browserCertificate")}
                             hasProgressLine={false}
                             enabled
                             iconName="number"
@@ -686,7 +697,7 @@ const Navigation: FC = () => {
                               navigate("/ui/login/certificate-add");
                             }}
                             index={2}
-                            title="Identity trust token"
+                            title={t("identityTrustToken")}
                             hasProgressLine={false}
                             enabled
                             iconName="number"
@@ -745,60 +756,11 @@ const Navigation: FC = () => {
                       </div>
                     </SideNavigationItem>
                   )}
-                  <SideNavigationItem>
-                    <DocLink
-                      className="p-side-navigation__link"
-                      title="Documentation"
-                      docPath="/"
-                    >
-                      <Icon
-                        className={classnames("p-side-navigation__icon", {
-                          "is-light": isAuthenticated,
-                        })}
-                        name="book"
-                      />
-                      Documentation
-                    </DocLink>
-                  </SideNavigationItem>
-                  <SideNavigationItem>
-                    <a
-                      className="p-side-navigation__link"
-                      href="https://discuss.linuxcontainers.org"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Discussion"
-                    >
-                      <Icon
-                        className={classnames("p-side-navigation__icon", {
-                          "is-light": isAuthenticated,
-                        })}
-                        name="share"
-                      />
-                      Discussion
-                    </a>
-                  </SideNavigationItem>
-                  <SideNavigationItem>
-                    <a
-                      className="p-side-navigation__link"
-                      href={getReportBugURL()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      title="Report a bug"
-                    >
-                      <Icon
-                        className={classnames("p-side-navigation__icon", {
-                          "is-light": isAuthenticated,
-                        })}
-                        name="submit-bug"
-                      />
-                      Report a bug
-                    </a>
-                  </SideNavigationItem>
                   {isOidc && (
                     <SideNavigationItem>
                       <a
                         className="p-side-navigation__link"
-                        title="Log out"
+                        title={t("logOut")}
                         onClick={() => {
                           logout();
 
@@ -809,7 +771,7 @@ const Navigation: FC = () => {
                           className="is-light p-side-navigation__icon p-side-logout"
                           name="export"
                         />
-                        Log out
+                        {t("logOut")}
                       </a>
                     </SideNavigationItem>
                   )}
@@ -822,9 +784,11 @@ const Navigation: FC = () => {
                 >
                   <Button
                     appearance="base"
-                    aria-label={`${
-                      menuCollapsed ? "expand" : "collapse"
-                    } main navigation`}
+                    aria-label={
+                      menuCollapsed
+                        ? t("expandMainNavigation")
+                        : t("collapseMainNavigation")
+                    }
                     hasIcon
                     dense
                     className={classnames(

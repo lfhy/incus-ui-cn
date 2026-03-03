@@ -28,7 +28,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
             disabled: formik.values.ipv4_address === "none",
-            disabledReason: "IPv4 address is set to none",
+            disabledReason: "IPv4 地址已设置为 none",
           }),
         ]
       : []),
@@ -51,20 +51,20 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv4_dhcp_expiry",
-            label: "IPv4 DHCP expiry",
+            label: "IPv4 DHCP 租约过期时间",
             defaultValue: "",
             disabled: !hasDhcp,
-            disabledReason: "IPv4 DHCP is disabled",
+            disabledReason: "IPv4 DHCP 已禁用",
             children: <Input type="text" />,
           }),
 
           getConfigurationRow({
             formik,
             name: "ipv4_dhcp_ranges",
-            label: "IPv4 DHCP ranges",
+            label: "IPv4 DHCP 范围",
             defaultValue: "",
             disabled: !hasDhcp,
-            disabledReason: "IPv4 DHCP is disabled",
+            disabledReason: "IPv4 DHCP 已禁用",
             children: <Textarea />,
           }),
         ]
@@ -75,7 +75,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv4_l3only",
-            label: "IPv4 L3 only",
+            label: "仅 IPv4 三层",
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
           }),
@@ -87,7 +87,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv4_ovn_ranges",
-            label: "IPv4 OVN ranges",
+            label: "IPv4 OVN 范围",
             defaultValue: "",
             children: <Textarea />,
           }),
@@ -99,7 +99,7 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv4_routes",
-            label: "IPv4 routes",
+            label: "IPv4 路由",
             defaultValue: "",
             children: <Textarea />,
           }),
@@ -111,14 +111,14 @@ const NetworkFormIpv4: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv4_gateway",
-            label: "IPv4 gateway",
+            label: "IPv4 网关",
             defaultValue: "",
             children: <Textarea />,
           }),
           getConfigurationRow({
             formik,
             name: "ipv4_routes_anycast",
-            label: "IPv4 routes anycast",
+            label: "IPv4 路由任播",
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
           }),

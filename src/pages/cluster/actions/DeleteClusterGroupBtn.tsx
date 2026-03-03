@@ -56,7 +56,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
     if (!hasPermission) {
       return "You do not have permission to delete cluster groups";
     }
-    return "Delete group";
+    return "删除组";
   };
 
   return (
@@ -78,7 +78,7 @@ const DeleteClusterGroupBtn: FC<Props> = ({ group }) => {
       disabled={isDefaultGroup || isLoading || !hasPermission}
       shiftClickEnabled
       showShiftClickHint
-      title="Delete group"
+      title="删除组"
       className="has-icon"
     >
       <Icon name="delete" />

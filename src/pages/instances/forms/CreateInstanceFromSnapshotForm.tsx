@@ -234,7 +234,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
             type="button"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -248,7 +248,7 @@ const CreateInstanceFromSnapshotForm: FC<Props> = ({
             }
             onClick={() => void formik.submitForm()}
           >
-            Create
+            创建
           </ActionButton>
         </>
       }

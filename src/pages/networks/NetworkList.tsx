@@ -52,23 +52,70 @@ const NetworkList: FC = () => {
   const { canCreateNetworks } = useProjectEntitlements();
   const { project: currentProject } = useCurrentProject();
 
+  const mapTypeFilter = (value: string) => {
+    switch (value) {
+      case "桥接":
+        return "bridge";
+      case "物理":
+        return "physical";
+      default:
+        return value;
+    }
+  };
+
+  const mapManagedFilter = (value: string) => {
+    switch (value) {
+      case "是":
+        return "yes";
+      case "否":
+        return "no";
+      default:
+        return value;
+    }
+  };
+
+  const mapStateFilter = (value: string) => {
+    switch (value) {
+      case "已创建":
+        return "Created";
+      case "待处理":
+        return "Pending";
+      case "未知":
+        return "Unknown";
+      case "不可用":
+        return "Unavailable";
+      case "错误":
+        return "Errored";
+      default:
+        return value;
+    }
+  };
+
+  const mapMemberFilter = (value: string) => {
+    return value === "集群范围" ? "Cluster-wide" : value;
+  };
+
   const filters: NetworkFilters = {
     queries: searchParams.getAll(QUERY),
-    type: searchParams.getAll(TYPE).map((value) => value.toLowerCase()),
-    managed: searchParams.getAll(MANAGED).map((value) => value.toLowerCase()),
-    member: searchParams.getAll(MEMBER),
-    state: searchParams.getAll(STATE),
+    type: searchParams
+      .getAll(TYPE)
+      .map((value) => mapTypeFilter(value.toLowerCase())),
+    managed: searchParams
+      .getAll(MANAGED)
+      .map((value) => mapManagedFilter(value.toLowerCase())),
+    member: searchParams.getAll(MEMBER).map((value) => mapMemberFilter(value)),
+    state: searchParams.getAll(STATE).map((value) => mapStateFilter(value)),
   };
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: networks = [], error, isLoading } = useNetworks(project);
 
   useEffect(() => {
     if (error) {
-      notify.failure("Loading networks failed", error);
+      notify.failure("加载网络失败", error);
     }
   }, [error]);
 
@@ -80,9 +127,41 @@ const NetworkList: FC = () => {
 
   useEffect(() => {
     if (clusterNetworkError) {
-      notify.failure("Loading cluster networks failed", clusterNetworkError);
+      notify.failure("加载集群网络失败", clusterNetworkError);
     }
   }, [clusterNetworkError]);
+
+  const displayType = (type: string) => {
+    switch (type) {
+      case "bridge":
+        return "桥接";
+      case "physical":
+        return "物理";
+      case "macvlan":
+        return "Macvlan";
+      case "sriov":
+        return "SR-IOV";
+      default:
+        return renderNetworkType(type as LXDNetworkOnClusterMember["type"]);
+    }
+  };
+
+  const displayState = (state?: string) => {
+    switch (state) {
+      case "Created":
+        return "已创建";
+      case "Pending":
+        return "待处理";
+      case "Unknown":
+        return "未知";
+      case "Unavailable":
+        return "不可用";
+      case "Errored":
+        return "错误";
+      default:
+        return state;
+    }
+  };
 
   const renderNetworks: LXDNetworkOnClusterMember[] = networks
     .filter((network) => !isClustered || network.managed)
@@ -101,23 +180,23 @@ const NetworkList: FC = () => {
   const hasNetworks = renderNetworks.length > 0;
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Type", sortKey: "type", className: "type" },
-    { content: "Managed", sortKey: "managed", className: "managed" },
-    ...(isClustered ? [{ content: "Cluster member", sortKey: "member" }] : []),
+    { content: "名称", sortKey: "name" },
+    { content: "类型", sortKey: "type", className: "type" },
+    { content: "托管", sortKey: "managed", className: "managed" },
+    ...(isClustered ? [{ content: "集群成员", sortKey: "member" }] : []),
     { content: "IPV4", className: "u-align--right" },
     { content: "IPV6" },
     {
-      content: "Description",
+      content: "描述",
       sortKey: "description",
     },
-    { content: "Forwards", className: "u-align--right forwards" },
+    { content: "转发", className: "u-align--right forwards" },
     {
-      content: "Used by",
+      content: "使用量",
       sortKey: "usedBy",
       className: "u-align--right used-by",
     },
-    { content: "State", sortKey: "state", className: "state" },
+    { content: "状态", sortKey: "state", className: "state" },
   ];
 
   const rows = renderNetworks
@@ -166,18 +245,18 @@ const NetworkList: FC = () => {
           {
             content: <Link to={href}>{network.name}</Link>,
             role: "rowheader",
-            "aria-label": "Name",
+            "aria-label": "名称",
           },
           {
-            content: renderNetworkType(network.type),
+            content: displayType(network.type),
             role: "cell",
-            "aria-label": "Type",
+            "aria-label": "类型",
             className: "type",
           },
           {
-            content: network.managed ? "Yes" : "No",
+            content: network.managed ? "是" : "否",
             role: "cell",
-            "aria-label": "Managed",
+            "aria-label": "托管",
             className: "managed",
           },
           ...(isClustered
@@ -185,7 +264,7 @@ const NetworkList: FC = () => {
                 {
                   content: <NetworkClusterMemberChip network={network} />,
                   role: "cell",
-                  "aria-label": "Cluster member",
+                  "aria-label": "集群成员",
                 },
               ]
             : []),
@@ -207,7 +286,7 @@ const NetworkList: FC = () => {
               </div>
             ),
             role: "cell",
-            "aria-label": "Description",
+            "aria-label": "描述",
           },
           {
             content: (
@@ -215,18 +294,18 @@ const NetworkList: FC = () => {
             ),
             role: "cell",
             className: "u-align--right forwards",
-            "aria-label": "Forwards",
+            "aria-label": "转发",
           },
           {
             content: network.used_by?.length ?? "0",
             role: "cell",
             className: "u-align--right used-by",
-            "aria-label": "Used by",
+            "aria-label": "使用量",
           },
           {
-            content: network.status,
+            content: displayState(network.status),
             role: "cell",
-            "aria-label": "State",
+            "aria-label": "状态",
             className: "state",
           },
         ],
@@ -243,7 +322,7 @@ const NetworkList: FC = () => {
     });
 
   if (isLoading || isClusterNetworksLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -255,9 +334,9 @@ const NetworkList: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/explanation/networks/"
-                title="Learn more about networking"
+                title="了解更多网络功能"
               >
-                Networks
+                网络
               </HelpLink>
             </PageHeader.Title>
             <PageHeader.Search>
@@ -278,11 +357,11 @@ const NetworkList: FC = () => {
               title={
                 canCreateNetworks(currentProject)
                   ? ""
-                  : "You do not have permission to create networks in this project"
+                  : "你没有在此项目中创建网络的权限"
               }
             >
               {!isSmallScreen && <Icon name="plus" light />}
-              <span>Create network</span>
+              <span>创建网络</span>
             </Button>
           </PageHeader.BaseActions>
         </PageHeader>
@@ -298,19 +377,19 @@ const NetworkList: FC = () => {
             responsive
             sortable
             className="network-list-table"
-            emptyStateMsg="No data to display"
+            emptyStateMsg="暂无数据"
           />
         )}
         {!isLoading && !hasNetworks && (
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No networks found"
+            title="未找到网络"
           >
-            <p>There are no networks in this project.</p>
+            <p>当前项目中没有网络。</p>
             <p>
               <DocLink docPath="/explanation/networks/" hasExternalIcon>
-                Learn more about networks
+                了解更多网络
               </DocLink>
             </p>
           </EmptyState>

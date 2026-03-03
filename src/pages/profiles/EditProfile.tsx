@@ -99,7 +99,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
   const { canEditProfile } = useProfileEntitlements();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const updateFormHeight = () => {
@@ -109,30 +109,30 @@ const EditProfile: FC<Props> = ({ profile }) => {
   useListener(window, updateFormHeight, "resize", true);
 
   const ProfileSchema = Yup.object().shape({
-    name: Yup.string().required("Name is required"),
+    name: Yup.string().required("名称不能为空"),
   });
 
   const editRestriction = canEditProfile(profile)
     ? undefined
-    : "You do not have permission to edit this profile";
+    : "你没有权限编辑此配置文件";
 
   const handleSuccess = (profilePayload: LxdProfile) => {
     toastNotify.success(
       <>
-        Profile{" "}
+        配置文件{" "}
         <ResourceLink
           type="profile"
           value={profile.name}
           to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}`}
         />{" "}
-        updated.
+        已更新。
       </>,
     );
     void formik.setValues(getProfileEditValues(profilePayload));
   };
 
   const handleFailure = (e: Error) => {
-    notify.failure("Profile update failed", e);
+    notify.failure("配置文件更新失败", e);
   };
 
   const handleFinish = () => {
@@ -290,7 +290,7 @@ const EditProfile: FC<Props> = ({ profile }) => {
                 void formik.setValues(getProfileEditValues(profile));
               }}
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

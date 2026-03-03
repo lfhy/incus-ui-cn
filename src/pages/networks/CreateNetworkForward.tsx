@@ -91,10 +91,7 @@ const CreateNetworkForward: FC = () => {
   return (
     <BaseLayout
       title={
-        <HelpLink
-          docPath="/howto/network_forwards/"
-          title="Learn more about network forwards"
-        >
+        <HelpLink docPath="/howto/network_forwards/" title="了解更多网络转发">
           Create a network forward
         </HelpLink>
       }
@@ -106,7 +103,7 @@ const CreateNetworkForward: FC = () => {
           className="p-button--base"
           to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
         >
-          Cancel
+          取消
         </Link>
         <ActionButton
           loading={formik.isSubmitting}
@@ -117,7 +114,7 @@ const CreateNetworkForward: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

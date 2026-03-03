@@ -41,7 +41,7 @@ const CreateStorageVolume: FC = () => {
   const { hasStorageAndProfileOperations } = useSupportedFeatures();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const StorageVolumeSchema = Yup.object().shape({
@@ -49,7 +49,7 @@ const CreateStorageVolume: FC = () => {
       .test(
         ...testDuplicateStorageVolumeName(project, "custom", controllerState),
       )
-      .required("This field is required"),
+      .required("该字段为必填项"),
   });
 
   const handleSuccess = (volume: LxdStorageVolume, clusterMember?: string) => {
@@ -72,14 +72,14 @@ const CreateStorageVolume: FC = () => {
     };
     toastNotify.success(
       <>
-        Storage volume <VolumeLinkChip volume={volumeWithLocation} /> created.
+        存储卷 <VolumeLinkChip volume={volumeWithLocation} /> 已创建。
       </>,
     );
   };
 
   const handleFailure = (error: unknown) => {
     formik.setSubmitting(false);
-    notify.failure("Storage volume creation failed", error);
+    notify.failure("创建存储卷失败", error);
   };
 
   const formik = useFormik<StorageVolumeFormValues>({
@@ -119,7 +119,7 @@ const CreateStorageVolume: FC = () => {
   });
 
   return (
-    <BaseLayout title="Create volume" contentClassName="storage-volume-form">
+    <BaseLayout title="创建卷" contentClassName="storage-volume-form">
       <NotificationRow />
       <StorageVolumeForm
         formik={formik}
@@ -137,7 +137,7 @@ const CreateStorageVolume: FC = () => {
             )
           }
         >
-          Cancel
+          取消
         </Button>
         <UploadVolumeFileBtn name={formik.values.name} />
         <ActionButton
@@ -146,7 +146,7 @@ const CreateStorageVolume: FC = () => {
           disabled={!formik.isValid || formik.isSubmitting}
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

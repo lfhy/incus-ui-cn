@@ -43,11 +43,11 @@ const ProfileSelector: FC<Props> = ({
   }, [selected]);
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading profiles..." />;
+    return <Spinner className="u-loader" text="正在加载配置文件..." />;
   }
 
   if (error) {
-    notify.failure("Loading profiles failed", error);
+    notify.failure("加载配置文件失败", error);
   }
 
   profiles.sort(defaultFirst);
@@ -70,15 +70,14 @@ const ProfileSelector: FC<Props> = ({
   };
 
   const getHelp = (index: number) => {
-    const profileIntro =
-      "Profiles store a set of configuration options, such as instance and device options.";
+    const profileIntro = "配置文件用于保存一组配置选项，例如实例和设备选项。";
 
     if (index > 0 && index === selected.length - 1) {
       return (
         <>
           {profileIntro}
           <br />
-          Each profile overrides the settings specified in previous profiles.
+          后面的配置文件会覆盖前面配置文件中已设置的项。
         </>
       );
     }
@@ -89,13 +88,13 @@ const ProfileSelector: FC<Props> = ({
 
   return (
     <>
-      <Label forId="profile-0">Profiles</Label>
+      <Label forId="profile-0">配置文件</Label>
       {selected.map((value, index) => (
         <div className="profile-select" key={value}>
           <div>
             <Select
               id={`profile-${index}`}
-              aria-label="Select a profile"
+              aria-label="选择配置文件"
               help={getHelp(index)}
               onChange={(e) => {
                 const newValues = [...selected];
@@ -133,8 +132,8 @@ const ProfileSelector: FC<Props> = ({
                     setSelected(newSelection);
                   }}
                   type="button"
-                  aria-label="move profile up"
-                  title={disabledReason ?? "move profile up"}
+                  aria-label="上移配置文件"
+                  title={disabledReason ?? "上移配置文件"}
                   disabled={!!disabledReason || index === 0}
                   hasIcon
                 >
@@ -150,8 +149,8 @@ const ProfileSelector: FC<Props> = ({
                     setSelected(newSelection);
                   }}
                   type="button"
-                  aria-label="move profile down"
-                  title={disabledReason ?? "move profile down"}
+                  aria-label="下移配置文件"
+                  title={disabledReason ?? "下移配置文件"}
                   disabled={!!disabledReason || index === selected.length - 1}
                   hasIcon
                 >
@@ -173,7 +172,7 @@ const ProfileSelector: FC<Props> = ({
                 hasIcon
               >
                 <Icon name="delete" />
-                <span>Remove</span>
+                <span>移除</span>
               </Button>
             )}
           </div>
@@ -190,7 +189,7 @@ const ProfileSelector: FC<Props> = ({
           hasIcon
         >
           <Icon name="plus" />
-          <span>Add profile</span>
+          <span>添加配置文件</span>
         </Button>
       )}
     </>

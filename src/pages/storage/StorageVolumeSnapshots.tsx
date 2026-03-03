@@ -189,7 +189,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
   }
 
   if (isSnapshotsLoading || isProjectLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   } else if (!volumeSnapshots) {
     return <>Loading storage volume snapshots failed</>;
   }
@@ -208,9 +208,9 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                   onChange={(value) => {
                     setQuery(value);
                   }}
-                  placeholder="Search for snapshots"
+                  placeholder="搜索快照"
                   value={query}
-                  aria-label="Search for snapshots"
+                  aria-label="搜索快照"
                 />
               </div>
               <VolumeConfigureSnapshotBtn
@@ -272,7 +272,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
                 rows={sortedRows}
                 responsive
                 sortable
-                emptyStateMsg="No snapshot found matching this search"
+                emptyStateMsg="未找到匹配搜索的快照"
                 itemName="snapshot"
                 parentName="instance"
                 selectedNames={selectedNames}
@@ -292,7 +292,7 @@ const StorageVolumeSnapshots: FC<Props> = ({ volume }) => {
         <EmptyState
           className="empty-state"
           image={<Icon name="snapshot" className="empty-state-icon" />}
-          title="No snapshots found"
+          title="未找到快照"
         >
           <p>
             {project && snapshotsDisabled ? (

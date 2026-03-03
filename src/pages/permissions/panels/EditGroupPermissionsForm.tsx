@@ -245,7 +245,7 @@ const EditGroupPermissionsForm: FC<Props> = ({
         <EmptyState
           className="empty-state empty-state__full-width"
           image={<Icon name="plans" className="empty-state-icon" />}
-          title="No permissions"
+          title="无权限"
         >
           <p>Select a permission above and add to the group</p>
         </EmptyState>

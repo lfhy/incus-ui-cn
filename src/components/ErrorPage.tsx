@@ -26,7 +26,7 @@ const ErrorPage: FC<Props> = ({ error }) => {
   const errorBlocks = [];
   if (error?.message) {
     errorBlocks.push({
-      title: "Error",
+      title: "错误",
       appearance: CodeSnippetBlockAppearance.NUMBERED,
       wrapLines: true,
       code: error.message,
@@ -35,17 +35,17 @@ const ErrorPage: FC<Props> = ({ error }) => {
 
   if (error?.message.toLowerCase().includes("dynamically imported module")) {
     errorBlocks.push({
-      title: "Possible causes",
+      title: "可能原因",
       appearance: CodeSnippetBlockAppearance.NUMBERED,
       wrapLines: true,
-      code: `This might be due to a temporary network issue. Please try refreshing the page.
-If the problem continues, ensure your connection to the LXD server is active or try again later.`,
+      code: `这可能是临时网络问题导致的，请尝试刷新页面。
+如果问题持续，请确认与 LXD 服务器的连接正常，或稍后重试。`,
     });
   }
 
   if (error?.stack) {
     errorBlocks.push({
-      title: "Stack trace",
+      title: "堆栈跟踪",
       appearance: CodeSnippetBlockAppearance.NUMBERED,
       wrapLines: true,
       code: error.stack,
@@ -54,10 +54,10 @@ If the problem continues, ensure your connection to the LXD server is active or 
 
   return (
     <Strip className="u-no-padding--bottom">
-      <Notification severity="negative" title="Error">
-        Something has gone wrong. If this issue persists,{" "}
+      <Notification severity="negative" title="错误">
+        系统发生异常。如果问题持续存在，{" "}
         <a href={url} rel="noopener noreferrer" target="_blank">
-          please raise an issue on GitHub.
+          请在 GitHub 上提交 issue。
         </a>
       </Notification>
       <CodeSnippet

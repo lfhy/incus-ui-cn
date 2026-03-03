@@ -1,15 +1,15 @@
-export const STATUS = "Status";
-export const NAME = "Name";
-export const TYPE = "Type";
-export const CLUSTER_MEMBER = "Location";
-export const DESCRIPTION = "Description";
-export const MEMORY = "Memory";
-export const FILESYSTEM = "Root filesystem";
+export const STATUS = "状态";
+export const NAME = "名称";
+export const TYPE = "类型";
+export const CLUSTER_MEMBER = "位置";
+export const DESCRIPTION = "描述";
+export const MEMORY = "内存";
+export const FILESYSTEM = "根文件系统";
 export const IPV4 = "IPv4";
 export const IPV6 = "IPv6";
-export const SNAPSHOTS = "Snapshots";
-export const PROJECT = "Project";
-export const ACTIONS = "Actions";
+export const SNAPSHOTS = "快照";
+export const PROJECT = "项目";
+export const ACTIONS = "操作";
 
 export const COLUMN_WIDTHS: Record<string, number> = {
   [NAME]: 170,

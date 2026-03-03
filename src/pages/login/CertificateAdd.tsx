@@ -18,7 +18,7 @@ const CertificateAdd: FC = () => {
   const notify = useNotify();
 
   if (isAuthLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   if (isAuthenticated) {

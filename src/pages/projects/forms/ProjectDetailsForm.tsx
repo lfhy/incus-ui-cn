@@ -139,8 +139,8 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             id="name"
             name="name"
             type="text"
-            label="Project name"
-            placeholder="Enter name"
+            label="项目名称"
+            placeholder="请输入名称"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -149,15 +149,15 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
             help={
               isEdit &&
               formik.values.name !== "default" &&
-              "Click the name in the header to rename the project"
+              "点击页眉中的名称可重命名项目"
             }
             required
           />
           <AutoExpandingTextArea
             id="description"
             name="description"
-            label="Description"
-            placeholder="Enter description"
+            label="描述"
+            placeholder="请输入描述"
             onBlur={formik.handleBlur}
             onChange={(e) => {
               ensureEditMode(formik);
@@ -173,20 +173,20 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               void formik.setFieldValue("default_instance_storage_pool", value)
             }
             selectProps={{
-              label: "Default instance storage pool",
+              label: "默认实例存储池",
               disabled:
                 (formik.values.features_profiles === false &&
                   features === "customised") ||
                 isEdit,
               help: isEdit ? (
                 <>
-                  Edit the storage pool in the{" "}
+                  请在{" "}
                   <ResourceLink
                     type="profile"
                     value="default"
                     to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
                   />{" "}
-                  {" profile"}
+                  配置文件中修改存储池
                 </>
               ) : (
                 ""
@@ -199,19 +199,19 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               void formik.setFieldValue("default_project_network", value)
             }
             hasNoneOption
-            label="Default profile network"
+            label="默认配置文件网络"
             disabled={hasNoProfiles || hasIsolatedNetworks || isEdit}
             filteredNetworks={filteredNetworks}
             help={
               isEdit ? (
                 <>
-                  Configure networks in the{" "}
+                  请在{" "}
                   <ResourceLink
                     type="profile"
                     value="default"
                     to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/profile/default`}
                   />{" "}
-                  profile
+                  配置文件中配置网络
                 </>
               ) : (
                 ""
@@ -221,15 +221,13 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
           <div
             title={
               formik.values.editRestriction ??
-              (isDefaultProject
-                ? "Custom features are immutable on the default project"
-                : "")
+              (isDefaultProject ? "默认项目的自定义功能不可修改" : "")
             }
           >
             <Select
               id="features"
               name="features"
-              label="Features"
+              label="功能"
               onChange={(e) => {
                 ensureEditMode(formik);
                 setFeatures(e.target.value);
@@ -243,11 +241,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               value={features}
               options={[
                 {
-                  label: "Default LXD",
+                  label: "默认 LXD",
                   value: "default",
                 },
                 {
-                  label: "Customised",
+                  label: "自定义",
                   value: "customised",
                 },
               ]}
@@ -261,11 +259,11 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
 
             {features === "customised" && (
               <>
-                Isolate the following features:
+                隔离以下功能：
                 {!isDefaultProject && (
                   <>
                     {" "}
-                    <Tooltip message="Unselected features will be shared with the default project">
+                    <Tooltip message="未勾选的功能将与默认项目共享">
                       <Icon name="information" />
                     </Tooltip>
                   </>
@@ -273,7 +271,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 <CheckboxInput
                   id="features_images"
                   name="features_images"
-                  label="Images"
+                  label="镜像"
                   onChange={() => {
                     ensureEditMode(formik);
                     formik.setFieldValue(
@@ -291,7 +289,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 <CheckboxInput
                   id="features_profiles"
                   name="features_profiles"
-                  label="Profiles"
+                  label="配置文件"
                   onChange={() => {
                     ensureEditMode(formik);
                     const newValue = !formik.values.features_profiles;
@@ -310,7 +308,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 <CheckboxInput
                   id="features_networks"
                   name="features_networks"
-                  label="Networks"
+                  label="网络"
                   onChange={() => {
                     ensureEditMode(formik);
                     formik.setFieldValue(
@@ -334,7 +332,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   <CheckboxInput
                     id="features_networks_zones"
                     name="features_networks_zones"
-                    label="Network zones"
+                    label="网络区域"
                     onChange={() => {
                       ensureEditMode(formik);
                       formik.setFieldValue(
@@ -354,7 +352,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                   <CheckboxInput
                     id="features_storage_buckets"
                     name="features_storage_buckets"
-                    label="Storage buckets"
+                    label="存储桶"
                     onChange={() => {
                       ensureEditMode(formik);
                       formik.setFieldValue(
@@ -373,7 +371,7 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
                 <CheckboxInput
                   id="features_storage_volumes"
                   name="features_storage_volumes"
-                  label="Storage volumes"
+                  label="存储卷"
                   onChange={() => {
                     ensureEditMode(formik);
                     formik.setFieldValue(
@@ -399,10 +397,10 @@ const ProjectDetailsForm: FC<Props> = ({ formik, project, isEdit }) => {
               name="custom_restrictions"
               label={
                 <>
-                  Allow custom restrictions on a project level
+                  允许在项目级别自定义限制
                   <Tooltip
                     className="checkbox-label-tooltip"
-                    message={`Custom restrictions are only available${"\n"}to projects with enabled profiles`}
+                    message={`仅启用配置文件功能的项目${"\n"}可使用自定义限制`}
                   >
                     <Icon name="information" />
                   </Tooltip>

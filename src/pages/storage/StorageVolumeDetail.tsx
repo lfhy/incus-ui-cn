@@ -59,7 +59,7 @@ const StorageVolumeDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   } else if (!volume) {
     return <>Loading storage volume failed</>;
   }

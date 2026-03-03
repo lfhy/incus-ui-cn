@@ -19,11 +19,7 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       appearance="positive"
       className={className}
       hasIcon={!isSmallScreen}
-      title={
-        canCreateStoragePools()
-          ? ""
-          : "You do not have permission to create storage pools"
-      }
+      title={canCreateStoragePools() ? "" : "你没有创建存储池的权限"}
       onClick={async () =>
         navigate(
           `/ui/project/${encodeURIComponent(project)}/storage/pools/create`,
@@ -32,7 +28,7 @@ const CreateStoragePoolBtn: FC<Props> = ({ project, className }) => {
       disabled={!canCreateStoragePools()}
     >
       {!isSmallScreen && <Icon name="plus" light />}
-      <span>Create pool</span>
+      <span>创建存储池</span>
     </Button>
   );
 };

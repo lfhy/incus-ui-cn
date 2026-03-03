@@ -13,56 +13,56 @@ const ClusterMemberDetailCPU: FC<Props> = ({ resources, state }) => {
     <table>
       <tbody>
         <tr>
-          <th className="u-text--muted">Architecture</th>
+          <th className="u-text--muted">架构</th>
           <td>{resources?.cpu.architecture}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Total</th>
+          <th className="u-text--muted">总数</th>
           <td>{resources?.cpu.total}</td>
         </tr>
         {state && (
           <tr>
-            <th className="u-text--muted">Logical</th>
+            <th className="u-text--muted">逻辑 CPU 数</th>
             <td>{state?.sysinfo.logical_cpus}</td>
           </tr>
         )}
         <tr>
-          <th className="u-text--muted">Sockets</th>
+          <th className="u-text--muted">插槽</th>
           <td>
             {resources?.cpu.sockets?.map((socket, index) => (
               <div key={index}>
                 <strong>{socket.name}</strong>
-                <div>Vendor: {socket.vendor}</div>
-                <div>Socket #: {socket.socket}</div>
+                <div>厂商： {socket.vendor}</div>
+                <div>插槽号： {socket.socket}</div>
 
                 {/* Cache info */}
                 {(socket.cache ?? []).length > 0 && (
                   <div>
-                    Cache:
+                    缓存：
                     <ul>
                       {socket.cache?.map((c, i) => (
                         <li key={i}>
-                          Level {c.level} {c.type} - {humanFileSize(c.size)}
+                          级别 {c.level} {c.type} - {humanFileSize(c.size)}
                         </li>
                       ))}
                     </ul>
                   </div>
                 )}
 
-                {/* Core info */}
+                {/* 核心 info */}
                 {(socket.cores ?? []).length > 0 && (
                   <div>
-                    Cores:
+                    核心：
                     <ul>
                       {socket.cores?.map((core, i) => (
                         <li key={i}>
-                          Core {core.core}, Die {core.die}
+                          核心 {core.core}, 晶粒 {core.die}
                           <ul>
                             {core.threads?.map((thread, j) => (
                               <li key={j}>
-                                Thread {thread.id} (NUMA {thread.numa_node}) -{" "}
-                                {thread.online ? "Online" : "Offline"},{" "}
-                                {thread.isolated ? "Isolated" : "Not isolated"}
+                                线程 {thread.id} (NUMA {thread.numa_node}) -{" "}
+                                {thread.online ? "在线" : "离线"},{" "}
+                                {thread.isolated ? "已隔离" : "未隔离"}
                               </li>
                             ))}
                           </ul>
@@ -72,7 +72,7 @@ const ClusterMemberDetailCPU: FC<Props> = ({ resources, state }) => {
                   </div>
                 )}
               </div>
-            )) || "None"}
+            )) || "无"}
           </td>
         </tr>
       </tbody>

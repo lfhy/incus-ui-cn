@@ -11,12 +11,14 @@ import ProjectSelectorList from "pages/projects/ProjectSelectorList";
 import { defaultFirst } from "util/helpers";
 import { useProjects } from "context/useProjects";
 import { useServerEntitlements } from "util/entitlements/server";
+import { useI18n } from "i18n/context";
 
 interface Props {
   activeProject: string;
 }
 
 const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const searchRef = useRef<HTMLInputElement>(null);
   const { canCreateProjects } = useServerEntitlements();
@@ -37,13 +39,13 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
 
   return (
     <>
-      <div className="project-select-label">Project</div>
+      <div className="project-select-label">{t("project")}</div>
       <ContextualMenu
-        dropdownProps={{ "aria-label": "select project" }}
+        dropdownProps={{ "aria-label": t("project") }}
         toggleClassName="toggle is-dark"
         toggleLabel={activeProject}
         hasToggleIcon
-        title={`Select project (${activeProject})`}
+        title={t("selectProject", { project: activeProject })}
         className="project-select is-dark"
       >
         <div className="list is-dark" key="my-div">
@@ -54,7 +56,7 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
               autoFocus={true}
               autocomplete="off"
               name="query"
-              placeholder="Search"
+              placeholder={t("search")}
               onChange={(val) => {
                 updateQuery(val);
               }}
@@ -69,7 +71,7 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
             hasIcon
           >
             <Icon name="folder" light />
-            <span>All projects</span>
+            <span>{t("allProjects")}</span>
           </Button>
           <ProjectSelectorList projects={projects} onMount={onChildMount} />
           <hr className="is-dark" />
@@ -83,11 +85,11 @@ const ProjectSelector: FC<Props> = ({ activeProject }): React.JSX.Element => {
             title={
               canCreateProjects()
                 ? ""
-                : "You do not have permission to create projects"
+                : t("noPermissionCreateProjects")
             }
           >
             <Icon name="plus" light />
-            <span>Create project</span>
+            <span>{t("createProject")}</span>
           </Button>
         </div>
       </ContextualMenu>

@@ -1,7 +1,7 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { Button, usePortal } from "@canonical/react-components";
 import UseOCIModal from "../forms/UseOCIModal";
-import { LxdImageType, RemoteImage } from "types/image";
+import type { LxdImageType, RemoteImage } from "types/image";
 
 interface Props {
   onSelect: (image: RemoteImage, type?: LxdImageType) => void;
@@ -18,7 +18,7 @@ const UseOCIBtn: FC<Props> = ({ onSelect }) => {
   return (
     <>
       <Button onClick={openPortal} type="button">
-        <span>Use OCI</span>
+        <span>使用 OCI</span>
       </Button>
       {isOpen && (
         <Portal>

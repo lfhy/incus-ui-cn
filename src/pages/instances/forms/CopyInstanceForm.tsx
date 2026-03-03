@@ -208,7 +208,7 @@ const CopyInstanceForm: FC<Props> = ({ instance, close }) => {
             type="button"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"

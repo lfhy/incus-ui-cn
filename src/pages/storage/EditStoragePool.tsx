@@ -185,7 +185,7 @@ const EditStoragePool: FC<Props> = ({ pool }) => {
                 );
               }}
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

@@ -71,7 +71,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
             onFinish(name, pool);
           },
           (msg) => {
-            setError(failure("Custom ISO upload failed", new Error(msg)));
+            setError(failure("自定义 ISO 上传失败", new Error(msg)));
           },
           () => {
             setLoading(false);
@@ -89,7 +89,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
       })
       .catch((e: AxiosError<LxdSyncResponse<null>>) => {
         const error = new Error(e.response?.data.error);
-        setError(failure("Custom ISO upload failed", error));
+        setError(failure("自定义 ISO 上传失败", error));
         setLoading(false);
         setUploadState(null);
       });
@@ -127,7 +127,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           name="iso"
           type="file"
           id="iso-image"
-          label="Local file"
+          label="本地文件"
           onChange={changeFile}
           stacked
         />
@@ -135,7 +135,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           name="name"
           type="text"
           id="name"
-          label="Alias"
+          label="别名"
           value={name}
           onChange={(e) => {
             setName(e.target.value);
@@ -144,8 +144,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           error={
             name && !isValidISOAlias(name) ? (
               <div className="alias-error">
-                Only alphanumeric characters, periods or hyphens are allowed in
-                this field
+                此字段仅允许字母数字字符、点号或连字符
               </div>
             ) : undefined
           }
@@ -156,7 +155,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           setValue={setPool}
           selectProps={{
             id: "storagePool",
-            label: "Storage pool",
+            label: "存储池",
             disabled: file === null,
             stacked: true,
           }}
@@ -166,11 +165,11 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
         <>
           <ProgressBar percentage={Math.floor(uploadState.percentage)} />
           <p>
-            {humanFileSize(uploadState.loaded)} loaded of{" "}
+            已上传 {humanFileSize(uploadState.loaded)} /{" "}
             {humanFileSize(uploadState.total ?? 0)}
           </p>
           {uploadState.loaded === uploadState.total && (
-            <Spinner className="u-loader" text="Validating ISO" />
+            <Spinner className="u-loader" text="正在校验 ISO" />
           )}
         </>
       )}
@@ -180,7 +179,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           onClick={handleCancel}
           className="u-no-margin--bottom"
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -189,7 +188,7 @@ const UploadCustomIso: FC<Props> = ({ onCancel, onFinish }) => {
           className="u-no-margin--bottom"
           onClick={importFile}
         >
-          Upload
+          上传
         </ActionButton>
       </footer>
     </>

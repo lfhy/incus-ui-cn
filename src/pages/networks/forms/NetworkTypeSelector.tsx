@@ -23,7 +23,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
       help={
         formik.values.networkType === ovnType ? (
           <DocLink docPath="/howto/network_ovn_setup/#set-up-a-lxd-cluster-on-ovn">
-            Learn how to set up OVN
+            了解如何配置 OVN
           </DocLink>
         ) : undefined
       }
@@ -33,14 +33,13 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
         {
           label: (
             <div className="label network-type-label">
-              <span className="network-type-name">Bridge</span>
+              <span className="network-type-name">桥接</span>
               <span className="network-type-explanation u-text--muted">
-                Setup local virtual subnet providing NAT, DHCP and DNS to
-                instances.
+                创建本地虚拟子网，为实例提供 NAT、DHCP 和 DNS。
               </span>
             </div>
           ),
-          text: "Bridge",
+          text: "桥接",
           value: bridgeType,
         },
         {
@@ -48,8 +47,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
             <div className="label network-type-label">
               <span className="network-type-name">Macvlan</span>
               <span className="network-type-explanation u-text--muted">
-                Connect instances to an existing network interface without a
-                bridge.
+                无需桥接，将实例连接到现有网络接口。
               </span>
             </div>
           ),
@@ -61,8 +59,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
             <div className="label network-type-label">
               <div className="network-type-name">OVN</div>
               <div className="network-type-explanation u-text--muted">
-                Setup cluster-wide virtual subnet providing NAT, DHCP and DNS to
-                instances.
+                创建集群级虚拟子网，为实例提供 NAT、DHCP 和 DNS。
               </div>
             </div>
           ),
@@ -72,14 +69,13 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
         {
           label: (
             <div className="label network-type-label">
-              <span className="network-type-name">Physical</span>
+              <span className="network-type-name">物理</span>
               <span className="network-type-explanation u-text--muted">
-                Define OVN uplink or pass-through existing physical interface to
-                one instance.
+                定义 OVN 上行链路，或将现有物理接口直通给单个实例。
               </span>
             </div>
           ),
-          text: "Physical",
+          text: "物理",
           value: physicalType,
         },
         {
@@ -87,7 +83,7 @@ const NetworkTypeSelector: FC<Props> = ({ formik }) => {
             <div className="label network-type-label">
               <span className="network-type-name">SR-IOV</span>
               <span className="network-type-explanation u-text--muted">
-                Connect instances to an existing SR-IOV network interface.
+                将实例连接到现有 SR-IOV 网络接口。
               </span>
             </div>
           ),

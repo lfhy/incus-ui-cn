@@ -46,7 +46,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
   } = useProfiles(project);
 
   if (profileError) {
-    notify.failure("Loading profiles failed", profileError);
+    notify.failure("加载配置文件失败", profileError);
   }
 
   const inheritedGPUs = getInheritedGPUs(formik.values, profiles);
@@ -90,14 +90,14 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
         ),
         inherited: (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
+            来源：{item.source}
           </div>
         ),
         override: isNoneDevice ? (
           <Button
             appearance="base"
             type="button"
-            title="Reattach GPU"
+            title="重新挂载 GPU"
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -105,7 +105,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             className="has-icon u-no-margin--bottom"
           >
             <Icon name="connected"></Icon>
-            <span>Reattach</span>
+            <span>重新挂载</span>
           </Button>
         ) : (
           <Button
@@ -117,11 +117,11 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             }}
             className="has-icon u-no-margin--bottom"
             dense
-            title={formik.values.editRestriction ?? "Detach GPU"}
+            title={formik.values.editRestriction ?? "卸载 GPU"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect"></Icon>
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -176,11 +176,11 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction ?? "Detach GPU"}
+            title={formik.values.editRestriction ?? "卸载 GPU"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -202,7 +202,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
 
     customRows.push(
       getInheritedDeviceRow({
-        label: "Identify by",
+        label: "识别方式",
         inheritValue: (
           <GPUDeviceInput
             device={device}
@@ -220,7 +220,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
   });
 
   if (isProfileLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   return (
@@ -228,20 +228,20 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       {/* hidden submit to enable enter key in inputs */}
       <Input type="submit" hidden value="Hidden input" />
 
-      <Notification severity="information" title="GPU passthrough">
-        Learn more about{" "}
+      <Notification severity="information" title="GPU 透传">
+        了解更多关于
         <DocLink docPath="/reference/devices_gpu/#devices-gpu">
-          GPU devices
+          GPU 设备
         </DocLink>{" "}
-        and{" "}
+        以及
         <DocLink docPath="/howto/container_gpu_passthrough_with_docker/#container-gpu-passthrough-with-docker">
-          container GPU passthrough with Docker
+          通过 Docker 在容器中进行 GPU 透传
         </DocLink>
       </Notification>
 
       {inheritedRows.length > 0 && (
         <div className="inherited-devices">
-          <h2 className="p-heading--4">Inherited GPU devices</h2>
+          <h2 className="p-heading--4">继承 GPU 设备</h2>
           <ConfigurationTable rows={inheritedRows} />
         </div>
       )}
@@ -249,7 +249,7 @@ const GPUDevicesForm: FC<Props> = ({ formik, project }) => {
       {hasCustomGPU && (
         <div className="custom-devices">
           <h2 className="p-heading--4 custom-devices-heading">
-            Custom GPU devices
+            自定义 GPU 设备
           </h2>
           <ConfigurationTable rows={customRows} />
         </div>

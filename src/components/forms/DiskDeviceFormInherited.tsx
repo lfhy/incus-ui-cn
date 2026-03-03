@@ -7,10 +7,10 @@ import { getConfigurationRowBase } from "components/ConfigurationRow";
 import type { InheritedDiskDevice } from "util/configInheritance";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import classnames from "classnames";
+import type { FormDiskDevice } from "util/formDevices";
 import {
   addNoneDevice,
   findNoneDeviceIndex,
-  FormDiskDevice,
   removeDevice,
 } from "util/formDevices";
 import DetachDiskDeviceBtn from "pages/instances/actions/DetachDiskDeviceBtn";
@@ -49,14 +49,14 @@ const DiskDeviceFormInherited: FC<Props> = ({
         ),
         inherited: (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
+            来源：{item.source}
           </div>
         ),
         override: isNoneDevice ? (
           <Button
             appearance="base"
             type="button"
-            title={formik.values.editRestriction ?? "Reattach device"}
+            title={formik.values.editRestriction ?? "重新挂载设备"}
             onClick={() => {
               ensureEditMode(formik);
               removeDevice(noneDeviceId, formik);
@@ -65,7 +65,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="connected"></Icon>
-            <span>Reattach</span>
+            <span>重新挂载</span>
           </Button>
         ) : (
           <DetachDiskDeviceBtn
@@ -82,7 +82,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
     if (isHostDiskDevice(item.disk)) {
       rows.push(
         getInheritedDeviceRow({
-          label: "Host path",
+          label: "主机路径",
           inheritValue: item.disk.source,
           readOnly: readOnly,
           isDeactivated: isNoneDevice,
@@ -92,7 +92,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
     } else if (isSpecialDisk(item.disk as FormDiskDevice)) {
       rows.push(
         getInheritedDeviceRow({
-          label: "Special device",
+          label: "特殊设备",
           inheritValue: item.disk.source,
           readOnly: readOnly,
         }),
@@ -100,7 +100,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
     } else {
       rows.push(
         getInheritedDeviceRow({
-          label: "Pool / volume",
+          label: "存储池 / 卷",
           inheritValue: (
             <>
               {item.disk.pool} / {item.disk.source}
@@ -115,7 +115,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
 
     rows.push(
       getInheritedDeviceRow({
-        label: "Mount point",
+        label: "挂载点",
         inheritValue: item.disk.path,
         readOnly: readOnly,
         isDeactivated: isNoneDevice,
@@ -126,7 +126,7 @@ const DiskDeviceFormInherited: FC<Props> = ({
 
   return inheritedDiskDevices.length > 0 ? (
     <div className="inherited-devices">
-      <h2 className="p-heading--4">Inherited disk devices</h2>
+      <h2 className="p-heading--4">继承磁盘设备</h2>
       <ConfigurationTable rows={rows} />
     </div>
   ) : null;

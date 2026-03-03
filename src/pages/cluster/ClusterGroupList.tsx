@@ -133,7 +133,7 @@ const ClusterGroupList: FC = () => {
       title={
         <HelpLink
           docPath="/explanation/clustering/#cluster-groups"
-          title="Learn more about cluster groups"
+          title="了解更多集群组"
         >
           Cluster groups
         </HelpLink>

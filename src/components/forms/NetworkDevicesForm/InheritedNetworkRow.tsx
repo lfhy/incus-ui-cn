@@ -54,7 +54,7 @@ export const getInheritedNetworkRow = ({
             "u-text--line-through": isOverridden,
           })}
         >
-          From profile{" "}
+          来源配置文件{" "}
           <ResourceLink
             type="profile"
             value={device.sourceProfile}
@@ -70,7 +70,7 @@ export const getInheritedNetworkRow = ({
             "u-text--line-through": isOverridden,
           })}
         >
-          Network
+          网络
         </div>
         <ResourceLink
           type="network"

@@ -56,7 +56,7 @@ const YamlSwitch: FC<Props> = ({
         </Portal>
       )}
       <Switch
-        label={isSmallScreen ? "YAML" : "YAML Configuration"}
+        label={isSmallScreen ? "YAML" : "YAML 配置"}
         checked={isChecked}
         onChange={handleSwitch}
         disabled={disableReason !== undefined}

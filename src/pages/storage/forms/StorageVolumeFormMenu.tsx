@@ -8,9 +8,9 @@ import type { StorageVolumeFormValues } from "pages/storage/forms/StorageVolumeF
 import type { LxdStorageVolumeContentType } from "types/storage";
 import { driversWithFilesystemSupport, zfsDriver } from "util/storageOptions";
 
-export const MAIN_CONFIGURATION = "Main configuration";
-export const SNAPSHOTS = "Snapshots";
-export const FILESYSTEM = "Filesystem";
+export const MAIN_CONFIGURATION = "主配置";
+export const SNAPSHOTS = "快照";
+export const FILESYSTEM = "文件系统";
 export const ZFS = "ZFS";
 
 interface Props {
@@ -35,9 +35,7 @@ const StorageVolumeFormMenu: FC<Props> = ({
   };
 
   const hasName = formik.values.name.length > 0;
-  const disableReason = hasName
-    ? undefined
-    : "Please enter a volume name to enable this section";
+  const disableReason = hasName ? undefined : "请先输入卷名称以启用该部分";
 
   const resize = () => {
     updateMaxHeight("form-navigation", "p-bottom-controls");
@@ -46,7 +44,7 @@ const StorageVolumeFormMenu: FC<Props> = ({
   useListener(window, resize, "resize", true);
   return (
     <div className="p-side-navigation--accordion form-navigation">
-      <nav aria-label="Storage volume form navigation">
+      <nav aria-label="存储卷表单导航">
         <ul className="p-side-navigation__list">
           <MenuItem label={MAIN_CONFIGURATION} {...menuItemProps} />
           <MenuItem

@@ -29,7 +29,7 @@ const OperationList: FC = () => {
   const [query, setQuery] = useState<string>("");
 
   if (error) {
-    notify.failure("Loading operations failed", error);
+    notify.failure("加载操作失败", error);
   }
 
   const headers = [
@@ -152,16 +152,16 @@ const OperationList: FC = () => {
         header={
           <PageHeader>
             <PageHeader.Left>
-              <PageHeader.Title>Ongoing operations</PageHeader.Title>
+              <PageHeader.Title>进行中的操作</PageHeader.Title>
               {operations.length > 0 && (
                 <PageHeader.Search>
                   <SearchBox
                     className="search-box margin-right u-no-margin--bottom"
                     name="search-operations"
                     onChange={setQuery}
-                    placeholder="Search"
+                    placeholder="搜索"
                     value={query}
-                    aria-label="Search"
+                    aria-label="搜索"
                   />
                 </PageHeader.Search>
               )}
@@ -183,7 +183,7 @@ const OperationList: FC = () => {
               <TablePagination
                 data={sortedRows}
                 id="pagination"
-                itemName="operation"
+                itemName="操作"
                 className="u-no-margin--top"
                 aria-label="Table pagination control"
               >
@@ -195,12 +195,9 @@ const OperationList: FC = () => {
                   onUpdateSort={updateSort}
                   emptyStateMsg={
                     isLoading ? (
-                      <Spinner
-                        className="u-loader"
-                        text="Loading operations..."
-                      />
+                      <Spinner className="u-loader" text="正在加载操作..." />
                     ) : (
-                      "No matching operations found"
+                      "未找到匹配的操作"
                     )
                   }
                 />
@@ -211,9 +208,9 @@ const OperationList: FC = () => {
             <EmptyState
               className="empty-state"
               image={<Icon name="status" className="empty-state-icon" />}
-              title="No operations found"
+              title="未找到操作"
             >
-              <p>There are no ongoing operations.</p>
+              <p>当前没有进行中的操作。</p>
             </EmptyState>
           )}
         </Row>

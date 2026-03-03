@@ -23,8 +23,8 @@ const InstanceStoragePoolMigration: FC<Props> = ({
   onCancel,
   migrate,
 }) => {
-
-  const enabledTargetMember = instance.type === 'virtual-machine' && instance.status === 'Running';
+  const enabledTargetMember =
+    instance.type === "virtual-machine" && instance.status === "Running";
   const [targetMember, setTargetMember] = useState("");
 
   const { data: members = [], isLoading } = useQuery({
@@ -36,7 +36,7 @@ const InstanceStoragePoolMigration: FC<Props> = ({
   const memberOptions = members
     .filter((item) => item.server_name !== instance.location)
     .map((item) => {
-      return { label: item.server_name , value: item.server_name };
+      return { label: item.server_name, value: item.server_name };
     });
 
   useEffect(() => {
@@ -50,8 +50,18 @@ const InstanceStoragePoolMigration: FC<Props> = ({
       <p>
         This will migrate the instance <strong>{instance.name}</strong> root
         storage to pool <b>{targetPool}</b>.
-        {enabledTargetMember && (<> Select target server:
-        <Select options={memberOptions} onChange={(e) => setTargetMember(e.target.value)}/></>)}
+        {enabledTargetMember && (
+          <>
+            {" "}
+            Select target server:
+            <Select
+              options={memberOptions}
+              onChange={(e) => {
+                setTargetMember(e.target.value);
+              }}
+            />
+          </>
+        )}
       </p>
     </div>
   );
@@ -76,12 +86,14 @@ const InstanceStoragePoolMigration: FC<Props> = ({
           appearance="base"
           onClick={onCancel}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(targetMember)}
+          onClick={() => {
+            migrate(targetMember);
+          }}
           disabled={!targetPool}
         >
           Migrate

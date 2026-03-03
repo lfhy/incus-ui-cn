@@ -22,7 +22,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
   const { project } = useParams<{ project: string }>();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const onFailure = (title: string, e: unknown) => {
@@ -51,19 +51,19 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
     <div className="profile-overview-tab">
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--5">General</h2>
+          <h2 className="p-heading--5">概览</h2>
         </Col>
         <Col size={7}>
           <table>
             <tbody>
               <tr>
-                <th className="u-text--muted">Name</th>
+                <th className="u-text--muted">名称</th>
                 <td>
                   <ItemName item={profile} />
                 </td>
               </tr>
               <tr>
-                <th className="u-text--muted">Description</th>
+                <th className="u-text--muted">描述</th>
                 <td>{profile.description ? profile.description : "-"}</td>
               </tr>
             </tbody>
@@ -73,7 +73,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
 
       <Row className="networks">
         <Col size={3}>
-          <h2 className="p-heading--5">Networks</h2>
+          <h2 className="p-heading--5">网络</h2>
         </Col>
         <Col size={7}>
           <NetworkListTable devices={profile.devices} onFailure={onFailure} />
@@ -81,7 +81,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row className="devices">
         <Col size={3}>
-          <h2 className="p-heading--5">Devices</h2>
+          <h2 className="p-heading--5">设备</h2>
         </Col>
         <Col size={7}>
           <DeviceListTable
@@ -92,7 +92,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
       </Row>
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--5">Limits</h2>
+          <h2 className="p-heading--5">限制</h2>
         </Col>
         <Col size={7}>
           <table>
@@ -102,7 +102,7 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
                 <td>{profile.config["limits.cpu"] || "-"}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Memory</th>
+                <th className="u-text--muted">内存</th>
                 <td>{profile.config["limits.memory"] || "-"}</td>
               </tr>
             </tbody>
@@ -115,19 +115,19 @@ const ProfileDetailOverview: FC<Props> = ({ profile }) => {
         })}
       >
         <Col size={3}>
-          <h2 className="p-heading--5">Cloud init</h2>
+          <h2 className="p-heading--5">Cloud 初始化</h2>
         </Col>
         <Col size={7} className="view-config">
           <Link
             to={`/ui/project/${encodeURIComponent(project)}/profile/${encodeURIComponent(profile.name)}/configuration/${slugify(CLOUD_INIT)}`}
           >
-            View configuration
+            查看配置
           </Link>
         </Col>
       </Row>
       <Row className="usage list-wrapper">
         <Col size={3}>
-          <h2 className="p-heading--5">Usage ({usageCount})</h2>
+          <h2 className="p-heading--5">使用情况（{usageCount}）</h2>
         </Col>
         <Col size={7}>
           {usageCount > 0 ? (

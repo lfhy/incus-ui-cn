@@ -165,9 +165,9 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
                   onChange={(value) => {
                     setQuery(value);
                   }}
-                  placeholder="Search for keys"
+                  placeholder="搜索密钥"
                   value={query}
-                  aria-label="Search for keys"
+                  aria-label="搜索密钥"
                 />
               </div>
               <CreateStorageBucketKeyBtn />
@@ -220,7 +220,7 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
                 headers={headers}
                 rows={sortedRows}
                 sortable
-                emptyStateMsg="No key found matching this search"
+                emptyStateMsg="未找到匹配搜索的密钥"
                 itemName="key"
                 parentName="bucket"
                 selectedNames={selectedNames}
@@ -239,7 +239,7 @@ const StorageBucketKeys: FC<Props> = ({ bucket }) => {
         <EmptyState
           className="empty-state"
           image={<Icon name="private-key" className="empty-state-icon" />}
-          title="No keys"
+          title="无密钥"
         >
           <p>This bucket does not contain any keys.</p>
           <p>

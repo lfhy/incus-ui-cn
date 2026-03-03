@@ -39,20 +39,20 @@ const CreateStorageBucketPanel: FC = () => {
       .test(
         ...testDuplicateStorageBucketName(panelParams.project, controllerState),
       )
-      .required("Bucket name is required"),
-    pool: Yup.string().required("Pool must have a Ceph Object driver"),
+      .required("存储桶名称为必填项"),
+    pool: Yup.string().required("存储池必须使用 Ceph Object 驱动"),
   });
 
   const handleSuccess = (bucketName: string, pool: string) => {
     toastNotify.success(
       <>
-        Bucket{" "}
+        存储桶{" "}
         <ResourceLink
           type="bucket"
           value={bucketName}
           to={getStorageBucketURL(bucketName, pool, panelParams.project)}
         />{" "}
-        created.
+        已创建。
       </>,
     );
     closePanel();
@@ -88,7 +88,7 @@ const CreateStorageBucketPanel: FC = () => {
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure(`Bucket creation failed`, e);
+          notify.failure(`创建存储桶失败`, e);
         });
     },
   });
@@ -97,7 +97,7 @@ const CreateStorageBucketPanel: FC = () => {
     <>
       <SidePanel>
         <SidePanel.Header>
-          <SidePanel.HeaderTitle>Create storage bucket</SidePanel.HeaderTitle>
+          <SidePanel.HeaderTitle>创建存储桶</SidePanel.HeaderTitle>
         </SidePanel.Header>
         <NotificationRow className="u-no-padding" />
         <SidePanel.Content className="u-no-padding">
@@ -114,7 +114,7 @@ const CreateStorageBucketPanel: FC = () => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -125,7 +125,7 @@ const CreateStorageBucketPanel: FC = () => {
               !formik.isValid || formik.isSubmitting || !formik.values.name
             }
           >
-            Create bucket
+            创建存储桶
           </ActionButton>
         </SidePanel.Footer>
       </SidePanel>

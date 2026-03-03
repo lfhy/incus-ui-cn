@@ -59,12 +59,12 @@ const CreateImageFromInstanceBtn: FC<Props> = ({
         appearance="default"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         onClick={openPortal}
-        aria-label="Create image"
-        title={getDisabledReason() || "Create image"}
+        aria-label="创建镜像"
+        title={getDisabledReason() || "创建镜像"}
         disabled={Boolean(getDisabledReason())}
       >
         <Icon name="plus" />
-        <span>Create Image</span>
+        <span>创建镜像</span>
       </ActionButton>
     </>
   );

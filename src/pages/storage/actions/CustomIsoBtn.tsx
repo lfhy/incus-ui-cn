@@ -26,7 +26,7 @@ const CustomIsoBtn: FC<Props> = ({ project }) => {
       element="a"
     >
       {!isSmallScreen && <Icon name="iso" />}
-      <span>Custom ISOs</span>
+      <span>自定义 ISO</span>
     </Button>
   );
 };

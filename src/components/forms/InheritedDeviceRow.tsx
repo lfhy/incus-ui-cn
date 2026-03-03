@@ -78,7 +78,7 @@ export const getInheritedDeviceRow = ({
         </div>
         {inheritSource && (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {inheritSource}
+            来源：{inheritSource}
           </div>
         )}
       </div>
@@ -100,7 +100,7 @@ export const getInheritedDeviceRow = ({
               onClick={clearOverride}
               type="button"
               appearance="base"
-              title={disabledReason ?? "Clear override"}
+              title={disabledReason ?? "清除覆盖"}
               hasIcon
               className="u-no-margin--bottom"
               disabled={!!disabledReason}
@@ -116,7 +116,7 @@ export const getInheritedDeviceRow = ({
           onClick={addOverride}
           type="button"
           appearance="base"
-          title={disabledReason ?? "Create override"}
+          title={disabledReason ?? "创建覆盖"}
           className="u-no-margin--bottom"
           hasIcon
           disabled={!!disabledReason}

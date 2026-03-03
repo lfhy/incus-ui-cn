@@ -2,6 +2,7 @@ import type { FC } from "react";
 import { useEffect } from "react";
 import {
   Button,
+  Spinner,
   useListener,
   useNotify,
   useToastNotification,
@@ -45,12 +46,21 @@ const EditProject: FC<Props> = ({ project }) => {
     useSupportedFeatures();
   const { canEditProject } = useProjectEntitlements();
 
-  const { data: profile } = useProfile("default", project.name);
+  const {
+    data: profile,
+    isLoading: isProfileLoading,
+    error: profileError,
+  } = useProfile("default", project.name);
   const updateFormHeight = () => {
     updateMaxHeight("form-contents", "p-bottom-controls");
   };
   useEffect(updateFormHeight, [notify.notification?.message, section]);
   useListener(window, updateFormHeight, "resize", true);
+  useEffect(() => {
+    if (profileError) {
+      notify.failure("加载默认配置文件失败", profileError);
+    }
+  }, [profileError]);
 
   const ProjectSchema = Yup.object().shape({
     name: Yup.string().required(),
@@ -58,7 +68,7 @@ const EditProject: FC<Props> = ({ project }) => {
 
   const editRestriction = canEditProject(project)
     ? undefined
-    : "You do not have permission to edit this project";
+    : "你没有编辑此项目的权限";
   const initialValues = getProjectEditValues(project, profile, editRestriction);
 
   const formik: FormikProps<ProjectFormValues> = useFormik({
@@ -82,19 +92,19 @@ const EditProject: FC<Props> = ({ project }) => {
         .then(() => {
           toastNotify.success(
             <>
-              Project{" "}
+              项目{" "}
               <ResourceLink
                 type="project"
                 value={project.name}
                 to={`/ui/project/${encodeURIComponent(project.name)}/instances`}
               />{" "}
-              updated.
+              已更新。
             </>,
           );
           formik.setFieldValue("readOnly", true);
         })
         .catch((e: Error) => {
-          notify.failure("Project update failed", e);
+          notify.failure("项目更新失败", e);
         })
         .finally(() => {
           formik.setSubmitting(false);
@@ -114,6 +124,10 @@ const EditProject: FC<Props> = ({ project }) => {
       navigate(`${baseUrl}/${slugify(newSection)}`);
     }
   };
+
+  if (isProfileLoading) {
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
+  }
 
   return (
     <CustomLayout
@@ -135,7 +149,7 @@ const EditProject: FC<Props> = ({ project }) => {
                 appearance="base"
                 onClick={async () => formik.setValues(initialValues)}
               >
-                Cancel
+                取消
               </Button>
               <FormSubmitBtn
                 formik={formik}

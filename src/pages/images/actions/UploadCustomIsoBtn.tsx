@@ -34,13 +34,13 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
   const handleFinish = (name: string) => {
     toastNotify.success(
       <>
-        Custom ISO{" "}
+        自定义 ISO{" "}
         <ResourceLink
           to={`/ui/project/${encodeURIComponent(projectName)}/storage/custom-isos`}
           type="iso-volume"
           value={name}
         />{" "}
-        uploaded successfully.
+        上传成功。
       </>,
     );
     queryClient.invalidateQueries({ queryKey: [queryKeys.isoVolumes] });
@@ -57,16 +57,16 @@ const UploadCustomIsoBtn: FC<Props> = ({ className, projectName }) => {
         disabled={!canCreateStorageVolumes(project)}
         title={
           canCreateStorageVolumes(project)
-            ? "Upload custom ISO"
-            : "You do not have permission to create custom ISOs in this project."
+            ? "上传自定义 ISO"
+            : "你没有在此项目中创建自定义 ISO 的权限。"
         }
       >
         {!isSmallScreen && <Icon name="upload" light />}
-        <span>Upload custom ISO</span>
+        <span>上传自定义 ISO</span>
       </Button>
       {isOpen && (
         <Portal>
-          <Modal close={closePortal} title="Upload custom ISO">
+          <Modal close={closePortal} title="上传自定义 ISO">
             <UploadCustomIso onCancel={handleCancel} onFinish={handleFinish} />
           </Modal>
         </Portal>

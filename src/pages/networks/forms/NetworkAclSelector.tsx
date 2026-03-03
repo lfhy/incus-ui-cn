@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import type { FC, ReactNode } from "react";
 import { MultiSelect } from "@canonical/react-components";
 import { useNetworkAcls } from "context/useNetworkAcls";
@@ -26,7 +27,7 @@ const NetworkAclSelector: FC<Props> = ({
   const toOptionList = (list: string[], inheritedAcls?: string[]) => {
     return list.map((item) => {
       return {
-        label: inheritedAcls?.includes(item) ? `${item} (from network)` : item,
+        label: inheritedAcls?.includes(item) ? `${item}（来自网络）` : item,
         value: item,
       };
     });
@@ -39,12 +40,45 @@ const NetworkAclSelector: FC<Props> = ({
       return "-";
     }
     if (!hasAcls) {
-      return "No ACLs available";
+      return "无可用 ACL";
     }
     if (hasAcls) {
-      return "Select ACLs";
+      return "选择 ACL";
     }
   };
+
+  useEffect(() => {
+    const root = document.getElementById(id);
+    if (!root) {
+      return;
+    }
+
+    const updateText = () => {
+      const searchBtns = root.querySelectorAll<HTMLButtonElement>("button");
+      searchBtns.forEach((btn) => {
+        if (btn.textContent?.trim() === "Search") {
+          btn.textContent = "搜索";
+        }
+      });
+
+      const placeholders = root.querySelectorAll<HTMLInputElement>("input");
+      placeholders.forEach((input) => {
+        if (input.placeholder === "Search") {
+          input.placeholder = "搜索";
+        }
+      });
+    };
+
+    updateText();
+    const observer = new MutationObserver(() => {
+      updateText();
+    });
+    observer.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [id]);
 
   return (
     <MultiSelect

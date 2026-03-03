@@ -1,6 +1,6 @@
 export const instanceCreationTypes = [
   {
-    label: "Container",
+    label: "容器",
     value: "container",
   },
   {

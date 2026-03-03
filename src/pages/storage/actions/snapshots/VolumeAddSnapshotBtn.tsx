@@ -66,7 +66,7 @@ const VolumeAddSnapshotBtn: FC<Props> = ({
               Create snapshot
             </Tooltip>
           ) : (
-            "Create snapshot"
+            "创建快照"
           )}
         </Button>
       )}

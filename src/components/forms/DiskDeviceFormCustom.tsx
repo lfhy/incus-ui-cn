@@ -87,7 +87,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       className="u-no-margin--bottom"
       hasIcon
       dense
-      title={formik.values.editRestriction ?? "Edit"}
+      title={formik.values.editRestriction ?? "编辑"}
       onClick={() => {
         ensureEditMode(formik);
         focusField(fieldName);
@@ -137,7 +137,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`devices.${index}.pool`}>Pool / volume</Label>
+          <Label forId={`devices.${index}.pool`}>存储池 / 卷</Label>
         ),
         inherited: (
           <div className="custom-disk-volume-source">
@@ -160,7 +160,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
                 id: `devices.${index}.pool`,
                 appearance: "base",
                 className: "u-no-margin--bottom",
-                title: formik.values.editRestriction ?? "Select storage volume",
+                title: formik.values.editRestriction ?? "选择存储卷",
                 dense: true,
                 disabled: !!formik.values.editRestriction,
               }}
@@ -176,7 +176,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
         configuration: (
-          <Label forId={`devices.${index}.source`}>Host path</Label>
+          <Label forId={`devices.${index}.source`}>主机路径</Label>
         ),
         inherited: readOnly ? (
           <div className="custom-disk-read-mode">
@@ -195,9 +195,9 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
             }}
             value={item.source}
             type="text"
-            placeholder="Enter full host path (e.g. /data)"
+            placeholder="请输入完整主机路径（例如 /data）"
             className={!item.source ? undefined : "u-no-margin--bottom"}
-            error={!item.source ? "Host path is required" : undefined}
+            error={!item.source ? "主机路径不能为空" : undefined}
           />
         ),
         override: "",
@@ -206,7 +206,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
     const specialDiskDeviceSource = () =>
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
-        configuration: <Label forId={`devices.${index}.source`}>Source</Label>,
+        configuration: <Label forId={`devices.${index}.source`}>来源</Label>,
         inherited: readOnly ? (
           <div className="custom-disk-read-mode">
             <div className="mono-font custom-disk-value u-truncate">
@@ -251,7 +251,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
           className: "no-border-top inherited-with-form",
           configuration: (
             <Label forId={`devices.${index}.path`} required>
-              Mount point
+              挂载点
             </Label>
           ),
           inherited: readOnly ? (
@@ -271,9 +271,9 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
               }}
               value={item.path}
               type="text"
-              placeholder="Enter full path (e.g. /data)"
+              placeholder="请输入完整路径（例如 /data）"
               className={hasError ? undefined : "u-no-margin--bottom"}
-              error={hasError ? "Path is required" : undefined}
+              error={hasError ? "路径不能为空" : undefined}
             />
           ),
           override: "",
@@ -289,7 +289,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
       {customDiskDeviceCount > 0 && (
         <>
           <h2 className="p-heading--4 custom-devices-heading">
-            Custom disk devices
+            自定义磁盘设备
           </h2>
           <ConfigurationTable rows={rows} />
         </>
@@ -303,7 +303,7 @@ const DiskDeviceFormCustom: FC<Props> = ({ formik, project, profiles }) => {
         }}
       >
         <Icon name="plus" />
-        <span>Attach disk device</span>
+        <span>挂载磁盘设备</span>
       </AttachDiskDeviceBtn>
     </div>
   );

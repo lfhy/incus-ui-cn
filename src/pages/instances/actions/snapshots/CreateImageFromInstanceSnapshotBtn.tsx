@@ -40,10 +40,10 @@ const CreateImageFromInstanceSnapshotBtn: FC<Props> = ({
         disabled={isDeleting || isRestoring || !canCreateImages(project)}
         onClick={openPortal}
         type="button"
-        aria-label="Create image"
+        aria-label="创建镜像"
         title={
           canCreateImages(project)
-            ? "Create image"
+            ? "创建镜像"
             : "You do not have permission to create images in this project"
         }
       >

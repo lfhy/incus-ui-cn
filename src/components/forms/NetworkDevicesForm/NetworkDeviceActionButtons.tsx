@@ -36,9 +36,9 @@ const NetworkDeviceActionButtons: FC<Props> = ({
 
   const getEditTitle = () => {
     if (formik.values.editRestriction) return formik.values.editRestriction;
-    if (isPurelyInherited || hasNoneOverride) return "Create override";
-    if (hasNicOverride) return "Edit override";
-    return "Edit network";
+    if (isPurelyInherited || hasNoneOverride) return "创建覆盖";
+    if (hasNicOverride) return "编辑覆盖";
+    return "编辑网络";
   };
   const editTitle = getEditTitle();
 
@@ -86,7 +86,7 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           disabled={isDisabled}
         >
           <Icon name="edit" />
-          <span>Edit</span>
+          <span>编辑</span>
         </Button>
       )}
 
@@ -98,11 +98,11 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           appearance="base"
           hasIcon
           dense
-          title={formik.values.editRestriction || "Detach network"}
+          title={formik.values.editRestriction || "卸载网络"}
           disabled={isDisabled}
         >
           <Icon name="disconnect" />
-          <span>Detach</span>
+          <span>卸载</span>
         </Button>
       )}
 
@@ -115,11 +115,11 @@ const NetworkDeviceActionButtons: FC<Props> = ({
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction || "Clear override"}
+            title={formik.values.editRestriction || "清除覆盖"}
             disabled={isDisabled}
           >
             <Icon name="close" />
-            <span>Clear</span>
+            <span>清除</span>
           </Button>
           <Button
             className="u-no-margin--top"
@@ -128,11 +128,11 @@ const NetworkDeviceActionButtons: FC<Props> = ({
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction || "Detach network"}
+            title={formik.values.editRestriction || "卸载网络"}
             disabled={isDisabled}
           >
             <Icon name="disconnect" />
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         </>
       )}
@@ -145,11 +145,11 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           appearance="base"
           hasIcon
           dense
-          title={formik.values.editRestriction || "Reattach inherited network"}
+          title={formik.values.editRestriction || "重新挂载继承网络"}
           disabled={isDisabled}
         >
           <Icon name="connected" />
-          <span>Reattach</span>
+          <span>重新挂载</span>
         </Button>
       )}
 
@@ -161,11 +161,11 @@ const NetworkDeviceActionButtons: FC<Props> = ({
           appearance="base"
           hasIcon
           dense
-          title={formik.values.editRestriction || "Detach network"}
+          title={formik.values.editRestriction || "卸载网络"}
           disabled={isDisabled}
         >
           <Icon name="disconnect" />
-          <span>Detach</span>
+          <span>卸载</span>
         </Button>
       )}
     </div>

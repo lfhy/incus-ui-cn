@@ -76,7 +76,7 @@ const NetworkParentSelector: FC<Props> = ({ props, formik, isClustered }) => {
   });
 
   if (isNetworkLoading || isClusterNetworksLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   const getHelpText = () => {

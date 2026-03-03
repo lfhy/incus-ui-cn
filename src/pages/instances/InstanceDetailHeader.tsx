@@ -132,15 +132,15 @@ const InstanceDetailHeader: FC<Props> = ({
         name={name}
         titleClassName="instance-detail-title"
         parentItems={[
-          <Link
-            to={
-              canViewProject
-                ? `/ui/project/${encodeURIComponent(project)}/instances`
-                : "/ui/all-projects/instances"
-            }
-            key={1}
-          >
-            Instances
+              <Link
+                to={
+                  canViewProject
+                    ? `/ui/project/${encodeURIComponent(project)}/instances`
+                    : "/ui/all-projects/instances"
+                }
+                key={1}
+              >
+            实例
           </Link>,
         ]}
         renameDisabledReason={getDisabledReason()}

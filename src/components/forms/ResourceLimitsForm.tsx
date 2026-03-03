@@ -53,7 +53,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik,
           name: "limits_cpu",
-          label: "Exposed CPU limit",
+          label: "可用 CPU 限制",
+          help: "实例可见的 CPU 核心范围",
+          inputHelp: "指定向实例暴露哪些 CPU 核心。",
           defaultValue: DEFAULT_CPU_LIMIT,
           readOnlyRenderer: (val) =>
             cpuLimitToPayload(val as CpuLimit | string | undefined),
@@ -70,7 +72,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik,
           name: "limits_memory",
-          label: "Memory limit",
+          label: "内存限制",
+          help: "主机内存使用上限",
+          inputHelp: "限制实例可使用的主机内存。",
           defaultValue: DEFAULT_MEM_LIMIT,
           readOnlyRenderer: (val) =>
             memoryLimitToPayload(val as MemoryLimit | undefined) ?? "",
@@ -87,12 +91,12 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik,
           name: "limits_memory_swap",
-          label: "Memory swap (Containers only)",
+          label: "内存交换（仅容器）",
+          help: "控制实例是否可使用交换内存",
+          inputHelp: "控制实例对 swap 的使用。",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabledReason: isContainerOnlyDisabled ? "仅容器可用" : undefined,
           readOnlyRenderer: (val) => optionRenderer(val, optionAllowDeny),
           children: (
             <Select
@@ -105,7 +109,9 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik,
           name: "limits_disk_priority",
-          label: "Disk priority",
+          label: "磁盘优先级",
+          help: "实例 I/O 请求优先级",
+          inputHelp: "设置实例磁盘 I/O 请求的优先级。",
           defaultValue: "",
           children: <Select options={diskPriorities} />,
         }),
@@ -113,15 +119,15 @@ const ResourceLimitsForm: FC<Props> = ({ formik }) => {
         getConfigurationRow({
           formik,
           name: "limits_processes",
-          label: "Max number of processes (Containers only)",
+          label: "最大进程数（仅容器）",
+          help: "实例可运行的最大进程数",
+          inputHelp: "限制实例内可同时运行的进程数量。",
           defaultValue: "",
           disabled: isContainerOnlyDisabled,
-          disabledReason: isContainerOnlyDisabled
-            ? "Only available for containers"
-            : undefined,
+          disabledReason: isContainerOnlyDisabled ? "仅容器可用" : undefined,
           children: (
             <Input
-              placeholder="Enter number"
+              placeholder="请输入数字"
               min={1}
               type="number"
               disabled={isContainerOnlyDisabled}

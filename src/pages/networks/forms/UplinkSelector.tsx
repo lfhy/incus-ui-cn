@@ -69,7 +69,7 @@ const UplinkSelector: FC<Props> = ({ project: projectName, props, formik }) => {
   });
 
   if (isNetworkLoading || isProjectLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   return (

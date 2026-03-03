@@ -36,16 +36,16 @@ const InstanceSearchFilter: FC<Props> = ({ onSearch, initialQuery }) => {
 
   return (
     <>
-      <h2 className="u-off-screen">Search and filter</h2>
+      <h2 className="u-off-screen">搜索和筛选</h2>
       <SearchBox
         className="search-box margin-right u-no-margin--bottom"
         name="search-instance"
         type="text"
         onChange={onInputChange}
         onKeyDown={handleKeyDown}
-        placeholder="Search"
+        placeholder="搜索"
         value={query}
-        aria-label="Search"
+        aria-label="搜索"
         externallyControlled={true}
       />
     </>

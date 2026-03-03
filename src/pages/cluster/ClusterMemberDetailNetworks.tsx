@@ -11,38 +11,39 @@ const ClusterMemberDetailNetworks: FC<Props> = ({ resources }) => {
       <tbody>
         {resources?.network.cards?.map((card, i) => (
           <tr key={i}>
-            <th className="u-text--muted">Card #{i + 1}</th>
+            <th className="u-text--muted">网卡 #{i + 1}</th>
             <td>
-              <div>Vendor: {card.vendor}</div>
-              <div>Product: {card.product}</div>
+              <div>厂商： {card.vendor}</div>
+              <div>产品： {card.product}</div>
               <div>
-                Driver: {card.driver} ({card.driver_version})
+                驱动： {card.driver} ({card.driver_version})
               </div>
               {card.firmware_version && (
-                <div>Firmware: {card.firmware_version}</div>
+                <div>固件： {card.firmware_version}</div>
               )}
-              {card.pci_address && <div>PCI Address: {card.pci_address}</div>}
-              {card.usb_address && <div>USB Address: {card.usb_address}</div>}
-              <div>NUMA Node: {card.numa_node}</div>
+              {card.pci_address && <div>PCI 地址： {card.pci_address}</div>}
+              {card.usb_address && <div>USB 地址： {card.usb_address}</div>}
+              <div>NUMA 节点： {card.numa_node}</div>
 
               {(card.ports ?? []).length > 0 && (
                 <div>
-                  Ports:
+                  端口：
                   <ul>
                     {(card.ports ?? []).map((port, j) => (
                       <li key={j}>
                         <div>
-                          ID: <strong>{port.id}</strong>
+                          ID： <strong>{port.id}</strong>
                         </div>
-                        <div>MAC: {port.address}</div>
-                        <div>Protocol: {port.protocol}</div>
-                        <div>Link: {port.link_detected ? "Up" : "Down"}</div>
+                        <div>MAC： {port.address}</div>
+                        <div>协议： {port.protocol}</div>
                         <div>
-                          Auto-negotiation:{" "}
-                          {port.auto_negotiation ? "Yes" : "No"}
+                          链路： {port.link_detected ? "已连接" : "未连接"}
                         </div>
-                        <div>Port type: {port.port_type}</div>
-                        <div>Transceiver: {port.transceiver_type}</div>
+                        <div>
+                          自动协商： {port.auto_negotiation ? "是" : "否"}
+                        </div>
+                        <div>端口类型： {port.port_type}</div>
+                        <div>收发器： {port.transceiver_type}</div>
                       </li>
                     ))}
                   </ul>

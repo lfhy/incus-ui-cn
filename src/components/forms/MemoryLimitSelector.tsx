@@ -28,7 +28,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
     <div>
       <div className="memory-limit-label">
         <RadioInput
-          label="absolute"
+          label="绝对值"
           checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.FIXED}
           onChange={() => {
             setMemoryLimit({
@@ -38,7 +38,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           }}
         />
         <RadioInput
-          label="percentage"
+          label="百分比"
           checked={memoryLimit.selectedType === MEM_LIMIT_TYPE.PERCENT}
           onChange={() => {
             setMemoryLimit({ unit: "%", selectedType: MEM_LIMIT_TYPE.PERCENT });
@@ -53,7 +53,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           min="0"
           max="100"
           step="Any"
-          placeholder="Enter percentage"
+          placeholder="请输入百分比"
           onChange={(e) => {
             setMemoryLimit({ ...memoryLimit, value: +e.target.value });
           }}
@@ -69,7 +69,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
             type="number"
             min="0"
             step="Any"
-            placeholder="Enter value"
+            placeholder="请输入数值"
             onChange={(e) => {
               setMemoryLimit({ ...memoryLimit, value: +e.target.value });
             }}
@@ -79,7 +79,7 @@ const MemoryLimitSelector: FC<Props> = ({ memoryLimit, setMemoryLimit }) => {
           <Select
             id="memUnitSelect"
             name="memUnitSelect"
-            label="Select memory size unit"
+            label="选择内存大小单位"
             labelClassName="u-off-screen"
             options={getMemUnitOptions()}
             onChange={(e) => {

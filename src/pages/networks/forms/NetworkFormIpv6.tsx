@@ -28,7 +28,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
             disabled: formik.values.ipv6_address === "none",
-            disabledReason: "IPv6 address is set to none",
+            disabledReason: "IPv6 地址已设置为 none",
           }),
         ]
       : []),
@@ -51,20 +51,20 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_dhcp_expiry",
-            label: "IPv6 DHCP expiry",
+            label: "IPv6 DHCP 租约过期时间",
             defaultValue: "",
             disabled: !hasDhcp,
-            disabledReason: "IPv6 DHCP is disabled",
+            disabledReason: "IPv6 DHCP 已禁用",
             children: <Input type="text" />,
           }),
 
           getConfigurationRow({
             formik,
             name: "ipv6_dhcp_ranges",
-            label: "IPv6 DHCP ranges",
+            label: "IPv6 DHCP 范围",
             defaultValue: "",
             disabled: !hasDhcp,
-            disabledReason: "IPv6 DHCP is disabled",
+            disabledReason: "IPv6 DHCP 已禁用",
             children: <Textarea />,
           }),
         ]
@@ -75,10 +75,10 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_dhcp_stateful",
-            label: "IPv6 DHCP stateful",
+            label: "IPv6 DHCP 有状态",
             defaultValue: "",
             disabled: !hasDhcp,
-            disabledReason: "IPv6 DHCP is disabled",
+            disabledReason: "IPv6 DHCP 已禁用",
             children: <Select options={optionTrueFalse} />,
           }),
         ]
@@ -89,7 +89,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_l3only",
-            label: "IPv6 L3 only",
+            label: "仅 IPv6 三层",
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
           }),
@@ -101,7 +101,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_ovn_ranges",
-            label: "IPv6 OVN ranges",
+            label: "IPv6 OVN 范围",
             defaultValue: "",
             children: <Textarea />,
           }),
@@ -113,7 +113,7 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_routes",
-            label: "IPv6 routes",
+            label: "IPv6 路由",
             defaultValue: "",
             children: <Textarea />,
           }),
@@ -125,14 +125,14 @@ const NetworkFormIpv6: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "ipv6_gateway",
-            label: "IPv6 gateway",
+            label: "IPv6 网关",
             defaultValue: "",
             children: <Textarea />,
           }),
           getConfigurationRow({
             formik,
             name: "ipv6_routes_anycast",
-            label: "IPv6 routes anycast",
+            label: "IPv6 路由任播",
             defaultValue: "",
             children: <Select options={optionTrueFalse} />,
           }),

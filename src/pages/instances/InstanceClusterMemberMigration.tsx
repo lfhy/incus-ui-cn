@@ -47,7 +47,7 @@ const InstanceClusterMemberMigration: FC<Props> = ({
           appearance="base"
           onClick={onCancel}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"

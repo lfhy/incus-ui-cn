@@ -56,7 +56,7 @@ const RenameHeader: FC<Props> = ({
         <nav
           key="breadcrumbs"
           className="p-breadcrumbs p-breadcrumbs--large"
-          aria-label="Breadcrumbs"
+          aria-label="面包屑导航"
         >
           <ol className="p-breadcrumbs__items breadcrumb-wrapper">
             {parentItems.map((item, key) => (
@@ -87,7 +87,7 @@ const RenameHeader: FC<Props> = ({
                     className="cancel"
                     onClick={toggleRename}
                   >
-                    Cancel
+                    取消
                   </Button>
                   <ActionButton
                     appearance="positive"
@@ -99,7 +99,7 @@ const RenameHeader: FC<Props> = ({
                     }
                     onClick={() => void formik.submitForm()}
                   >
-                    Save
+                    保存
                   </ActionButton>
                 </div>
               </li>
@@ -107,7 +107,7 @@ const RenameHeader: FC<Props> = ({
               <li
                 className="p-heading--4 u-no-margin--bottom name continuous-breadcrumb u-truncate"
                 onClick={toggleRename}
-                title={canRename ? `Rename ${name}` : ""}
+                title={canRename ? `重命名 ${name}` : ""}
               >
                 <Tooltip
                   message={!canRename && renameDisabledReason}

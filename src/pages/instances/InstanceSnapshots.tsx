@@ -210,9 +210,9 @@ const InstanceSnapshots = (props: Props) => {
                   onChange={(value) => {
                     setQuery(value);
                   }}
-                  placeholder="Search for snapshots"
+                  placeholder="搜索快照"
                   value={query}
-                  aria-label="Search for snapshots"
+                  aria-label="搜索快照"
                 />
               </div>
               <InstanceConfigureSnapshotsBtn
@@ -280,7 +280,7 @@ const InstanceSnapshots = (props: Props) => {
                 rows={sortedRows}
                 responsive
                 sortable
-                emptyStateMsg="No snapshot found matching this search"
+                emptyStateMsg="未找到匹配搜索的快照"
                 itemName="snapshot"
                 parentName="instance"
                 selectedNames={selectedNames}
@@ -300,7 +300,7 @@ const InstanceSnapshots = (props: Props) => {
         <EmptyState
           className="empty-state"
           image={<Icon name="snapshot" className="empty-state-icon" />}
-          title="No snapshots found"
+          title="未找到快照"
         >
           <p>
             {project && snapshotsDisabled ? (

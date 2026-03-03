@@ -55,7 +55,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           </div>
           {metadata && (
             <div className="p-text--small u-text--muted">
-              From: {metadata.source}
+              来源：{metadata.source}
             </div>
           )}
         </div>
@@ -76,7 +76,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
             }}
             type="button"
             appearance="base"
-            title={formik.values.editRestriction ?? "Clear override"}
+            title={formik.values.editRestriction ?? "清除覆盖"}
             disabled={!!formik.values.editRestriction}
             hasIcon
             className="u-no-margin--bottom"
@@ -93,7 +93,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
           className="u-no-margin--bottom"
           type="button"
           appearance="base"
-          title={formik.values.editRestriction ?? "Create override"}
+          title={formik.values.editRestriction ?? "创建覆盖"}
           hasIcon
           disabled={!!formik.values.editRestriction}
         >
@@ -108,7 +108,7 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
       <ScrollableConfigurationTable
         configurationExtra={
           <Tooltip
-            message="Applied only to images that have the cloud-init package installed."
+            message="仅对已安装 cloud-init 软件包的镜像生效。"
             className="configuration-extra"
           >
             <Icon name="warning-grey" />
@@ -116,17 +116,17 @@ const CloudInitForm: FC<Props> = ({ formik }) => {
         }
         rows={[
           getCloudInitRow(
-            "Network config",
+            "网络配置",
             "cloud_init_network_config",
             formik.values.cloud_init_network_config,
           ),
           getCloudInitRow(
-            "User data",
+            "用户数据",
             "cloud_init_user_data",
             formik.values.cloud_init_user_data,
           ),
           getCloudInitRow(
-            "Vendor data",
+            "厂商数据",
             "cloud_init_vendor_data",
             formik.values.cloud_init_vendor_data,
           ),

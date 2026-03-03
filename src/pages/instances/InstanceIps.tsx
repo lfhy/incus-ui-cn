@@ -18,7 +18,7 @@ const InstanceIps: FC<Props> = ({ instance, family }) => {
         <div
           key={item.address}
           className="ip u-truncate"
-          title={`IP ${item.address} (${item.iface})`}
+          title={`IP 地址  ()`}
         >
           {item.address} ({item.iface})
         </div>

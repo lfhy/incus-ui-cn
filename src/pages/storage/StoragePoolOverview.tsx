@@ -27,7 +27,7 @@ const StoragePoolOverview: FC<Props> = ({ pool, project }) => {
     <div className="storage-overview-tab">
       <Row className="section">
         <Col size={3}>
-          <h2 className="p-heading--5">General</h2>
+          <h2 className="p-heading--5">概览</h2>
         </Col>
         <Col size={7}>
           <table>

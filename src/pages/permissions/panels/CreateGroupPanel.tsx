@@ -176,7 +176,7 @@ const CreateGroupPanel: FC = () => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"

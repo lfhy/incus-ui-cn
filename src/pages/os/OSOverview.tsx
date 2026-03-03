@@ -62,7 +62,7 @@ const OSOverview: FC<Props> = ({ target }) => {
       <NotificationRow />
       <Row className="general">
         <Col size={3}>
-          <h2 className="p-heading--5">General</h2>
+          <h2 className="p-heading--5">概览</h2>
         </Col>
         <Col size={7}>
           <table>

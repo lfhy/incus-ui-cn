@@ -146,7 +146,7 @@ const CreateImageFromInstanceSnapshotForm: FC<Props> = ({
             type="button"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"

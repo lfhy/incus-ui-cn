@@ -14,7 +14,7 @@ export const alletraDriver = "alletra";
 export const lvmClusterDriver = "lvmcluster";
 
 export const storageDriverLabels: { [key: string]: string } = {
-  [dirDriver]: "Directory",
+  [dirDriver]: "目录",
   [btrfsDriver]: "Btrfs",
   [lvmDriver]: "LVM",
   [zfsDriver]: "ZFS",
@@ -65,20 +65,19 @@ export const getSupportedStorageDrivers = (
 };
 
 const storageDriverToSourceHelp: Record<string, string> = {
-  btrfs:
-    "Optional, path to an existing block device, loop file or Btrfs subvolume",
-  dir: "Optional, path to an existing directory",
-  lvm: "Optional, path to an existing block device, loop file or LVM volume group",
-  zfs: "Optional, path to an existing block device, loop file or ZFS dataset/pool",
-  ceph: "Optional, OSD pool name",
-  cephfs: "Optional, Existing CephFS file system or file system path to use",
+  btrfs: "可选，指向现有块设备、循环文件或 Btrfs 子卷的路径",
+  dir: "可选，指向现有目录的路径",
+  lvm: "可选，指向现有块设备、循环文件或 LVM 卷组的路径",
+  zfs: "可选，指向现有块设备、循环文件或 ZFS 数据集/池的路径",
+  ceph: "可选，OSD 存储池名称",
+  cephfs: "可选，现有 CephFS 文件系统或要使用的文件系统路径",
 };
 
 export const getSourceHelpForDriver = (driver: string) => {
   if (Object.keys(storageDriverToSourceHelp).includes(driver)) {
     return storageDriverToSourceHelp[driver];
   }
-  return "Not available";
+  return "不可用";
 };
 
 export const driversWithFilesystemSupport = [

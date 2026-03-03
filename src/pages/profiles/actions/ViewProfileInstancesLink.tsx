@@ -11,7 +11,7 @@ const ViewProfileInstancesLink: FC<Props> = ({ profile, project }) => {
 
   return (
     <Link className="u-no-margin u-no-padding" to={href}>
-      Go to instances
+      前往实例列表
     </Link>
   );
 };

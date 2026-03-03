@@ -11,6 +11,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { LxdDeviceValue } from "types/device";
+import type { LxcConfigOptionCategories } from "types/config";
 import type { InstanceAndProfileFormikProps } from "./instanceAndProfileFormValues";
 import { fetchConfigOptions } from "api/server";
 import { useSupportedFeatures } from "context/useSupportedFeatures";
@@ -69,7 +70,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
   } = useProfiles(project);
 
   if (profileError) {
-    notify.failure("Loading profiles failed", profileError);
+    notify.failure("加载配置文件失败", profileError);
   }
 
   const inheritedDevices = getInheritedOtherDevices(formik.values, profiles);
@@ -85,7 +86,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
   };
 
   if (isProfileLoading || isConfigOptionsLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   const hasCustomDevices = formik.values.devices.some(isOtherDevice);
@@ -109,7 +110,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
         ),
         inherited: (
           <div className="p-text--small u-text--muted u-no-margin--bottom">
-            From: {item.source}
+            来源：{item.source}
           </div>
         ),
         override: isNoneDevice ? (
@@ -123,10 +124,10 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title="Attach device"
+            title="重新挂载设备"
           >
             <Icon name="connected" />
-            <span>Reattach</span>
+            <span>重新挂载</span>
           </Button>
         ) : (
           <Button
@@ -139,11 +140,11 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction ?? "Detach device"}
+            title={formik.values.editRestriction ?? "卸载设备"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -172,11 +173,20 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
     }
     const device = formik.values.devices[index];
 
-    const type = ["unix-char", "unix-block"].includes(device.type) ? "unix-char-block" : device.type;
-    const id = `${type}` as "server";
-
-    const rawOptions = configOptions?.configs.devices[id];
-    const configFields = rawOptions ? toConfigFields({"device" : rawOptions}) : [];
+    const type = ["unix-char", "unix-block"].includes(device.type)
+      ? "unix-char-block"
+      : device.type;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const rawOptions = (
+      configOptions as
+        | {
+            configs?: { devices?: Record<string, LxcConfigOptionCategories> };
+          }
+        | undefined
+    )?.configs?.devices?.[type];
+    const configFields = rawOptions
+      ? toConfigFields({ device: rawOptions as LxcConfigOptionCategories })
+      : [];
 
     customRows.push(
       getConfigurationRowBase({
@@ -204,11 +214,11 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             appearance="base"
             hasIcon
             dense
-            title={formik.values.editRestriction ?? "Detach device"}
+            title={formik.values.editRestriction ?? "卸载设备"}
             disabled={!!formik.values.editRestriction}
           >
             <Icon name="disconnect" />
-            <span>Detach</span>
+            <span>卸载</span>
           </Button>
         ),
       }),
@@ -217,7 +227,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
     customRows.push(
       getConfigurationRowBase({
         className: "no-border-top inherited-with-form",
-        configuration: <Label forId={`devices.${index}.type`}>Type</Label>,
+        configuration: <Label forId={`devices.${index}.type`}>类型</Label>,
         inherited: (
           <Select
             name={`devices.${index}.type`}
@@ -234,28 +244,28 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
             value={device.type}
             options={[
               {
-                label: "Infiniband (Containers only)",
+                label: "Infiniband（仅容器）",
                 value: "infiniband",
                 disabled: isVm,
               },
               {
-                label: "PCI (VMs only)",
+                label: "PCI（仅虚拟机）",
                 value: "pci",
                 disabled: isContainer,
               },
               { label: "TPM", value: "tpm" },
               {
-                label: "Unix Block (Containers only)",
+                label: "Unix Block（仅容器）",
                 value: "unix-block",
                 disabled: isVm,
               },
               {
-                label: "Unix Char (Containers only)",
+                label: "Unix Char（仅容器）",
                 value: "unix-char",
                 disabled: isVm,
               },
               {
-                label: "Unix Hotplug (Containers only)",
+                label: "Unix Hotplug（仅容器）",
                 value: "unix-hotplug",
                 disabled: isVm,
               },
@@ -316,16 +326,14 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
 
       {inheritedRows.length > 0 && (
         <div className="inherited-devices">
-          <h2 className="p-heading--4">Inherited devices</h2>
+          <h2 className="p-heading--4">继承设备</h2>
           <ConfigurationTable rows={inheritedRows} />
         </div>
       )}
 
       {hasCustomDevices && (
         <div className="custom-devices">
-          <h2 className="p-heading--4 custom-devices-heading">
-            Custom devices
-          </h2>
+          <h2 className="p-heading--4 custom-devices-heading">自定义设备</h2>
           <ConfigurationTable rows={customRows} />
         </div>
       )}
@@ -341,7 +349,7 @@ const OtherDeviceForm: FC<Props> = ({ formik, project }) => {
         title={formik.values.editRestriction}
       >
         <Icon name="plus" />
-        <span>Attach custom device</span>
+        <span>挂载自定义设备</span>
       </Button>
     </ScrollableForm>
   );

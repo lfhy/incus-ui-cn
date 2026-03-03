@@ -20,11 +20,11 @@ const ConfigurationTable: FC<Props & MainTableProps> = ({
 }) => {
   const headers = [
     {
-      content: <span>Configuration{configurationExtra}</span>,
+      content: <span>配置{configurationExtra}</span>,
       className: "configuration",
     },
-    { content: <span>Inherited</span>, className: "inherited" },
-    { content: <span>Override</span>, className: "override" },
+    { content: <span>继承值</span>, className: "inherited" },
+    { content: <span>覆盖值</span>, className: "override" },
   ];
 
   return (

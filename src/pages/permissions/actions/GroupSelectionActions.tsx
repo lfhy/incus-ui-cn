@@ -26,7 +26,7 @@ const GroupSelectionActions: FC<Props> = ({
 }) => {
   const confirmButtonText = modifiedGroups.size
     ? `Save ${modifiedGroups.size} group ${pluralize("change", modifiedGroups.size)}`
-    : "Save changes";
+    : "保存更改";
 
   return (
     <>
@@ -43,7 +43,7 @@ const GroupSelectionActions: FC<Props> = ({
         onClick={closePanel}
         className="u-no-margin--bottom"
       >
-        Cancel
+        取消
       </Button>
       <ActionButton
         appearance="positive"

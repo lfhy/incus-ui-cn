@@ -83,11 +83,11 @@ const DeleteIdentityBtn: FC<Props> = ({ identity }) => {
     <ConfirmationButton
       onHoverText={
         canDeleteIdentity(identity)
-          ? "Delete identity"
+          ? "删除身份"
           : "You do not have permission to delete this identity"
       }
       appearance="base"
-      aria-label="Delete identity"
+      aria-label="删除身份"
       className="has-icon u-no-margin--bottom is-dense"
       confirmationModalProps={{
         title: "Confirm delete",

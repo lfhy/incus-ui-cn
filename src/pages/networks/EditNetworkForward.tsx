@@ -127,10 +127,7 @@ const EditNetworkForward: FC = () => {
   return (
     <BaseLayout
       title={
-        <HelpLink
-          docPath="/howto/network_forwards/"
-          title="Learn more about network forwards"
-        >
+        <HelpLink docPath="/howto/network_forwards/" title="了解更多网络转发">
           Edit a network forward
         </HelpLink>
       }
@@ -142,7 +139,7 @@ const EditNetworkForward: FC = () => {
           className="p-button--base"
           to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/forwards`}
         >
-          Cancel
+          取消
         </Link>
         <ActionButton
           appearance="positive"

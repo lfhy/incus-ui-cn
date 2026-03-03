@@ -30,7 +30,7 @@ const NetworkDeviceContent: FC<Props> = ({
   if (isNoneDevice(device)) {
     return (
       <span className="u-text--muted">
-        <i>detached</i>
+        <i>已卸载</i>
       </span>
     );
   }
@@ -40,7 +40,7 @@ const NetworkDeviceContent: FC<Props> = ({
   if (readOnly) {
     return (
       <>
-        <div>Network</div>
+        <div>网络</div>
         <ResourceLink
           type="network"
           value={deviceValue}

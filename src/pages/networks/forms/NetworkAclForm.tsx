@@ -142,8 +142,8 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                 <Input
                   id="name"
                   type="text"
-                  label="Name"
-                  placeholder="Enter name"
+                  label="名称"
+                  placeholder="请输入名称"
                   required
                   autoFocus
                   disabled={
@@ -152,7 +152,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                   title={formik.values.editRestriction}
                   help={
                     !formik.values.isCreating
-                      ? "Click the ACL name in the header to rename the ACL"
+                      ? "点击页眉中的 ACL 名称可重命名 ACL"
                       : ""
                   }
                   {...formik.getFieldProps("name")}
@@ -161,8 +161,8 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                 <AutoExpandingTextArea
                   id="description"
                   name="description"
-                  label="Description"
-                  placeholder="Enter description"
+                  label="描述"
+                  placeholder="请输入描述"
                   onBlur={formik.handleBlur}
                   onChange={(e) => {
                     ensureEditMode(formik);
@@ -175,7 +175,7 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
               </div>
               {formik.values.ingress.length > 0 && (
                 <>
-                  <h2 className="p-heading--4">Ingress rules</h2>
+                  <h2 className="p-heading--4">入站规则</h2>
                   <NetworkAclRuleTable
                     rules={formik.values.ingress}
                     onRemove={(index) => {
@@ -199,13 +199,13 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                   title={formik.values.editRestriction}
                 >
                   <Icon name="plus" />
-                  <span>Add ingress rule</span>
+                  <span>新增入站规则</span>
                 </Button>
               </div>
 
               {formik.values.egress.length > 0 && (
                 <>
-                  <h2 className="p-heading--4">Egress rules</h2>
+                  <h2 className="p-heading--4">出站规则</h2>
                   <NetworkAclRuleTable
                     rules={formik.values.egress}
                     onRemove={(index) => {
@@ -229,12 +229,12 @@ const NetworkAclForm: FC<Props> = ({ formik, getYaml, section }) => {
                   title={formik.values.editRestriction}
                 >
                   <Icon name="plus" />
-                  <span>Add egress rule</span>
+                  <span>新增出站规则</span>
                 </Button>
               </div>
               {formik.values.bareAcl?.used_by && (
                 <>
-                  <h2 className="p-heading--4">Used by</h2>
+                  <h2 className="p-heading--4">使用情况</h2>
                   <NetworkAclUsedBy networkAcl={formik.values.bareAcl} />
                 </>
               )}

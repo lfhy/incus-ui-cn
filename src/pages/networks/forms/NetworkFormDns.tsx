@@ -21,7 +21,7 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "dns_domain",
-            label: "DNS domain",
+            label: "DNS 域",
             defaultValue: "",
             children: <Input type="text" />,
           }),
@@ -33,26 +33,26 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "dns_mode",
-            label: "DNS mode",
+            label: "DNS 模式",
             defaultValue: "",
             children: (
               <Select
                 options={[
                   {
-                    label: "Select option",
+                    label: "请选择",
                     value: "",
                     disabled: true,
                   },
                   {
-                    label: "None",
+                    label: "无",
                     value: "none",
                   },
                   {
-                    label: "Managed",
+                    label: "托管",
                     value: "managed",
                   },
                   {
-                    label: "Dynamic",
+                    label: "动态",
                     value: "dynamic",
                   },
                 ]}
@@ -67,7 +67,7 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "dns_nameservers",
-            label: "DNS nameservers",
+            label: "DNS 名称服务器",
             defaultValue: "",
             children: <Input type="text" />,
           }),
@@ -76,7 +76,7 @@ const NetworkFormDns: FC<Props> = ({ formik, filterRows }) => {
           getConfigurationRow({
             formik,
             name: "dns_search",
-            label: "DNS search",
+            label: "DNS 搜索域",
             defaultValue: "",
             children: <Textarea />,
           }),

@@ -92,7 +92,7 @@ const InstanceLocationSelect: FC<Props> = ({ formik }) => {
   }, [availableGroups, selectedGroup]);
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   if (isPreselected) {

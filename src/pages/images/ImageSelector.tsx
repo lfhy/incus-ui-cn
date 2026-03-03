@@ -1,5 +1,5 @@
 import type { FC, OptionHTMLAttributes } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Button,
   CheckboxInput,
@@ -18,7 +18,6 @@ import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "util/queryKeys";
 import type { MainTableRow } from "@canonical/react-components/dist/components/MainTable/MainTable";
 import {
-  byLtsFirst,
   byOSRelease,
   localLxdToRemoteImage,
   isContainerOnlyImage,
@@ -76,15 +75,17 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
 
   const { data: settings, isLoading: isSettingsLoading } = useSettings();
 
-  const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery({
-    queryKey: [queryKeys.images, linuxContainersServer],
-    queryFn: () => loadImages(linuxContainersJson, linuxContainersServer),
-    retry: false, // avoid retry to ease experience in airgapped deployments
-  });
+  const { data: linuxContainerImages = [], isLoading: isLciLoading } = useQuery(
+    {
+      queryKey: [queryKeys.images, linuxContainersServer],
+      queryFn: async () =>
+        loadImages(linuxContainersJson, linuxContainersServer),
+      retry: false, // avoid retry to ease experience in airgapped deployments
+    },
+  );
 
   const { data: localImages = [], isLoading: isLocalImageLoading } =
     useImagesInProject(project ?? "default");
-
 
   const isLoading = isLciLoading || isLocalImageLoading || isSettingsLoading;
   const archSupported = getArchitectureAliases(
@@ -123,11 +124,29 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         };
       });
     options.unshift({
-      label: "Any",
+      label: "任意",
       value: "",
     });
     return options;
   };
+
+  useEffect(() => {
+    const modalCloseBtn = document.querySelector<HTMLButtonElement>(
+      ".image-select-modal .p-modal__close",
+    );
+    if (modalCloseBtn) {
+      modalCloseBtn.textContent = "关闭";
+      modalCloseBtn.setAttribute("aria-label", "关闭弹窗");
+    }
+
+    const searchBtn = document.querySelector<HTMLButtonElement>(
+      ".image-select-modal .p-search-box__button",
+    );
+    if (searchBtn) {
+      searchBtn.textContent = "搜索";
+      searchBtn.setAttribute("aria-label", "搜索");
+    }
+  }, []);
 
   const rows: MainTableRow[] = images
     .filter((item) => {
@@ -180,6 +199,8 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
         return "all";
       };
       const itemType = figureType();
+      const typeLabel =
+        itemType === VM ? "虚拟机" : itemType === CONTAINER ? "容器" : "全部";
 
       const selectImage = () => {
         onSelect(item, item.type ?? type);
@@ -201,9 +222,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           : item.variant;
 
       const getSource = () => {
-        let source = "Custom";
+        let source = "自定义";
         if (!item.cached && item.created_at) {
-          source = "Local";
+          source = "本地";
         }
         if (item.server === linuxContainersServer) {
           source = "Linux Containers";
@@ -224,45 +245,45 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
           {
             content: item.os,
             role: "rowheader",
-            "aria-label": "Distribution",
+            "aria-label": "发行版",
             onClick: selectImage,
           },
           {
             content: displayRelease,
             role: "cell",
-            "aria-label": "Release",
+            "aria-label": "版本",
             onClick: selectImage,
           },
           {
             content: displayVariant,
             role: "cell",
-            "aria-label": "Variant",
+            "aria-label": "变体",
             onClick: selectImage,
           },
           {
-            content: itemType,
+            content: typeLabel,
             role: "cell",
-            "aria-label": "Type",
+            "aria-label": "类型",
             onClick: selectImage,
           },
           {
             className: "u-hide--small u-hide--medium",
             content: item.aliases.split(",").pop(),
             role: "cell",
-            "aria-label": "Alias",
+            "aria-label": "别名",
             onClick: selectImage,
           },
           {
             content: getSource(),
             role: "cell",
-            "aria-label": "Source",
+            "aria-label": "来源",
             onClick: selectImage,
           },
           {
             className: "u-hide--small u-hide--medium",
-            content: item.cached ? "Cached" : "Remote",
+            content: item.cached ? "已缓存" : "远程",
             role: "cell",
-            "aria-label": "Cached",
+            "aria-label": "缓存状态",
             onClick: selectImage,
           },
           {
@@ -279,11 +300,11 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                     : "default"
                 }
               >
-                Select
+                选择
               </Button>
             ),
             role: "cell",
-            "aria-label": "Action",
+            "aria-label": "操作",
             onClick: selectImage,
           },
         ],
@@ -298,41 +319,37 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
     });
 
   const headers = [
-    { content: "Distribution", sortKey: "os" },
-    { content: "Release", sortKey: "release" },
-    { content: "Variant", sortKey: "variant" },
-    { content: "Type", sortKey: "type" },
+    { content: "发行版", sortKey: "os" },
+    { content: "版本", sortKey: "release" },
+    { content: "变体", sortKey: "variant" },
+    { content: "类型", sortKey: "type" },
     {
-      content: "Alias",
+      content: "别名",
       sortKey: "alias",
       className: "u-hide--small u-hide--medium",
     },
     {
-      content: "Source",
+      content: "来源",
     },
     {
       className: "u-hide--small u-hide--medium",
-      content: "Cached",
+      content: "缓存",
     },
     {
       className: "u-hide--small u-hide--medium",
       content: "",
-      "aria-label": "Actions",
+      "aria-label": "操作",
     },
   ];
 
   return (
-    <Modal
-      close={onClose}
-      title="Select base image"
-      className="image-select-modal"
-    >
+    <Modal close={onClose} title="选择基础镜像" className="image-select-modal">
       <Row className="u-no-padding--left u-no-padding--right">
         <Col size={3}>
           <div className="image-select-filters">
             <Select
               id="imageFilterDistribution"
-              label="Distribution"
+              label="发行版"
               name="distribution"
               onChange={(v) => {
                 setOs(v.target.value);
@@ -343,7 +360,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             />
             <Select
               id="imageFilterRelease"
-              label="Release"
+              label="版本"
               name="release"
               onChange={(v) => {
                 setRelease(v.target.value);
@@ -357,14 +374,14 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             />
             <Select
               id="imageFilterVariant"
-              label="Variant"
+              label="变体"
               name="variant"
               onChange={(v) => {
                 setVariant(v.target.value);
               }}
               options={[
                 {
-                  label: "Any",
+                  label: "任意",
                   value: ANY,
                 },
               ].concat(
@@ -381,7 +398,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             />
             <Select
               id="imageFilterArchitecture"
-              label="Architecture"
+              label="架构"
               name="architecture"
               onChange={(v) => {
                 setArch(v.target.value);
@@ -396,7 +413,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
             />
             <Select
               id="imageFilterType"
-              label="Type"
+              label="类型"
               name="type"
               onChange={(v) => {
                 setType(
@@ -407,7 +424,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               }}
               options={[
                 {
-                  label: "Any",
+                  label: "任意",
                   value: ANY,
                 },
                 ...instanceCreationTypes,
@@ -415,9 +432,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
               value={type ?? ""}
             />
             <CheckboxInput
-              aria-label="Only show cached images"
+              aria-label="仅显示已缓存镜像"
               checked={hideRemote}
-              label="Show only cached images"
+              label="仅显示已缓存镜像"
               onChange={() => {
                 setHideRemote((prev) => !prev);
               }}
@@ -437,7 +454,7 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                   setOs("");
                   setRelease("");
                 }}
-                placeholder="Search an image"
+                placeholder="搜索镜像"
               />
             </div>
           </div>
@@ -451,9 +468,9 @@ const ImageSelector: FC<Props> = ({ onSelect, onClose }) => {
                 className="table-image-select"
                 emptyStateMsg={
                   isLoading ? (
-                    <Spinner className="u-loader" text="Loading images..." />
+                    <Spinner className="u-loader" text="镜像加载中..." />
                   ) : (
-                    "No matching images found"
+                    "未找到匹配的镜像"
                   )
                 }
                 headers={headers}

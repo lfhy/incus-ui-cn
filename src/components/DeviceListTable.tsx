@@ -46,24 +46,24 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
   const hasDevices = overviewDevices.length > 0;
 
   const deviceHeaders = [
-    { content: "Name", sortKey: "name", className: "u-text--muted" },
-    { content: "Type", sortKey: "type", className: "u-text--muted" },
-    { content: "Details", className: "u-text--muted" },
+    { content: "名称", sortKey: "name", className: "u-text--muted" },
+    { content: "类型", sortKey: "type", className: "u-text--muted" },
+    { content: "详情", className: "u-text--muted" },
   ];
 
   const deviceRows = overviewDevices.map(([devicename, device]) => {
     let deviceType = device.type;
     if (isDiskDevice(device)) {
       if (isRootDisk(device as FormDevice)) {
-        deviceType += " (root)";
+        deviceType += "（根）";
       }
 
       if (isVolumeDevice(device)) {
-        deviceType += " (volume)";
+        deviceType += "（卷）";
       }
 
       if (isHostDiskDevice(device)) {
-        deviceType += " (host path)";
+        deviceType += "（主机路径）";
       }
     }
 
@@ -79,19 +79,19 @@ const DeviceListTable: FC<Props> = ({ configBaseURL, devices }) => {
             />
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
         },
         {
           content: deviceType,
           role: "cell",
-          "aria-label": "Type",
+          "aria-label": "类型",
         },
         {
           content: (
             <DeviceDetails device={device} project={project as string} />
           ),
           role: "cell",
-          "aria-label": "Details",
+          "aria-label": "详情",
         },
       ],
       sortData: {

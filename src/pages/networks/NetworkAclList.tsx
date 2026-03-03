@@ -27,27 +27,27 @@ const NetworkAclList: FC = () => {
   const { canCreateNetworkAcls } = useProjectEntitlements();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: networkAcls = [], error, isLoading } = useNetworkAcls(project);
 
   useEffect(() => {
     if (error) {
-      notify.failure("Loading ACLs failed", error);
+      notify.failure("加载 ACL 失败", error);
     }
   }, [error]);
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Description", sortKey: "description" },
+    { content: "名称", sortKey: "name" },
+    { content: "描述", sortKey: "description" },
     {
-      content: "Ingress Rules",
+      content: "入站规则",
       sortKey: "ingress",
       className: "u-align--right",
     },
-    { content: "Egress Rules", sortKey: "egress", className: "u-align--right" },
-    { content: "Used by", sortKey: "usedBy", className: "u-align--right" },
+    { content: "出站规则", sortKey: "egress", className: "u-align--right" },
+    { content: "使用量", sortKey: "usedBy", className: "u-align--right" },
   ];
 
   const rows = networkAcls.map((acl) => {
@@ -62,29 +62,29 @@ const NetworkAclList: FC = () => {
             </Link>
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
         },
         {
           content: acl.description,
           role: "cell",
-          "aria-label": "Description",
+          "aria-label": "描述",
         },
         {
           content: acl.ingress.length,
           role: "cell",
-          "aria-label": "Ingress rules",
+          "aria-label": "入站规则",
           className: "u-align--right",
         },
         {
           content: acl.egress.length,
           role: "cell",
-          "aria-label": "Egress rules",
+          "aria-label": "出站规则",
           className: "u-align--right",
         },
         {
           content: (acl.used_by ?? []).length,
           role: "cell",
-          "aria-label": "Used by",
+          "aria-label": "使用量",
           className: "u-align--right",
         },
       ],
@@ -99,7 +99,7 @@ const NetworkAclList: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const createAclButton = (
@@ -116,11 +116,11 @@ const NetworkAclList: FC = () => {
       title={
         canCreateNetworkAcls(currentProject)
           ? ""
-          : "You do not have permission to create ACLs in this project"
+          : "你没有在此项目中创建 ACL 的权限"
       }
     >
       <Icon name="plus" light />
-      <span>Create ACL</span>
+      <span>创建 ACL</span>
     </Button>
   );
 
@@ -130,11 +130,8 @@ const NetworkAclList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/howto/network_acls/"
-                title="Learn more about network ACLs"
-              >
-                Network ACLs
+              <HelpLink docPath="/howto/network_acls/" title="了解更多网络 ACL">
+                网络 ACL
               </HelpLink>
             </PageHeader.Title>
           </PageHeader.Left>
@@ -152,19 +149,19 @@ const NetworkAclList: FC = () => {
             rows={rows}
             responsive
             sortable
-            emptyStateMsg="No data to display"
+            emptyStateMsg="暂无数据"
           />
         )}
         {!isLoading && networkAcls.length === 0 && (
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No network ACLs found"
+            title="未找到网络 ACL"
           >
-            <p>There are no network ACLs in this project.</p>
+            <p>当前项目中没有网络 ACL。</p>
             <p>
               <DocLink docPath="/howto/network_acls/" hasExternalIcon>
-                Learn more about network ACLs
+                了解更多网络 ACL
               </DocLink>
             </p>
             {createAclButton}

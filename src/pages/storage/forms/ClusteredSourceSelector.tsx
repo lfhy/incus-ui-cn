@@ -23,7 +23,7 @@ const ClusteredSourceSelector: FC<Props> = ({
 
   return (
     <>
-      <Label forId="sourcePerClusterMember">Source</Label>
+      <Label forId="sourcePerClusterMember">来源</Label>
       <ClusterSpecificInput
         values={formik.values.sourcePerClusterMember}
         id="sourcePerClusterMember"

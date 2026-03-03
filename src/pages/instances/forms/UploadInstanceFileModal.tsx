@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@canonical/react-components";
 import type { UploadState } from "types/storage";
 import ProgressBar from "components/ProgressBar";
@@ -17,11 +17,21 @@ const UploadInstanceFileModal: FC<Props> = ({ close, name }) => {
   const [fileType, setFileType] = useState<InstanceFileType>("instance-backup");
   const [uploadState, setUploadState] = useState<UploadState | null>(null);
 
+  useEffect(() => {
+    const modalCloseBtn = document.querySelector<HTMLButtonElement>(
+      ".upload-instance-modal .p-modal__close",
+    );
+    if (modalCloseBtn) {
+      modalCloseBtn.textContent = "关闭";
+      modalCloseBtn.setAttribute("aria-label", "关闭弹窗");
+    }
+  }, []);
+
   return (
     <Modal
       close={close}
       className="upload-instance-modal"
-      title="Upload instance file"
+      title="上传实例文件"
       closeOnOutsideClick={false}
     >
       <NotificationRow className="u-no-padding u-no-margin" />
@@ -29,7 +39,7 @@ const UploadInstanceFileModal: FC<Props> = ({ close, name }) => {
         <>
           <ProgressBar percentage={Math.floor(uploadState.percentage)} />
           <p>
-            {humanFileSize(uploadState.loaded)} loaded of{" "}
+            已上传 {humanFileSize(uploadState.loaded)} /{" "}
             {humanFileSize(uploadState.total ?? 0)}
           </p>
         </>

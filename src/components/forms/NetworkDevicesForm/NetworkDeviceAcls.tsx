@@ -40,10 +40,10 @@ const NetworkDeviceAcls: FC<Props> = ({
 
   const getHelperText = (): ReactNode => {
     if (!canSelectManualAcls) {
-      return "Network must be of type OVN to customize ACLs.";
+      return "网络必须是 OVN 类型，才能自定义 ACL。";
     }
     if (networkAcls.length === 0) return undefined;
-    return "Some ACLs are inherited from the network. They cannot be deselected here.";
+    return "部分 ACL 继承自网络，无法在此取消选择。";
   };
 
   return (
@@ -52,7 +52,7 @@ const NetworkDeviceAcls: FC<Props> = ({
         className={canSelectManualAcls ? "" : "u-text--muted"}
         htmlFor={id}
       >
-        ACLs
+        ACL 列表
       </label>
       {formik && (
         <NetworkAclSelector

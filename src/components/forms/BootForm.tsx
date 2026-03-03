@@ -42,8 +42,10 @@ const BootForm: FC<Props> = ({ formik }) => {
       rows={[
         getConfigurationRow({
           formik,
-          label: "Autostart",
+          label: "自动启动",
           name: "boot_autostart",
+          help: "守护进程启动时是否总是自动启动实例",
+          inputHelp: "用于控制守护进程启动后是否自动启动该实例。",
           defaultValue: "",
           readOnlyRenderer: (val) =>
             val === "-" ? "-" : optionRenderer(val, optionYesNo),
@@ -52,34 +54,42 @@ const BootForm: FC<Props> = ({ formik }) => {
 
         getConfigurationRow({
           formik,
-          label: "Autostart delay",
+          label: "自动启动延迟",
           name: "boot_autostart_delay",
+          help: "实例启动后的延迟时间",
+          inputHelp: "设置自动启动前等待的秒数。",
           defaultValue: "",
-          children: <Input placeholder="Enter number" type="number" />,
+          children: <Input placeholder="请输入数字" type="number" />,
         }),
 
         getConfigurationRow({
           formik,
-          label: "Autostart priority",
+          label: "自动启动优先级",
           name: "boot_autostart_priority",
+          help: "实例启动顺序优先级",
+          inputHelp: "数值越大，启动顺序越靠前。",
           defaultValue: "",
-          children: <Input placeholder="Enter number" type="number" />,
+          children: <Input placeholder="请输入数字" type="number" />,
         }),
 
         getConfigurationRow({
           formik,
-          label: "Host shutdown timeout",
+          label: "主机关机超时",
           name: "boot_host_shutdown_timeout",
+          help: "等待实例关闭的超时时间",
+          inputHelp: "设置主机关机时等待实例关闭的秒数。",
           defaultValue: "",
-          children: <Input placeholder="Enter number" type="number" />,
+          children: <Input placeholder="请输入数字" type="number" />,
         }),
 
         getConfigurationRow({
           formik,
-          label: "Stop priority",
+          label: "停止优先级",
           name: "boot_stop_priority",
+          help: "实例关闭顺序优先级",
+          inputHelp: "数值越大，停止顺序越靠后。",
           defaultValue: "",
-          children: <Input placeholder="Enter number" type="number" />,
+          children: <Input placeholder="请输入数字" type="number" />,
         }),
       ]}
     />

@@ -78,15 +78,32 @@ export const getVolumeConfigKeys = (): Set<string> => {
 };
 
 export const renderVolumeType = (volume: LxdStorageVolume): string => {
-  return volume.type === "virtual-machine"
-    ? "VM"
-    : capitalizeFirstLetter(volume.type);
+  if (volume.type === "virtual-machine") {
+    return "虚拟机";
+  }
+  if (volume.type === "container") {
+    return "容器";
+  }
+  if (volume.type === "image") {
+    return "镜像";
+  }
+  if (volume.type === "custom") {
+    return "自定义";
+  }
+  return capitalizeFirstLetter(volume.type);
 };
 
 export const renderContentType = (volume: LxdStorageVolume): string => {
-  return volume.content_type === "iso"
-    ? "ISO"
-    : capitalizeFirstLetter(volume.content_type);
+  if (volume.content_type === "iso") {
+    return "ISO";
+  }
+  if (volume.content_type === "filesystem") {
+    return "文件系统";
+  }
+  if (volume.content_type === "block") {
+    return "块存储";
+  }
+  return capitalizeFirstLetter(volume.content_type);
 };
 
 export const isSnapshot = (volume: LxdStorageVolume): boolean => {

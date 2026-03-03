@@ -113,9 +113,10 @@ export const getConfigurationRow = ({
               help: (
                 <ConfigFieldDescription
                   description={
-                    metadata.configField
+                    inputHelp ??
+                    (metadata.configField
                       ? cleanDescription(metadata.configField.longdesc)
-                      : inputHelp
+                      : undefined)
                   }
                 />
               ),
@@ -174,7 +175,7 @@ export const getConfigurationRow = ({
               type="button"
               appearance="base"
               title={getDisabledReasonOrTitle(
-                isOverridden ? "Edit" : "Create override",
+                isOverridden ? "编辑" : "创建覆盖",
               )}
               disabled={isDisabled()}
               hasIcon
@@ -195,7 +196,7 @@ export const getConfigurationRow = ({
         type="button"
         disabled={isDisabled()}
         appearance="base"
-        title={formik.values.editRestriction ?? "Create override"}
+        title={formik.values.editRestriction ?? "创建覆盖"}
         hasIcon
       >
         <Icon name="edit" />
@@ -209,9 +210,7 @@ export const getConfigurationRow = ({
         {displayLabel}
         <p className="configuration-help">
           <ConfigFieldDescription
-            description={
-              metadata.configField ? metadata.configField.shortdesc : help
-            }
+            description={help ?? metadata.configField?.shortdesc}
           />
         </p>
       </>
@@ -228,7 +227,7 @@ export const getConfigurationRow = ({
         </div>
         {metadata && (
           <div className="p-text--small u-text--muted">
-            From: {metadata.source}
+            来源：{metadata.source}
           </div>
         )}
       </div>

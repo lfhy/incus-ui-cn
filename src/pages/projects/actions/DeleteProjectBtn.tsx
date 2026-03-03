@@ -28,19 +28,19 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
   const resourceLabelAndLink: Record<string, { label: string; link: string }> =
     {
       instance: {
-        label: "Instances",
+        label: "实例",
         link: `/ui/project/${encodeURIComponent(project.name)}/instances`,
       },
       profile: {
-        label: "Profiles",
+        label: "配置文件",
         link: `/ui/project/${encodeURIComponent(project.name)}/profiles`,
       },
       image: {
-        label: "Images",
+        label: "镜像",
         link: `/ui/project/${encodeURIComponent(project.name)}/images`,
       },
       volume: {
-        label: "Custom volumes",
+        label: "自定义卷",
         link: `/ui/project/${encodeURIComponent(project.name)}/storage/volumes`,
       },
     };
@@ -72,8 +72,8 @@ const generateProjectUsedByTooltip = (project: LxdProject) => {
 
   return (
     <>
-      Non-empty project cannot be deleted.
-      <p className="u-no-margin--bottom">Project is used by:</p>
+      非空项目无法删除。
+      <p className="u-no-margin--bottom">该项目被以下资源使用：</p>
       <ul className="p-list u-no-margin--bottom">{usedByItems}</ul>
     </>
   );
@@ -92,15 +92,15 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
   const isEmpty = isProjectEmpty(project);
   const getHoverText = () => {
     if (!canDeleteProject(project)) {
-      return "You do not have permission to delete this project";
+      return "你没有删除此项目的权限";
     }
     if (isDefaultProject) {
-      return "The default project cannot be deleted";
+      return "默认项目不可删除";
     }
     if (!isEmpty) {
       return "";
     }
-    return "Delete project";
+    return "删除项目";
   };
 
   const handleDelete = () => {
@@ -110,14 +110,14 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         navigate(`/ui/project/default/instances`);
         toastNotify.success(
           <>
-            Project <ResourceLabel bold type="project" value={project.name} />{" "}
-            deleted.
+            项目 <ResourceLabel bold type="project" value={project.name} />{" "}
+            已删除。
           </>,
         );
       })
       .catch((e) => {
         setLoading(false);
-        notify.failure("Project deletion failed", e);
+        notify.failure("删除项目失败", e);
       })
       .finally(() => {
         queryClient.invalidateQueries({
@@ -137,14 +137,14 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         !canDeleteProject(project) || isDefaultProject || !isEmpty || isLoading
       }
       confirmationModalProps={{
-        title: "Confirm delete",
-        confirmButtonLabel: "Delete",
+        title: "确认删除",
+        confirmButtonLabel: "删除",
         onConfirm: handleDelete,
         children: (
           <p>
-            This will permanently delete project{" "}
+            这将永久删除项目{" "}
             <ResourceLabel type="project" value={project.name} bold />.<br />
-            This action cannot be undone, and can result in data loss.
+            此操作不可撤销，并可能导致数据丢失。
           </p>
         ),
       }}
@@ -159,7 +159,7 @@ const DeleteProjectBtn: FC<Props> = ({ project }) => {
         }
       >
         {!isSmallScreen && <Icon name="delete" />}
-        <span>Delete project</span>
+        <span>删除项目</span>
       </Tooltip>
     </ConfirmationButton>
   );

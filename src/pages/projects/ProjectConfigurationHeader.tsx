@@ -30,12 +30,12 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
     name: Yup.string()
       .test(
         "deduplicate",
-        "A project with this name already exists",
+        "已存在同名项目",
         async (value) =>
           project.name === value ||
           checkDuplicateName(value, "", controllerState, "projects"),
       )
-      .required("Project name is required"),
+      .required("项目名称为必填项"),
   });
 
   const formik = useFormik<RenameHeaderValues>({
@@ -66,7 +66,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
               navigate(url);
               toastNotify.success(
                 <>
-                  Project <strong>{project.name}</strong> renamed to{" "}
+                  项目 <strong>{project.name}</strong> 已重命名为{" "}
                   <ResourceLink type="project" value={values.name} to={url} />.
                 </>,
               );
@@ -74,7 +74,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
             },
             (msg) =>
               toastNotify.failure(
-                `Renaming project ${project.name} failed`,
+                `重命名项目 ${project.name} 失败`,
                 new Error(msg),
                 oldProjectLink,
               ),
@@ -86,7 +86,7 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         .catch((e) => {
           formik.setSubmitting(false);
           toastNotify.failure(
-            `Renaming project ${project.name} failed`,
+            `重命名项目 ${project.name} 失败`,
             e,
             oldProjectLink,
           );
@@ -96,11 +96,11 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
 
   const getRenameDisabledReason = () => {
     if (!canEditProject(project)) {
-      return "You do not have permission to rename this project";
+      return "你没有重命名此项目的权限";
     }
 
     if (project.name === "default") {
-      return "Cannot rename the default project";
+      return "默认项目不可重命名";
     }
 
     return undefined;
@@ -113,9 +113,9 @@ const ProjectConfigurationHeader: FC<Props> = ({ project }) => {
         <HelpLink
           key="project-configuration"
           docPath="/reference/projects/"
-          title="Learn more about project configuration"
+          title="了解更多项目配置"
         >
-          Project configuration
+          项目配置
         </HelpLink>,
       ]}
       renameDisabledReason={getRenameDisabledReason()}

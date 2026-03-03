@@ -42,7 +42,7 @@ const StatusBar: FC<Props> = ({ className }) => {
         <Icon
           key={severity}
           name={iconLookup[severity]}
-          aria-label={`${severity} notification exists`}
+          aria-label={`${severity} 级别通知`}
         />
       );
     }
@@ -66,7 +66,7 @@ const StatusBar: FC<Props> = ({ className }) => {
                 { "button-active": isListView },
               )}
               onClick={toggleListView}
-              aria-label="Expand notifications list"
+              aria-label="展开通知列表"
             >
               {notificationIcons}
               <span className="total-count">{notifications.length}</span>

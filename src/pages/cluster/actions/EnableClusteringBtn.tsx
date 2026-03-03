@@ -10,9 +10,7 @@ const EnableClusteringBtn: FC = () => {
   });
 
   const canEdit = canEditServerConfiguration();
-  const title = canEdit
-    ? "Enable clustering"
-    : "You do not have permission to edit the server";
+  const title = canEdit ? "启用集群" : "你没有编辑服务器配置的权限";
 
   return (
     <>
@@ -24,7 +22,7 @@ const EnableClusteringBtn: FC = () => {
         title={title}
       >
         <Icon name="plus" light />
-        <span>Enable clustering</span>
+        <span>启用集群</span>
       </Button>
       {isOpen && (
         <Portal>

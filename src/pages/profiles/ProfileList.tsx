@@ -41,7 +41,7 @@ const ProfileList: FC = () => {
   const isSmallScreen = useIsScreenBelow();
 
   if (!projectName) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
   const isDefaultProject = projectName === "default";
 
@@ -55,7 +55,7 @@ const ProfileList: FC = () => {
   } = useProfiles(projectName);
 
   if (error) {
-    notify.failure("Loading profiles failed", error);
+    notify.failure("加载配置文件失败", error);
   }
 
   const isLoading = isProfilesLoading || isProjectLoading;
@@ -93,10 +93,10 @@ const ProfileList: FC = () => {
   });
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Description", sortKey: "description" },
+    { content: "名称", sortKey: "name" },
+    { content: "描述", sortKey: "description" },
     {
-      content: "Used by",
+      content: "使用情况",
       sortKey: "used_by",
     },
   ];
@@ -111,6 +111,12 @@ const ProfileList: FC = () => {
     const total =
       instanceCountMap.find((item) => profile.name === item.name)?.total ?? 0;
 
+    const rawDescription = profile.description ?? "";
+    const description =
+      rawDescription === "Default Incus profile"
+        ? "默认 Incus 配置文件"
+        : rawDescription;
+
     return {
       key: profile.name,
       className:
@@ -118,7 +124,7 @@ const ProfileList: FC = () => {
       columns: [
         {
           content: (
-            <div className="u-truncate" title={`Profile ${profile.name}`}>
+            <div className="u-truncate" title={`配置文件 ${profile.name}`}>
               <ProfileLink
                 profile={{
                   name: profile.name,
@@ -128,36 +134,33 @@ const ProfileList: FC = () => {
             </div>
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
           onClick: openSummary,
         },
         {
           content: (
-            <div
-              className="table-description"
-              title={`Description ${profile.description}`}
-            >
-              {profile.description}
+            <div className="table-description" title={`描述 ${description}`}>
+              {description}
             </div>
           ),
           role: "cell",
-          "aria-label": "Description",
+          "aria-label": "描述",
           onClick: openSummary,
           className: "clickable-cell",
         },
         {
           content: (
             <>
-              {usedBy} {usedBy === 1 ? "instance" : "instances"}
+              {usedBy} {usedBy === 1 ? "个实例" : "个实例"}
               {isDefaultProject && (
                 <>
-                  <div className="u-text--muted">{total} in all projects</div>
+                  <div className="u-text--muted">所有项目共 {total} 个</div>
                 </>
               )}
             </>
           ),
           role: "cell",
-          "aria-label": "Used by",
+          "aria-label": "使用情况",
           onClick: openSummary,
           className: "clickable-cell",
         },
@@ -173,7 +176,7 @@ const ProfileList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -185,11 +188,8 @@ const ProfileList: FC = () => {
           <PageHeader>
             <PageHeader.Left>
               <PageHeader.Title>
-                <HelpLink
-                  docPath="/profiles/"
-                  title="Learn how to use profiles"
-                >
-                  Profiles
+                <HelpLink docPath="/profiles/" title="了解如何使用配置文件">
+                  配置文件
                 </HelpLink>
               </PageHeader.Title>
               {profiles.length > 0 && (
@@ -201,9 +201,9 @@ const ProfileList: FC = () => {
                     onChange={(value) => {
                       setQuery(value);
                     }}
-                    placeholder="Search"
+                    placeholder="搜索"
                     value={query}
-                    aria-label="Search"
+                    aria-label="搜索"
                   />
                 </PageHeader.Search>
               )}
@@ -223,11 +223,11 @@ const ProfileList: FC = () => {
                   title={
                     canCreateProfiles(project)
                       ? ""
-                      : "You do not have permission to create profiles in this project"
+                      : "你没有在此项目中创建配置文件的权限"
                   }
                 >
                   {!isSmallScreen && <Icon name="plus" light />}
-                  <span>Create profile</span>
+                  <span>创建配置文件</span>
                 </Button>
               </PageHeader.BaseActions>
             )}
@@ -239,17 +239,16 @@ const ProfileList: FC = () => {
           <Col size={12}>
             {!featuresProfiles && (
               <Notification severity="information">
-                Showing profiles from the{" "}
+                正在显示来自{" "}
                 <ResourceLink
                   to="/ui/project/default/profiles"
                   type="project"
                   value="default"
                 />{" "}
-                project.
+                项目的配置文件。
                 <br />
                 <span className="u-text--muted">
-                  For project-specific profiles, enable profile isolation in the
-                  project configuration.
+                  如需项目专属配置文件，请在项目配置中启用配置文件隔离。
                 </span>
               </Notification>
             )}
@@ -257,9 +256,9 @@ const ProfileList: FC = () => {
               <EmptyState
                 className="empty-state"
                 image={<Icon name="repository" className="empty-state-icon" />}
-                title="No profiles found"
+                title="未找到配置文件"
               >
-                <p>There are no profiles in this project.</p>
+                <p>当前项目中没有配置文件。</p>
               </EmptyState>
             )}
             {profiles.length > 0 && (
@@ -271,15 +270,21 @@ const ProfileList: FC = () => {
                 <TablePagination
                   id="pagination"
                   data={sortedRows}
-                  itemName="profile"
+                  itemName="配置文件"
                   className="u-no-margin--top"
-                  aria-label="Table pagination control"
+                  aria-label="表格分页控件"
+                  description={
+                    <>
+                      显示 <b>{sortedRows.length}</b> / <b>{profiles.length}</b>{" "}
+                      个配置文件
+                    </>
+                  }
                 >
                   <MainTable
                     id="profile-table"
                     headers={headers}
                     sortable
-                    emptyStateMsg="No profile found matching this search"
+                    emptyStateMsg="未找到匹配搜索的配置文件"
                     onUpdateSort={updateSort}
                   />
                 </TablePagination>

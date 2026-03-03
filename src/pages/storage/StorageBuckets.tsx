@@ -59,7 +59,7 @@ const StorageBuckets: FC = () => {
   };
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: buckets = [], error, isLoading } = useBuckets(project);
@@ -77,7 +77,7 @@ const StorageBuckets: FC = () => {
   }, [buckets]);
 
   if (error) {
-    notify.failure("Loading storage buckets failed", error);
+    notify.failure("加载存储桶失败", error);
   }
 
   const headers = [
@@ -213,7 +213,7 @@ const StorageBuckets: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const hasBuckets = buckets.length !== 0;
@@ -228,15 +228,15 @@ const StorageBuckets: FC = () => {
         <TablePagination
           data={sortedRows}
           id="pagination"
-          itemName="bucket"
+          itemName="存储桶"
           className="u-no-margin--top"
           aria-label="Table pagination control"
           description={
             selectedNames.length > 0 && (
               <SelectedTableNotification
                 totalCount={buckets.length ?? 0}
-                itemName="bucket"
-                parentName="project"
+                itemName="存储桶"
+                parentName="项目"
                 selectedNames={selectedNames}
                 setSelectedNames={setSelectedNames}
                 filteredNames={filteredBuckets.map((bucket) =>
@@ -252,9 +252,9 @@ const StorageBuckets: FC = () => {
             headers={headers}
             rows={sortedRows}
             sortable
-            emptyStateMsg="No bucket found matching this search"
-            itemName="bucket"
-            parentName="project"
+            emptyStateMsg="未找到匹配搜索的存储桶"
+            itemName="存储桶"
+            parentName="项目"
             selectedNames={selectedNames}
             setSelectedNames={setSelectedNames}
             disabledNames={processingNames}
@@ -270,15 +270,15 @@ const StorageBuckets: FC = () => {
     <EmptyState
       className="empty-state"
       image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
-      title="No buckets found in this project"
+      title="此项目中未找到存储桶"
     >
-      <p>Storage buckets will appear here</p>
+      <p>存储桶会显示在这里</p>
       <p>
         <DocLink
           docPath="/explanation/storage/#storage-buckets"
           hasExternalIcon
         >
-          Learn more about storage buckets
+          了解更多存储桶信息
         </DocLink>
       </p>
       <CreateStorageBucketBtn className="empty-state-button" />
@@ -308,9 +308,9 @@ const StorageBuckets: FC = () => {
               <PageHeader.Title>
                 <HelpLink
                   docPath="/explanation/storage/#storage-buckets"
-                  title="Learn more about storage buckets"
+                  title="了解更多存储桶"
                 >
-                  Buckets
+                  存储桶
                 </HelpLink>
               </PageHeader.Title>
               {!selectedNames.length && !panelParams.panel && hasBuckets && (

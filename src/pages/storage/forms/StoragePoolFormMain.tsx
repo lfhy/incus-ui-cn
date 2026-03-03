@@ -43,6 +43,13 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
   const { data: settings } = useSettings();
 
   const getFormProps = (id: "name" | "description" | "size" | "source") => {
+    const placeholders = {
+      name: "请输入名称",
+      description: "请输入描述",
+      size: "请输入大小",
+      source: "请输入来源",
+    };
+
     return {
       id: id,
       name: id,
@@ -50,7 +57,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
       onChange: formik.handleChange,
       value: formik.values[id],
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-      placeholder: `Enter ${id.replaceAll("_", " ")}`,
+      placeholder: placeholders[id],
     };
   };
 
@@ -69,9 +76,9 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
 
   const sourceHelpText = formik.values.isCreating
     ? getSourceHelpForDriver(formik.values.driver)
-    : "Source can't be changed";
+    : "来源不可更改";
   const nameHelpText = !formik.values.isCreating
-    ? "Cannot rename storage pools"
+    ? "无法重命名存储池"
     : undefined;
 
   const cephObjectNotice = (
@@ -89,14 +96,14 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
           <Input
             {...getFormProps("name")}
             type="text"
-            label="Name"
+            label="名称"
             required
             disabled={!formik.values.isCreating}
             help={nameHelpText}
           />
           <AutoExpandingTextArea
             {...getFormProps("description")}
-            label="Description"
+            label="描述"
             onChange={(e) => {
               ensureEditMode(formik);
               formik.handleChange(e);
@@ -109,14 +116,14 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
             name="driver"
             help={
               !formik.values.isCreating
-                ? "Driver can't be changed"
+                ? "驱动不可更改"
                 : formik.values.driver === zfsDriver
-                  ? "ZFS gives best performance and reliability"
+                  ? "ZFS 提供更好的性能与可靠性"
                   : formik.values.driver === cephObject
                     ? cephObjectNotice
                     : undefined
             }
-            label="Driver"
+            label="驱动"
             options={storageDriverOptions}
             onChange={(target) => {
               const val = target.target.value;
@@ -181,18 +188,18 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   formik.setFieldValue("sizePerClusterMember", value);
                 }}
                 helpText={
-                  "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                  "留空时默认使用可用磁盘空间的 20%，默认值范围为 5GiB 至 30GiB"
                 }
                 disabledReason={formik.values.editRestriction}
               />
             ) : (
               <DiskSizeSelector
-                label="Size"
+                label="大小"
                 value={formik.values.size}
                 help={
                   formik.values.driver === dirDriver
-                    ? "Not available"
-                    : "When left blank, defaults to 20% of free disk space. Default will be between 5GiB and 30GiB"
+                    ? "不可用"
+                    : "留空时默认使用可用磁盘空间的 20%，默认值范围为 5GiB 至 30GiB"
                 }
                 setMemoryLimit={(val?: string) => {
                   ensureEditMode(formik);
@@ -221,7 +228,7 @@ const StoragePoolFormMain: FC<Props> = ({ formik }) => {
                   !!formik.values.editRestriction || !formik.values.isCreating
                 }
                 help={sourceHelpText}
-                label="Source"
+                label="来源"
                 title={formik.values.editRestriction}
               />
             ))}

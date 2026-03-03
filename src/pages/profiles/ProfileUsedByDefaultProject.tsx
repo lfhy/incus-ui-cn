@@ -30,7 +30,7 @@ const ProfileUsedByDefaultProject: FC<Props> = ({
           </th>
           <td>
             {project.instances.length === 0 && (
-              <i className="u-text--muted no-instances">No instances</i>
+              <i className="u-text--muted no-instances">无实例</i>
             )}
             {project.instances.length > 0 && (
               <ViewProfileInstancesLink

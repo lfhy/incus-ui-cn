@@ -39,13 +39,13 @@ const ImageList: FC = () => {
   const { canDeleteImage } = useImageEntitlements();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { data: images = [], error, isLoading } = useImagesInProject(project);
 
   if (error) {
-    notify.failure("Loading images failed", error);
+    notify.failure("加载镜像失败", error);
   }
 
   useEffect(() => {
@@ -58,27 +58,94 @@ const ImageList: FC = () => {
     }
   }, [images]);
 
+  useEffect(() => {
+    const searchBtn = document.querySelector<HTMLButtonElement>(
+      ".images-list .p-search-box__button",
+    );
+    if (searchBtn) {
+      searchBtn.textContent = "搜索";
+      searchBtn.setAttribute("aria-label", "搜索");
+    }
+  }, []);
+
+  useEffect(() => {
+    const pagination = document.getElementById("pagination");
+    if (!pagination) {
+      return;
+    }
+
+    const updatePaginationText = () => {
+      const walker = document.createTreeWalker(
+        pagination,
+        NodeFilter.SHOW_TEXT,
+      );
+      const updates: Array<{ node: Text; value: string }> = [];
+
+      while (walker.nextNode()) {
+        const textNode = walker.currentNode as Text;
+        const originalValue = textNode.nodeValue ?? "";
+        const value = originalValue.trim();
+        if (!value) {
+          continue;
+        }
+
+        let updatedValue = originalValue.replace(
+          /Showing\s+(\d+)\s+out of\s+(\d+)\s+/g,
+          "显示 $1 / $2 ",
+        );
+
+        if (value === "Page number") {
+          updatedValue = "页码";
+        } else if (value === "Items per page") {
+          updatedValue = "每页条目数";
+        } else if (value === "/page") {
+          updatedValue = "/页";
+        } else if (value === "of") {
+          updatedValue = "共";
+        }
+
+        if (updatedValue !== originalValue) {
+          updates.push({ node: textNode, value: updatedValue });
+        }
+      }
+
+      updates.forEach(({ node, value }) => {
+        node.nodeValue = value;
+      });
+    };
+
+    updatePaginationText();
+    const observer = new MutationObserver(() => {
+      updatePaginationText();
+    });
+    observer.observe(pagination, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [images.length, selectedNames.length, query]);
+
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Alias", sortKey: "alias", className: "aliases" },
+    { content: "名称", sortKey: "name" },
+    { content: "别名", sortKey: "alias", className: "aliases" },
     {
-      content: "Architecture",
+      content: "架构",
       sortKey: "architecture",
       className: "architecture",
     },
     {
-      content: "Public",
+      content: "公开",
       sortKey: "public",
       className: "public",
     },
-    { content: "Type", sortKey: "type", className: "type" },
+    { content: "类型", sortKey: "type", className: "type" },
     {
-      content: "Upload date",
+      content: "上传时间",
       sortKey: "uploaded_at",
       className: "uploaded_at",
     },
-    { content: "Size", sortKey: "size", className: "u-align--right size" },
-    { "aria-label": "Actions", className: "actions" },
+    { content: "大小", sortKey: "size", className: "u-align--right size" },
+    { "aria-label": "操作", className: "actions" },
   ];
 
   const filteredImages = images.filter(
@@ -129,48 +196,48 @@ const ImageList: FC = () => {
         {
           content: description,
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
         },
         {
           content: imageAlias,
           role: "cell",
-          "aria-label": "Aliases",
+          "aria-label": "别名",
           className: "aliases",
         },
         {
           content: image.architecture,
           role: "cell",
-          "aria-label": "Architecture",
+          "aria-label": "架构",
           className: "architecture",
         },
         {
-          content: image.public ? "Yes" : "No",
+          content: image.public ? "是" : "否",
           role: "cell",
-          "aria-label": "Public",
+          "aria-label": "公开",
           className: "public",
         },
         {
-          content: image.type == "virtual-machine" ? "VM" : "Container",
+          content: image.type == "virtual-machine" ? "虚拟机" : "容器",
           role: "cell",
-          "aria-label": "Type",
+          "aria-label": "类型",
           className: "type",
         },
         {
           content: isoTimeToString(image.uploaded_at),
           role: "cell",
-          "aria-label": "Upload date",
+          "aria-label": "上传时间",
           className: "uploaded_at",
         },
         {
           content: humanFileSize(image.size),
           role: "cell",
-          "aria-label": "Size",
+          "aria-label": "大小",
           className: "u-align--right size",
         },
         {
           content: actions,
           role: "cell",
-          "aria-label": "Actions",
+          "aria-label": "操作",
           className: "u-align--right actions",
         },
       ],
@@ -189,7 +256,7 @@ const ImageList: FC = () => {
   const { rows: sortedRows, updateSort } = useSortTableData({ rows });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   return (
@@ -200,11 +267,8 @@ const ImageList: FC = () => {
         <PageHeader>
           <PageHeader.Left>
             <PageHeader.Title>
-              <HelpLink
-                docPath="/image-handling/"
-                title="Learn more about images"
-              >
-                Images
+              <HelpLink docPath="/image-handling/" title="了解更多镜像">
+                镜像
               </HelpLink>
             </PageHeader.Title>
             {selectedNames.length === 0 && images.length > 0 && (
@@ -216,9 +280,9 @@ const ImageList: FC = () => {
                   onChange={(value) => {
                     setQuery(value);
                   }}
-                  placeholder="Search"
+                  placeholder="搜索"
                   value={query}
-                  aria-label="Search for images"
+                  aria-label="搜索镜像"
                 />
               </PageHeader.Search>
             )}
@@ -248,11 +312,9 @@ const ImageList: FC = () => {
           <EmptyState
             className="empty-state"
             image={<Icon name="image" className="empty-state-icon" />}
-            title="No images found in this project"
+            title="此项目中未找到镜像"
           >
-            <p>
-              Images will appear here, when launching an instance from a remote.
-            </p>
+            <p>从远程源启动实例后，镜像会显示在这里。</p>
           </EmptyState>
         )}
         {images.length > 0 && (
@@ -264,15 +326,15 @@ const ImageList: FC = () => {
             <TablePagination
               data={sortedRows}
               id="pagination"
-              itemName="image"
+              itemName="镜像"
               className="u-no-margin--top"
               aria-label="Table pagination control"
               description={
                 selectedNames.length > 0 && (
                   <SelectedTableNotification
                     totalCount={deletableImages.length ?? 0}
-                    itemName="image"
-                    parentName="project"
+                    itemName="镜像"
+                    parentName="项目"
                     selectedNames={selectedNames}
                     setSelectedNames={setSelectedNames}
                     filteredNames={deletableImages}
@@ -286,12 +348,12 @@ const ImageList: FC = () => {
                 sortable
                 className="image-table"
                 defaultSortKey="uploaded_at"
-                emptyStateMsg="No images found matching this search"
+                emptyStateMsg="未找到匹配搜索的镜像"
                 onUpdateSort={updateSort}
                 selectedNames={selectedNames}
                 setSelectedNames={setSelectedNames}
-                itemName="image"
-                parentName="project"
+                itemName="镜像"
+                parentName="项目"
                 filteredNames={filteredImages.map((item) => item.fingerprint)}
                 disabledNames={processingNames}
                 rows={[]}

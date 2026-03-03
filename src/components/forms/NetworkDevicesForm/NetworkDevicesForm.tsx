@@ -44,7 +44,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
   } = useProfiles(project);
 
   if (profileError) {
-    notify.failure("Loading profiles failed", profileError);
+    notify.failure("加载配置文件失败", profileError);
   }
 
   const {
@@ -55,12 +55,12 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
 
   useEffect(() => {
     if (networkError) {
-      notify.failure("Loading networks failed", networkError);
+      notify.failure("加载网络失败", networkError);
     }
   }, [networkError]);
 
   if (isProfileLoading || isNetworkLoading) {
-    return <Spinner className="u-loader" text="Loading..." />;
+    return <Spinner className="u-loader" text="加载中..." />;
   }
 
   const filteredNetworks = networks.filter(
@@ -129,7 +129,7 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
                   device.name
                 ) : (
                   <Input
-                    label="Device name"
+                    label="设备名称"
                     required
                     name={`devices.${index}.name`}
                     id={`devices.${index}.name`}
@@ -137,10 +137,10 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
                     onChange={formik.handleChange}
                     value={(formik.values.devices[index] as LxdNicDevice).name}
                     type="text"
-                    placeholder="Enter name"
+                    placeholder="请输入名称"
                     error={
                       isNicDeviceNameMissing(formik, index)
-                        ? "Device name is required"
+                        ? "设备名称不能为空"
                         : undefined
                     }
                   />
@@ -151,8 +151,8 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
             override:
               device.type === "custom-nic" ? (
                 <>
-                  custom network{" "}
-                  <Tooltip message="A custom network can be viewed and edited only from the YAML configuration">
+                  自定义网络{" "}
+                  <Tooltip message="自定义网络仅可在 YAML 配置中查看和编辑">
                     <Icon name="information" />
                   </Tooltip>{" "}
                 </>
@@ -184,12 +184,12 @@ const NetworkDevicesForm: FC<Props> = ({ formik, project }) => {
               title={formik.values.editRestriction}
             >
               <Icon name="plus" />
-              <span>Attach network</span>
+              <span>挂载网络</span>
             </Button>
           ),
         }),
       ].filter((row) => Object.values(row).length > 0)}
-      emptyStateMsg="No networks defined"
+      emptyStateMsg="未定义网络"
     />
   );
 };

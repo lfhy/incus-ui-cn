@@ -127,7 +127,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
   }
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   } else if (!bucketKey) {
     return <>Loading key failed</>;
   }
@@ -160,7 +160,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -172,7 +172,7 @@ const EditStorageBucketKeyPanel: FC<Props> = ({ bucket }) => {
             }
           >
             {changeCount === 0
-              ? "Save changes"
+              ? "保存更改"
               : `Save ${changeCount} ${pluralize("change", changeCount)}`}
           </ActionButton>
         </SidePanel.Footer>

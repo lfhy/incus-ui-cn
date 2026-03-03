@@ -74,13 +74,13 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   const rootDisk = getRootDisk(instance, state);
 
   if (error) {
-    onFailure("Loading metrics failed", error);
+    onFailure("加载指标失败", error);
   }
 
   if (isRestricted) {
     return (
       <div className="u-text--muted">
-        Details are not available for restricted users
+        受限权限用户无法查看详细信息
       </div>
     );
   }
@@ -88,12 +88,12 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
   return (
     <>
       {isLoading ? (
-        <Spinner className="u-loader" text="Loading metrics..." />
+        <Spinner className="u-loader" text="正在加载指标..." />
       ) : (
         <table>
           <tbody>
             <tr className="metric-row">
-              <th className="u-text--muted">CPU Time(s)</th>
+              <th className="u-text--muted">CPU 时间（秒）</th>
               <td>
                 {state && state.cpu && state.cpu.usage > 0 ? (
                   <div>
@@ -105,7 +105,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               </td>
             </tr>
             <tr className="metric-row">
-              <th className="u-text--muted">Memory</th>
+              <th className="u-text--muted">内存</th>
               <td>
                 {state && state.memory ? (
                   <div>
@@ -118,9 +118,9 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
                         humanFileSize(
                           state.memory.usage
                         ) +
-                        " of " +
+                        " / " +
                         humanFileSize(state.memory.total) +
-                        " memory used"
+                        " 已使用"
                       }
                     />
                   </div>
@@ -130,7 +130,7 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
               </td>
             </tr>
             <tr className="metric-row">
-              <th className="u-text--muted">Root filesystem</th>
+              <th className="u-text--muted">根文件系统</th>
               <td>
                 {rootDisk ? (
                   <div>
@@ -142,9 +142,9 @@ const InstanceOverviewMetrics: FC<Props> = ({ instance, onFailure }) => {
                         humanFileSize(
                           rootDisk.usage
                         ) +
-                        " of " +
+                        " / " +
                         (rootDisk.total ? (humanFileSize(rootDisk.total) +
-                        " disk used") : ("unlimited"))
+                        " 已使用") : ("无限制"))
                       }
                     />
                   </div>

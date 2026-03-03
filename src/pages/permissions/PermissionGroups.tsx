@@ -167,7 +167,7 @@ const PermissionGroups: FC = () => {
   });
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const getTablePaginationDescription = () => {
@@ -209,7 +209,7 @@ const PermissionGroups: FC = () => {
           headers={headers}
           rows={sortedRows}
           sortable
-          emptyStateMsg="No groups found matching this search"
+          emptyStateMsg="未找到匹配搜索的组"
           onUpdateSort={updateSort}
           itemName="group"
           parentName=""
@@ -225,7 +225,7 @@ const PermissionGroups: FC = () => {
     <EmptyState
       className="empty-state"
       image={<Icon name="user-group" className="empty-state-icon" />}
-      title="No groups"
+      title="无组"
     >
       <p>
         Groups are an easy way to manage the structured assignment of
@@ -265,7 +265,7 @@ const PermissionGroups: FC = () => {
               <PageHeader.Title>
                 <HelpLink
                   docPath="/explanation/authorization"
-                  title="Learn more about permissions"
+                  title="了解更多权限"
                 >
                   Auth groups
                 </HelpLink>

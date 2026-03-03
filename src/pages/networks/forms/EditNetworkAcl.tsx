@@ -136,7 +136,7 @@ const EditNetworkAcl: FC<Props> = ({ networkAcl, project }) => {
                 void formik.setValues(initialValues);
               }}
             >
-              Cancel
+              取消
             </Button>
             <FormSubmitBtn
               formik={formik}

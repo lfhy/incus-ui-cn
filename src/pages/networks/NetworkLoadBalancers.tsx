@@ -178,7 +178,7 @@ const NetworkLoadBalancers: FC<Props> = ({ network, project }) => {
               defaultSort="listenAddress"
               defaultSortDirection="ascending"
               className="u-table-layout--auto network-load-balancers-table"
-              emptyStateMsg="No data to display"
+              emptyStateMsg="暂无数据"
             />
           </ScrollableTable>
         )}
@@ -186,7 +186,7 @@ const NetworkLoadBalancers: FC<Props> = ({ network, project }) => {
           <EmptyState
             className="empty-state"
             image={<Icon className="empty-state-icon" name="exposed" />}
-            title="No network load balancers found"
+            title="未找到网络负载均衡器"
           >
             <p>There are no network load balancers in this project.</p>
             <p>

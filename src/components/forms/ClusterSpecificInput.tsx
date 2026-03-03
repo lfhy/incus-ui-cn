@@ -72,7 +72,7 @@ const ClusterSpecificInput: FC<Props> = ({
       {canToggleSpecific && !isReadOnly && (
         <CheckboxInput
           id={`${id}-same-for-all-toggle`}
-          label="Same for all cluster members"
+          label="所有集群成员一致"
           checked={!isSpecific}
           labelClassName="cluster-specific-toggle-label"
           onChange={() => {

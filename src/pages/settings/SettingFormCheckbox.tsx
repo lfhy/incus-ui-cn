@@ -47,7 +47,7 @@ const SettingFormCheckbox: FC<Props> = ({
         help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
-        Cancel
+        取消
       </Button>
       <Button
         appearance="positive"
@@ -65,7 +65,7 @@ const SettingFormCheckbox: FC<Props> = ({
           hasIcon
         >
           <Icon name="restart" className="flip-horizontally" />
-          <span>Reset to default</span>
+          <span>重置为默认值</span>
         </Button>
       )}
     </>

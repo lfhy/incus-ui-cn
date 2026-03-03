@@ -43,7 +43,7 @@ const SettingFormInput: FC<Props> = ({
       }}
     >
       {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden value="Hidden input" />
+      <Input type="submit" hidden value="隐藏输入" />
       <Input
         aria-label={configField.key}
         id={getConfigId(configField.key)}
@@ -56,7 +56,7 @@ const SettingFormInput: FC<Props> = ({
         help={<ConfigFieldDescription description={configField.longdesc} />}
       />
       <Button appearance="base" onClick={onCancel}>
-        Cancel
+        取消
       </Button>
       <Button appearance="positive" type="submit">
         Save
@@ -69,7 +69,7 @@ const SettingFormInput: FC<Props> = ({
           hasIcon
         >
           <Icon name="restart" className="flip-horizontally" />
-          <span>Reset to default</span>
+          <span>重置为默认值</span>
         </Button>
       )}
     </Form>

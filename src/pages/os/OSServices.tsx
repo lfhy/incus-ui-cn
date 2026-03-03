@@ -100,7 +100,7 @@ const OSServices: FC<Props> = ({ target }) => {
                 id="incusos-services-table"
                 headers={headers}
                 sortable
-                emptyStateMsg="No service found matching this search"
+                emptyStateMsg="未找到匹配搜索的服务"
                 onUpdateSort={updateSort}
               />
             </TablePagination>

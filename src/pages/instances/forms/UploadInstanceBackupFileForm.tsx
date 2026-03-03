@@ -184,7 +184,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
   };
 
   const noFileSelectedMessage = !formik.values.instanceFile
-    ? "Please select a file before adding custom configuration."
+    ? "请先选择文件，再添加自定义配置。"
     : "";
 
   return (
@@ -201,7 +201,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           name="instanceFile"
           type="file"
           accept=".tar, application/gzip, application/x-bzip, application/x-xz, application/x-lzma, application/x-squashfs, application/x-qcow2, application/zstd"
-          label="LXD backup archive (.tar.gz)"
+          label="LXD 备份归档（.tar.gz）"
           labelClassName={hasInstanceImportConversion ? "u-hide" : ""}
           onChange={(e) => void changeFile(e)}
         />
@@ -209,8 +209,8 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           {...formik.getFieldProps("name")}
           id="name"
           type="text"
-          label="New instance name"
-          placeholder="Enter name"
+          label="新实例名称"
+          placeholder="请输入名称"
           error={formik.touched.name ? formik.errors.name : null}
           disabled={!!noFileSelectedMessage}
           title={noFileSelectedMessage}
@@ -220,7 +220,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           setValue={(value) => void formik.setFieldValue("pool", value)}
           selectProps={{
             id: "pool",
-            label: "Root storage pool",
+            label: "根存储池",
             disabled: isLoading || !!noFileSelectedMessage,
             title: noFileSelectedMessage,
           }}
@@ -233,7 +233,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           type="button"
           onClick={handleCloseModal}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -247,7 +247,7 @@ const UploadInstanceBackupFileForm: FC<Props> = ({
           }
           onClick={() => void formik.submitForm()}
         >
-          Upload and create
+          上传并创建
         </ActionButton>
       </footer>
     </>

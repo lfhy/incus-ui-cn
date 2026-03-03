@@ -52,7 +52,7 @@ const DiskSizeSelector: FC<Props> = ({
           type="number"
           min="0"
           step="Any"
-          placeholder="Enter value"
+          placeholder="请输入数值"
           onChange={(e) => {
             if (e.target.value) {
               setMemoryLimit(e.target.value + limit.unit);
@@ -68,7 +68,7 @@ const DiskSizeSelector: FC<Props> = ({
         <Select
           id={`memUnitSelect-${id}`}
           name="memUnitSelect"
-          label="Select disk size unit"
+          label="选择磁盘大小单位"
           labelClassName="u-off-screen"
           options={getMemUnitOptions()}
           onChange={(e) => {

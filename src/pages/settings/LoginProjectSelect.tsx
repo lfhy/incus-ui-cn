@@ -87,7 +87,7 @@ const LoginProjectSelect: FC<Props> = ({ configField }) => {
             }}
           />
           <Button appearance="base" onClick={onCancel}>
-            Cancel
+            取消
           </Button>
           <Button appearance="positive" type="submit">
             Save

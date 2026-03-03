@@ -130,7 +130,7 @@ const UserPropertiesForm: FC<Props> = ({ formik }) => {
                       }}
                       type="button"
                       appearance="base"
-                      title={formik.values.editRestriction ?? "Edit property"}
+                      title={formik.values.editRestriction ?? "编辑属性"}
                       className="u-no-margin--top"
                       hasIcon
                       dense
@@ -174,7 +174,7 @@ const UserPropertiesForm: FC<Props> = ({ formik }) => {
                       }}
                       type="button"
                       appearance="base"
-                      title="Edit property"
+                      title="编辑属性"
                       className="u-no-margin--top"
                       hasIcon
                       dense
@@ -192,7 +192,7 @@ const UserPropertiesForm: FC<Props> = ({ formik }) => {
                     }}
                     type="button"
                     appearance="base"
-                    title="Remove"
+                    title="移除"
                     className="profile-remove-btn"
                     hasIcon
                     dense
@@ -221,7 +221,7 @@ const UserPropertiesForm: FC<Props> = ({ formik }) => {
               title={formik.values.editRestriction}
             >
               <Icon name="plus" />
-              <span>Add property</span>
+              <span>添加属性</span>
             </Button>
           ),
         }),

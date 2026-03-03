@@ -12,16 +12,17 @@ const SnapshotDisabledWarningLink: FC<Props> = ({ project }) => {
   const { isRestricted } = useAuth();
 
   return isRestricted ? (
-    <>Please ask your project administrator to change this setting.</>
+    <>请联系项目管理员修改此设置。</>
   ) : (
     <>
-      You can change this setting in{" "}
+      你可以在{" "}
       <Link
         to={`/ui/project/${encodeURIComponent(project?.name ?? "")}/configuration`}
       >
-        project configuration
+        项目配置
         <Icon className="external-link-icon" name="external-link" />
       </Link>
+      中修改此设置
     </>
   );
 };

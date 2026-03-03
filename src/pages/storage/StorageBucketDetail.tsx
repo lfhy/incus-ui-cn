@@ -50,7 +50,7 @@ const StorageBucketDetail: FC = () => {
   }
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   } else if (!bucket) {
     return <>Loading storage bucket failed</>;
   }

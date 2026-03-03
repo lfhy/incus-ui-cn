@@ -60,7 +60,7 @@ const CancelOperationBtn: FC<Props> = ({ operation, project }) => {
       shiftClickEnabled
       showShiftClickHint
     >
-      <span>Cancel</span>
+      <span>取消</span>
     </ConfirmationButton>
   );
 };

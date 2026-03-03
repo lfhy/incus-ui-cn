@@ -58,6 +58,7 @@ import StorageVolumeBulkDelete from "./actions/StorageVolumeBulkDelete";
 import { useCurrentProject } from "context/useCurrentProject";
 import { isProjectWithVolumes } from "util/projects";
 import DocLink from "components/DocLink";
+import type { LxdStorageVolume } from "types/storage";
 
 const StorageVolumes: FC = () => {
   const notify = useNotify();
@@ -75,19 +76,40 @@ const StorageVolumes: FC = () => {
   const filters: StorageVolumesFilterType = {
     queries: searchParams.getAll(QUERY).map((query) => query.toLowerCase()),
     pools: searchParams.getAll(POOL),
-    volumeTypes: searchParams
-      .getAll(VOLUME_TYPE)
-      .map((type) => (type === "VM" ? "virtual-machine" : type.toLowerCase())),
-    contentTypes: searchParams
-      .getAll(CONTENT_TYPE)
-      .map((type) => type.toLowerCase()),
+    volumeTypes: searchParams.getAll(VOLUME_TYPE).map((type) => {
+      const lowered = type.toLowerCase();
+      if (type === "VM" || type === "虚拟机") {
+        return "virtual-machine";
+      }
+      if (type === "Container" || type === "容器") {
+        return "container";
+      }
+      if (type === "Image" || type === "镜像") {
+        return "image";
+      }
+      if (type === "Custom" || type === "自定义") {
+        return "custom";
+      }
+      return lowered;
+    }),
+    contentTypes: searchParams.getAll(CONTENT_TYPE).map((type) => {
+      if (type === "文件系统") {
+        return "filesystem";
+      }
+      if (type === "块存储") {
+        return "block";
+      }
+      return type.toLowerCase();
+    }),
     clusterMembers: searchParams
       .getAll(CLUSTER_MEMBER)
-      .map((member) => member.toLowerCase()),
+      .map((member) =>
+        (member === "集群范围" ? "Cluster-wide" : member).toLowerCase(),
+      ),
   };
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const { project: currentProject, isLoading: isProjectLoading } =
@@ -97,7 +119,7 @@ const StorageVolumes: FC = () => {
   const featuresVolumes = isProjectWithVolumes(currentProject);
 
   if (error) {
-    notify.failure("Loading storage volumes failed", error);
+    notify.failure("加载存储卷失败", error);
   }
 
   useEffect(() => {
@@ -107,6 +129,53 @@ const StorageVolumes: FC = () => {
       setSelectedNames(validSelections);
     }
   }, [volumes]);
+
+  useEffect(() => {
+    const pagination = document.getElementById("pagination");
+    if (!pagination) {
+      return;
+    }
+
+    const updatePaginationText = () => {
+      const walker = document.createTreeWalker(
+        pagination,
+        NodeFilter.SHOW_TEXT,
+      );
+      const updates: Array<{ node: Text; value: string }> = [];
+
+      while (walker.nextNode()) {
+        const textNode = walker.currentNode as Text;
+        const value = textNode.nodeValue?.trim() ?? "";
+        if (!value) {
+          continue;
+        }
+
+        if (value === "Page number") {
+          updates.push({ node: textNode, value: "页码" });
+        } else if (value === "Items per page") {
+          updates.push({ node: textNode, value: "每页条目数" });
+        } else if (value === "/page") {
+          updates.push({ node: textNode, value: "/页" });
+        } else if (value === "of") {
+          updates.push({ node: textNode, value: "共" });
+        }
+      }
+
+      updates.forEach(({ node, value }) => {
+        node.nodeValue = value;
+      });
+    };
+
+    updatePaginationText();
+    const observer = new MutationObserver(() => {
+      updatePaginationText();
+    });
+    observer.observe(pagination, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [volumes.length, selectedNames.length, isSmallScreen]);
 
   const headers = [
     {
@@ -230,7 +299,9 @@ const StorageVolumes: FC = () => {
     const id = getVolumeId(volume);
     const volumeType = renderVolumeType(volume);
     const contentType = renderContentType(volume);
-    const snapshotCount = volume?.snapshots?.length ?? 0;
+    const snapshots = (volume as LxdStorageVolume & { snapshots?: unknown })
+      .snapshots;
+    const snapshotCount = Array.isArray(snapshots) ? snapshots.length : 0;
     const canSelect = hasVolumeDetailPage(volume);
 
     return {
@@ -269,7 +340,7 @@ const StorageVolumes: FC = () => {
                 ) : (
                   <ResourceLink
                     type="cluster-group"
-                    value="Cluster wide"
+                    value="集群范围"
                     to="/ui/cluster/members"
                   />
                 ),
@@ -350,10 +421,10 @@ const StorageVolumes: FC = () => {
               volume={volume}
               overrideName={`go to ${
                 volume.type === "image"
-                  ? "images list"
+                  ? "镜像列表"
                   : volume.content_type === "iso"
-                    ? "custom ISOs"
-                    : "instance"
+                    ? "自定义 ISO"
+                    : "实例"
               }`}
               className="storage-volume-actions u-align--right"
             />
@@ -380,7 +451,7 @@ const StorageVolumes: FC = () => {
   });
 
   if (isLoading || isProjectLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const defaultPoolForVolumeCreate =
@@ -390,17 +461,16 @@ const StorageVolumes: FC = () => {
 
   const defaultProjectInfo = !featuresVolumes && (
     <Notification severity="information">
-      Showing volumes from the{" "}
+      正在显示来自{" "}
       <ResourceLink
         to="/ui/project/default/storage/volumes"
         type="project"
         value="default"
-      />
-      project.
+      />{" "}
+      项目的卷。
       <br />
       <span className="u-text--muted">
-        For project-specific volumes, enable storage volume isolation in the
-        project configuration.
+        如需项目专属卷，请在项目配置中启用存储卷隔离。
       </span>
     </Notification>
   );
@@ -411,15 +481,15 @@ const StorageVolumes: FC = () => {
       <EmptyState
         className="empty-state"
         image={<Icon name="switcher-dashboard" className="empty-state-icon" />}
-        title="No volumes found in this project"
+        title="此项目中未找到卷"
       >
-        <p>Storage volumes will appear here</p>
+        <p>存储卷会显示在这里。</p>
         <p>
           <DocLink
             docPath="/explanation/storage/#storage-volumes"
             hasExternalIcon
           >
-            Learn more about storage volumes
+            了解更多存储卷
           </DocLink>
         </p>
         {featuresVolumes && (
@@ -441,11 +511,11 @@ const StorageVolumes: FC = () => {
         <TablePagination
           data={sortedRows}
           id="pagination"
-          itemName="volume"
+          itemName="卷"
           className="u-no-margin--top"
-          aria-label="Table pagination control"
+          aria-label="表格分页控件"
           description={
-            selectedNames.length > 0 && (
+            selectedNames.length > 0 ? (
               <SelectedTableNotification
                 totalCount={
                   volumes.filter(
@@ -453,14 +523,19 @@ const StorageVolumes: FC = () => {
                       !isSnapshot(volume) && hasVolumeDetailPage(volume),
                   ).length
                 }
-                itemName="volume"
-                parentName="project"
+                itemName="卷"
+                parentName="项目"
                 selectedNames={selectedNames}
                 setSelectedNames={setSelectedNames}
                 filteredNames={filteredVolumes
                   .filter(hasVolumeDetailPage)
                   .map(getVolumeId)}
               />
+            ) : (
+              <>
+                显示 <b>{sortedRows.length}</b> /{" "}
+                <b>{filteredVolumes.length}</b> 个卷
+              </>
             )
           }
         >
@@ -470,9 +545,9 @@ const StorageVolumes: FC = () => {
             headers={headers}
             rows={sortedRows}
             sortable
-            emptyStateMsg="No volumes found matching this search"
-            itemName="volume"
-            parentName="project"
+            emptyStateMsg="未找到匹配搜索的卷"
+            itemName="卷"
+            parentName="项目"
             selectedNames={selectedNames}
             setSelectedNames={setSelectedNames}
             disabledNames={processingVolumes}
@@ -499,9 +574,9 @@ const StorageVolumes: FC = () => {
             <PageHeader.Title>
               <HelpLink
                 docPath="/explanation/storage/#storage-volumes"
-                title="Learn more about storage volumes"
+                title="了解更多存储卷"
               >
-                Volumes
+                卷
               </HelpLink>
             </PageHeader.Title>
             {!selectedNames.length && hasVolumes && (

@@ -44,7 +44,7 @@ const NetworkDetail: FC = () => {
   }, [error]);
 
   if (isLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text="加载中..." isMainComponent />;
   }
 
   const isManagedNetwork = network?.managed;

@@ -1,6 +1,6 @@
-import { FC } from "react";
+import type { FC } from "react";
 import { ActionButton, Button } from "@canonical/react-components";
-import { LxdStorageVolume } from "types/storage";
+import type { LxdStorageVolume } from "types/storage";
 import ClusterMemberSelectTable from "../cluster/ClusterMemberSelectTable";
 
 interface Props {
@@ -50,12 +50,14 @@ const CustomVolumeClusterMemberMigration: FC<Props> = ({
           appearance="base"
           onClick={close}
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
           className="u-no-margin--bottom"
-          onClick={() => migrate(undefined, targetMember)}
+          onClick={() => {
+            migrate(undefined, targetMember);
+          }}
           disabled={!targetMember}
         >
           Migrate

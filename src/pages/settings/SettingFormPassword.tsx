@@ -30,7 +30,7 @@ const SettingFormPassword: FC<Props> = ({
       }}
     >
       {/* hidden submit to enable enter key in inputs */}
-      <Input type="submit" hidden value="Hidden input" />
+      <Input type="submit" hidden value="隐藏输入" />
       {showPasswordField && (
         <>
           <div className="input-row">
@@ -53,13 +53,13 @@ const SettingFormPassword: FC<Props> = ({
               onClick={() => {
                 setShowPassword((prev) => !prev);
               }}
-              aria-label="toggle password visibility"
+              aria-label="切换密码可见性"
             >
               <Icon name={showPassword ? "hide" : "show"} />
             </Button>
           </div>
           <Button appearance="base" onClick={onCancel}>
-            Cancel
+            取消
           </Button>
           <Button
             appearance="positive"
@@ -74,7 +74,7 @@ const SettingFormPassword: FC<Props> = ({
       {!showPasswordField && (
         <>
           <Button appearance="base" onClick={onCancel}>
-            Cancel
+            取消
           </Button>
           <Button
             onClick={() => {

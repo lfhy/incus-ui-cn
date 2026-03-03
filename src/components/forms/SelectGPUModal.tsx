@@ -28,11 +28,11 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
   });
 
   const headers = [
-    { content: "Vendor" },
-    { content: "Driver" },
-    { content: "PCI address" },
+    { content: "厂商" },
+    { content: "驱动" },
+    { content: "PCI 地址" },
     { content: "ID" },
-    { "aria-label": "Actions", className: "actions" },
+    { "aria-label": "操作", className: "actions" },
   ];
 
   const rows = isLoading
@@ -49,7 +49,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
             {
               content: card.vendor,
               role: "rowheader",
-              "aria-label": "Vendor",
+              "aria-label": "厂商",
               onClick: selectCard,
             },
             {
@@ -60,13 +60,13 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
                 </>
               ),
               role: "cell",
-              "aria-label": "Driver",
+              "aria-label": "驱动",
               onClick: selectCard,
             },
             {
               content: card.pci_address,
               role: "cell",
-              "aria-label": "PCI Address",
+              "aria-label": "PCI 地址",
               onClick: selectCard,
             },
             {
@@ -80,13 +80,13 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
                 <Button
                   onClick={selectCard}
                   dense
-                  aria-label={`Select ${card.pci_address}`}
+                  aria-label={`选择 ${card.pci_address}`}
                 >
-                  Select
+                  选择
                 </Button>
               ),
               role: "cell",
-              "aria-label": "Actions",
+              "aria-label": "操作",
               className: "u-align--right",
               onClick: selectCard,
             },
@@ -97,8 +97,8 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
   const getContent = () => {
     if (!canViewResources()) {
       return (
-        <Notification severity="caution" title="Restricted permissions">
-          You do not have permission to view available GPUs on the server.
+        <Notification severity="caution" title="权限受限">
+          你没有权限查看服务器上的可用 GPU。
         </Notification>
       );
     }
@@ -117,9 +117,9 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
-              <Spinner className="u-loader" text="Loading GPUs..." />
+              <Spinner className="u-loader" text="正在加载 GPU..." />
             ) : (
-              "No GPUs found"
+              "未找到 GPU"
             )
           }
         />
@@ -128,7 +128,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
   };
 
   return (
-    <Modal close={onClose} title="Select GPU">
+    <Modal close={onClose} title="选择 GPU">
       {getContent()}
       <footer className="p-modal__footer" id="modal-footer">
         <Button
@@ -137,7 +137,7 @@ const SelectGPUModal: FC<Props> = ({ onSelect, onClose }) => {
             onSelect({ pci_address: "" });
           }}
         >
-          Enter details manually
+          手动输入详情
         </Button>
       </footer>
     </Modal>

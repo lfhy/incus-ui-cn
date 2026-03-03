@@ -15,10 +15,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, useParams } from "react-router-dom";
 import { queryKeys } from "util/queryKeys";
-import {
-  getSupportedStorageDrivers,
-  zfsDriver,
-} from "util/storageOptions";
+import { getSupportedStorageDrivers } from "util/storageOptions";
 import {
   isAlletraIncomplete,
   isPowerflexIncomplete,
@@ -48,13 +45,13 @@ const CreateStoragePool: FC = () => {
   const { data: settings } = useSettings();
 
   if (!project) {
-    return <>Missing project</>;
+    return <>缺少项目参数</>;
   }
 
   const CreateStoragePoolSchema = Yup.object().shape({
     name: Yup.string()
       .test(...testDuplicateStoragePoolName(project, controllerState))
-      .required("This field is required"),
+      .required("该字段为必填项"),
   });
 
   const supportedStorageDrivers = getSupportedStorageDrivers(settings);
@@ -65,7 +62,10 @@ const CreateStoragePool: FC = () => {
       readOnly: false,
       name: "",
       description: "",
-      driver: supportedStorageDrivers.size > 0 ? supportedStorageDrivers.values().next().value : "",
+      driver:
+        supportedStorageDrivers.size > 0
+          ? supportedStorageDrivers.values().next().value
+          : "",
       source: "",
       size: "",
       entityType: "storagePool",
@@ -96,19 +96,19 @@ const CreateStoragePool: FC = () => {
           navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`);
           toastNotify.success(
             <>
-              Storage pool{" "}
+              存储池{" "}
               <ResourceLink
                 type="pool"
                 value={storagePool.name}
                 to={`/ui/project/${encodeURIComponent(project)}/storage/pool/${encodeURIComponent(values.name)}`}
               />{" "}
-              created.
+              已创建。
             </>,
           );
         })
         .catch((e) => {
           formik.setSubmitting(false);
-          notify.failure("Storage pool creation failed", e);
+          notify.failure("创建存储池失败", e);
         });
     },
   });
@@ -118,10 +118,7 @@ const CreateStoragePool: FC = () => {
   };
 
   return (
-    <BaseLayout
-      title="Create a storage pool"
-      contentClassName="create-storage-pool"
-    >
+    <BaseLayout title="创建存储池" contentClassName="create-storage-pool">
       <NotificationRow />
       <StoragePoolForm
         formik={formik}
@@ -135,9 +132,7 @@ const CreateStoragePool: FC = () => {
             section={section}
             setSection={updateSection}
             disableReason={
-              formik.values.name
-                ? undefined
-                : "Please enter a storage pool name to enable this section"
+              formik.values.name ? undefined : "请先输入存储池名称以启用该部分"
             }
           />
         </div>
@@ -147,7 +142,7 @@ const CreateStoragePool: FC = () => {
             navigate(`/ui/project/${encodeURIComponent(project)}/storage/pools`)
           }
         >
-          Cancel
+          取消
         </Button>
         <ActionButton
           appearance="positive"
@@ -162,7 +157,7 @@ const CreateStoragePool: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

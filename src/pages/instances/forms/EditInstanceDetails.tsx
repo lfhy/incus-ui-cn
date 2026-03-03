@@ -34,9 +34,9 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
             id="name"
             name="name"
             type="text"
-            label="Name"
-            help="Click the instance name in the header to rename the instance"
-            placeholder="Enter name"
+            label="名称"
+            help="点击页头中的实例名称可重命名实例"
+            placeholder="请输入名称"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
             value={formik.values.name}
@@ -46,8 +46,8 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
           <AutoExpandingTextArea
             id="description"
             name="description"
-            label="Description"
-            placeholder="Enter description"
+            label="描述"
+            placeholder="请输入描述"
             onBlur={formik.handleBlur}
             onChange={(e) => {
               ensureEditMode(formik);
@@ -71,10 +71,10 @@ const EditInstanceDetails: FC<Props> = ({ formik, project }) => {
                   value: formik.values.location,
                 },
               ]}
-              label="Cluster member"
+              label="集群成员"
               value={formik.values.location}
               disabled={true}
-              help="Use the migrate button in the header to move the instance to another cluster member"
+              help="使用页头中的迁移按钮可将实例迁移到其他集群成员"
             />
           </Col>
         </Row>

@@ -306,7 +306,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -321,7 +321,7 @@ const EditGroupPanel: FC<Props> = ({ group, onClose }) => {
             }
           >
             {changeCount === 0
-              ? "Save changes"
+              ? "保存更改"
               : `Save ${changeCount} ${pluralize("change", changeCount)}`}
           </ActionButton>
         </SidePanel.Footer>

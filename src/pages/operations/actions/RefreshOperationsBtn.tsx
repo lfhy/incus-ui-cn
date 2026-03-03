@@ -29,7 +29,7 @@ const RefreshOperationsBtn: FC = () => {
       disabled={isFetching}
     >
       {!isSmallScreen && <Icon name="restart" />}
-      <span>Refresh</span>
+      <span>刷新</span>
     </ActionButton>
   );
 };

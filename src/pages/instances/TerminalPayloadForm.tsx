@@ -148,7 +148,7 @@ const TerminalPayloadForm: FC<Props> = ({
             aria-label="cancel reconnect"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <Button
             className="u-no-margin--bottom"

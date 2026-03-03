@@ -11,6 +11,7 @@ import { logout } from "util/helpers";
 import lazy from "util/lazyWithRetry";
 import { applyTheme, loadTheme, Spinner } from "@canonical/react-components";
 import { ALL_PROJECTS } from "util/loginProject";
+import { useI18n } from "i18n/context";
 
 const CertificateAdd = lazy(async () => import("pages/login/CertificateAdd"));
 const CertificateGenerate = lazy(
@@ -106,6 +107,7 @@ const PermissionIdpGroups = lazy(
 const HOME_REDIRECT_PATHS = ["/", "/ui", "/ui/project"];
 
 const App: FC = () => {
+  const { t } = useI18n();
   const { defaultProject, hasNoProjects, isAuthLoading, isAuthenticated } =
     useAuth();
   setTitle();
@@ -115,8 +117,65 @@ const App: FC = () => {
     applyTheme(theme);
   }, []);
 
+  useEffect(() => {
+    const updatePaginationText = () => {
+      const walker = document.createTreeWalker(
+        document.body,
+        NodeFilter.SHOW_TEXT,
+      );
+      const updates: Array<{ node: Text; value: string }> = [];
+
+      while (walker.nextNode()) {
+        const textNode = walker.currentNode as Text;
+        const originalValue = textNode.nodeValue ?? "";
+        const trimmed = originalValue.trim();
+        if (!trimmed) {
+          continue;
+        }
+
+        let updatedValue = originalValue.replace(
+          /Showing\s+(\d+)\s+out of\s+(\d+)\s+/g,
+          "显示 $1 / $2 ",
+        );
+        updatedValue = updatedValue.replace(/\b(\d+)\s*\/\s*page\b/g, "$1/页");
+
+        if (trimmed === "Page number") {
+          updatedValue = "页码";
+        } else if (trimmed === "Items per page") {
+          updatedValue = "每页条目数";
+        } else if (trimmed === "of") {
+          updatedValue = "共";
+        } else if (trimmed === "/page") {
+          updatedValue = "/页";
+        }
+
+        if (updatedValue !== originalValue) {
+          updates.push({ node: textNode, value: updatedValue });
+        }
+      }
+
+      updates.forEach(({ node, value }) => {
+        node.nodeValue = value;
+      });
+    };
+
+    updatePaginationText();
+    const observer = new MutationObserver(() => {
+      updatePaginationText();
+    });
+    observer.observe(document.body, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   if (isAuthLoading) {
-    return <Spinner className="u-loader" text="Loading..." isMainComponent />;
+    return <Spinner className="u-loader" text={t("loading")} isMainComponent />;
   }
 
   if (!isAuthenticated) {
@@ -130,7 +189,7 @@ const App: FC = () => {
   return (
     <Suspense
       fallback={
-        <Spinner className="u-loader" text="Loading..." isMainComponent />
+        <Spinner className="u-loader" text={t("loading")} isMainComponent />
       }
     >
       <Routes>

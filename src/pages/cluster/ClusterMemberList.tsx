@@ -160,7 +160,7 @@ const ClusterMemberList: FC = () => {
       title={
         <HelpLink
           docPath="/explanation/clustering/"
-          title="Learn more about clustering"
+          title="了解更多集群"
         >
           Cluster members
         </HelpLink>

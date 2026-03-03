@@ -25,11 +25,11 @@ const CustomIsoSelector: FC<Props> = ({
   const { data: images = [], isLoading } = useLoadIsoVolumes(projectName);
 
   const headers = [
-    { content: "Name", sortKey: "name" },
-    { content: "Storage pool", sortKey: "storagePool" },
-    { content: "Upload date", sortKey: "uploadedAt" },
-    { content: "Size", sortKey: "size" },
-    { "aria-label": "Actions", className: "actions" },
+    { content: "名称", sortKey: "name" },
+    { content: "存储池", sortKey: "storagePool" },
+    { content: "上传日期", sortKey: "uploadedAt" },
+    { content: "大小", sortKey: "size" },
+    { "aria-label": "操作", className: "actions" },
   ];
 
   const rows = images.map((image) => {
@@ -48,19 +48,19 @@ const CustomIsoSelector: FC<Props> = ({
             </div>
           ),
           role: "rowheader",
-          "aria-label": "Name",
+          "aria-label": "名称",
           onClick: selectIso,
         },
         {
           content: image.pool,
           role: "cell",
-          "aria-label": "Storage pool",
+          "aria-label": "存储池",
           onClick: selectIso,
         },
         {
           content: isoTimeToString(new Date(image.created_at).toISOString()),
           role: "cell",
-          "aria-label": "Uploaded at",
+          "aria-label": "上传时间",
           onClick: selectIso,
         },
         {
@@ -68,7 +68,7 @@ const CustomIsoSelector: FC<Props> = ({
             image.volume?.config.size &&
             humanFileSize(+image.volume.config.size),
           role: "cell",
-          "aria-label": "Size",
+          "aria-label": "大小",
           onClick: selectIso,
         },
         {
@@ -83,11 +83,11 @@ const CustomIsoSelector: FC<Props> = ({
               onClick={selectIso}
               dense
             >
-              Select
+              选择
             </Button>
           ),
           role: "cell",
-          "aria-label": "Actions",
+          "aria-label": "操作",
           className: "u-align--right",
           onClick: selectIso,
         },
@@ -111,9 +111,9 @@ const CustomIsoSelector: FC<Props> = ({
           className="u-selectable-table-rows u-table-layout--auto"
           emptyStateMsg={
             isLoading ? (
-              <Spinner className="u-loader" text="Loading images..." />
+              <Spinner className="u-loader" text="加载镜像中..." />
             ) : (
-              "No custom ISOs found"
+              "未找到自定义 ISO"
             )
           }
         />
@@ -124,7 +124,7 @@ const CustomIsoSelector: FC<Props> = ({
           className="u-no-margin--bottom"
           onClick={onCancel}
         >
-          Cancel
+          取消
         </Button>
         <Button
           appearance={rows.length === 0 ? "positive" : ""}
@@ -132,7 +132,7 @@ const CustomIsoSelector: FC<Props> = ({
           type="button"
           className="iso-btn u-no-margin--bottom"
         >
-          <span>Upload custom ISO</span>
+          <span>上传自定义 ISO</span>
         </Button>
       </footer>
     </>

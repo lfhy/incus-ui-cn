@@ -1,5 +1,5 @@
 import type { ChangeEvent, FC } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useEventQueue } from "context/eventQueue";
 import { useFormik } from "formik";
 import { createImageAlias, uploadImage } from "api/images";
@@ -36,13 +36,23 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   const { canCreateImageAliases } = useProjectEntitlements();
   const { data: project } = useProject(projectName);
 
+  useEffect(() => {
+    const modalCloseBtn = document.querySelector<HTMLButtonElement>(
+      ".upload-image-modal .p-modal__close",
+    );
+    if (modalCloseBtn) {
+      modalCloseBtn.textContent = "关闭";
+      modalCloseBtn.setAttribute("aria-label", "关闭弹窗");
+    }
+  }, []);
+
   const notifySuccess = () => {
     const uploaded = (
       <Link to={`/ui/project/${encodeURIComponent(projectName)}/images`}>
-        uploaded
+        已上传
       </Link>
     );
-    toastNotify.success(<>Image {uploaded}.</>);
+    toastNotify.success(<>镜像 {uploaded}。</>);
   };
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
@@ -89,10 +99,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
       if (values.fileList) {
         if (values.fileList.length > 2) {
           close();
-          toastNotify.failure(
-            `Image upload failed.`,
-            new Error("Too many files selected"),
-          );
+          toastNotify.failure(`镜像上传失败。`, new Error("选择的文件过多"));
           return;
         }
         uploadImage(
@@ -102,7 +109,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
           projectName,
         )
           .then((operation) => {
-            toastNotify.info(<>Creation of image from file started.</>);
+            toastNotify.info(<>已开始从文件创建镜像。</>);
 
             eventQueue.set(
               operation.metadata.id,
@@ -112,30 +119,27 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
                   createImageAlias(fingerprint, values.alias, projectName)
                     .then(clearCache)
                     .catch((e) => {
-                      toastNotify.failure(
-                        `Image upload succeeded. Failed to create an alias.`,
-                        e,
-                      );
+                      toastNotify.failure(`镜像上传成功，但创建别名失败。`, e);
                     });
                 }
                 clearCache();
                 notifySuccess();
               },
               (msg) => {
-                toastNotify.failure(`Image upload failed.`, new Error(msg));
+                toastNotify.failure(`镜像上传失败。`, new Error(msg));
               },
             );
           })
           .catch((e: AxiosError<LxdSyncResponse<null>>) => {
             const error = new Error(e.response?.data.error);
-            toastNotify.failure("Image upload failed", error);
+            toastNotify.failure("镜像上传失败", error);
           })
           .finally(() => {
             close();
           });
       } else {
         close();
-        toastNotify.failure(`Image upload failed`, new Error("Missing files"));
+        toastNotify.failure(`镜像上传失败`, new Error("缺少文件"));
       }
     },
   });
@@ -143,7 +147,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
   return (
     <Modal
       close={close}
-      title="Import image from file"
+      title="从文件导入镜像"
       className="upload-image-modal"
       buttonRow={
         <>
@@ -151,7 +155,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
             <>
               <ProgressBar percentage={Math.floor(uploadState.percentage)} />
               <p>
-                {humanFileSize(uploadState.loaded)} loaded of{" "}
+                已上传 {humanFileSize(uploadState.loaded)} /{" "}
                 {humanFileSize(uploadState.total ?? 0)}
               </p>
             </>
@@ -162,7 +166,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
             type="button"
             onClick={close}
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"
@@ -173,7 +177,7 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
             }
             onClick={() => void formik.submitForm()}
           >
-            Upload image
+            上传镜像
           </ActionButton>
         </>
       }
@@ -185,27 +189,25 @@ const UploadImageForm: FC<Props> = ({ close, projectName }) => {
         <Input
           type="file"
           name="fileList"
-          label="Image backup file"
+          label="镜像备份文件"
           onChange={changeFile}
           multiple
         />
         <Input
           {...formik.getFieldProps("alias")}
           type="text"
-          label="Alias"
-          placeholder="Enter alias"
+          label="别名"
+          placeholder="请输入别名"
           error={formik.touched.alias ? formik.errors.alias : null}
           disabled={!canCreateImageAliases(project)}
           title={
-            canCreateImageAliases(project)
-              ? ""
-              : "You do not have permission to create image aliases"
+            canCreateImageAliases(project) ? "" : "你没有创建镜像别名的权限"
           }
         />
         <Input
           {...formik.getFieldProps("isPublic")}
           type="checkbox"
-          label="Make the image publicly available"
+          label="设为公开镜像"
           error={formik.touched.isPublic ? formik.errors.isPublic : null}
         />
         {/* hidden submit to enable enter key in inputs */}

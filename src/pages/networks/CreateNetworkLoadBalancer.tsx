@@ -83,7 +83,7 @@ const CreateNetworkLoadBalancer: FC = () => {
       title={
         <HelpLink
           href={`${docBaseLink}/howto/network_load_balancers/`}
-          title="Learn more about network load balancers"
+          title="了解更多网络负载均衡"
         >
           Create a network load balancer
         </HelpLink>
@@ -96,7 +96,7 @@ const CreateNetworkLoadBalancer: FC = () => {
           className="p-button--base"
           to={`/ui/project/${encodeURIComponent(project ?? "")}/network/${encodeURIComponent(networkName ?? "")}/load-balancers`}
         >
-          Cancel
+          取消
         </Link>
         <ActionButton
           loading={formik.isSubmitting}
@@ -107,7 +107,7 @@ const CreateNetworkLoadBalancer: FC = () => {
           }
           onClick={() => void formik.submitForm()}
         >
-          Create
+          创建
         </ActionButton>
       </FormFooterLayout>
     </BaseLayout>

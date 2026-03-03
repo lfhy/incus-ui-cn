@@ -47,27 +47,29 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       <NotificationRow />
       <Row className="general">
         <Col size={3}>
-          <h2 className="p-heading--5">General</h2>
+          <h2 className="p-heading--5">概览</h2>
         </Col>
         <Col size={7}>
           <table>
             <tbody>
               <tr>
-                <th className="u-text--muted">Base image</th>
+                <th className="u-text--muted">基础镜像</th>
                 <td>{getImageLink(instance)}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Description</th>
+                <th className="u-text--muted">描述</th>
                 <td>{instance.description ? instance.description : "-"}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Type</th>
+                <th className="u-text--muted">类型</th>
                 <td>
-                  {
-                    instanceCreationTypes.filter(
-                      (item) => item.value === instance.type,
-                    )[0].label
-                  }
+                  {instance.type === "container"
+                    ? "容器"
+                    : instance.type === "virtual-machine"
+                      ? "虚拟机"
+                      : instanceCreationTypes.filter(
+                          (item) => item.value === instance.type,
+                        )[0].label}
                 </td>
               </tr>
               <tr>
@@ -83,18 +85,18 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 </td>
               </tr>
               <tr>
-                <th className="u-text--muted">MAC address</th>
+                <th className="u-text--muted">MAC 地址</th>
                 <td>
                   <InstanceMAC instance={instance} />
                 </td>
               </tr>
               <tr>
-                <th className="u-text--muted">Architecture</th>
+                <th className="u-text--muted">架构</th>
                 <td>{instance.architecture}</td>
               </tr>
               {isClustered && (
                 <tr>
-                  <th className="u-text--muted">Location</th>
+                  <th className="u-text--muted">位置</th>
                   <td>
                     {instance.location ? (
                       <ResourceLink
@@ -113,11 +115,11 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
                 <td>{pid}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Date created</th>
+                <th className="u-text--muted">创建时间</th>
                 <td>{isoTimeToString(instance.created_at)}</td>
               </tr>
               <tr>
-                <th className="u-text--muted">Last used</th>
+                <th className="u-text--muted">最近使用</th>
                 <td>{isoTimeToString(instance.last_used_at)}</td>
               </tr>
             </tbody>
@@ -127,7 +129,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       {isVm && (
         <Row className="instance-preview">
           <Col size={3}>
-            <h2 className="p-heading--5">Preview</h2>
+            <h2 className="p-heading--5">预览</h2>
           </Col>
           <Col size={4}>
             <InstancePreview instance={instance} onFailure={onFailure} />
@@ -137,7 +139,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       )}
       <Row className="usage">
         <Col size={3}>
-          <h2 className="p-heading--5">Usage</h2>
+          <h2 className="p-heading--5">使用情况</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewMetrics instance={instance} onFailure={onFailure} />
@@ -145,7 +147,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="networks">
         <Col size={3}>
-          <h2 className="p-heading--5">Networks</h2>
+          <h2 className="p-heading--5">网络</h2>
         </Col>
         <Col size={7}>
           <NetworkListTable
@@ -157,7 +159,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="networks">
         <Col size={3}>
-          <h2 className="p-heading--5">Devices</h2>
+          <h2 className="p-heading--5">设备</h2>
         </Col>
         <Col size={7}>
           <DeviceListTable
@@ -168,7 +170,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="profiles">
         <Col size={3}>
-          <h2 className="p-heading--5">Profiles</h2>
+          <h2 className="p-heading--5">配置文件</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewProfiles instance={instance} onFailure={onFailure} />
@@ -176,7 +178,7 @@ const InstanceOverview: FC<Props> = ({ instance }) => {
       </Row>
       <Row className="user-properties">
         <Col size={3}>
-          <h2 className="p-heading--5">User properties</h2>
+          <h2 className="p-heading--5">用户属性</h2>
         </Col>
         <Col size={7}>
           <InstanceOverviewUserProperties instance={instance} />

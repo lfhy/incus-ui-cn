@@ -7,6 +7,7 @@ interface Props {
   active: string;
   setActive: (item: string) => void;
   label: string;
+  displayLabel?: string;
   disableReason?: string;
   hasError?: boolean;
 }
@@ -15,9 +16,11 @@ const FormMenuItem: FC<Props> = ({
   active,
   setActive,
   label,
+  displayLabel,
   disableReason,
   hasError,
 }) => {
+  const text = displayLabel ?? label;
   if (disableReason) {
     return (
       <li className="p-side-navigation__item">
@@ -26,7 +29,7 @@ const FormMenuItem: FC<Props> = ({
           disabled={true}
           title={disableReason}
         >
-          {label}
+          {text}
         </Button>
       </li>
     );
@@ -44,7 +47,7 @@ const FormMenuItem: FC<Props> = ({
         }}
         aria-current={slugify(label) === slugify(active) ? "page" : undefined}
       >
-        {label}
+        {text}
       </a>
     </li>
   );

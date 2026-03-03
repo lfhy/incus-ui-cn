@@ -45,7 +45,7 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
       {snapshotDisabled && (
         <Notification
           severity="caution"
-          title={`Snapshot creation has been disabled for instances in the project ${project?.name}`}
+          title={`项目 ${project?.name} 中的实例已禁用快照创建`}
         >
           <SnapshotDisabledWarningLink project={project} />
         </Notification>
@@ -54,26 +54,30 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
         rows={[
           getConfigurationRow({
             formik,
-            label: "Snapshot name pattern",
+            label: "快照名称模式",
             name: "snapshots_pattern",
+            help: "快照名称模板",
+            inputHelp: "用于生成快照名称的模板。",
             defaultValue: "",
-            children: <Input placeholder="Enter name pattern" type="text" />,
+            children: <Input placeholder="请输入名称模式" type="text" />,
           }),
 
           getConfigurationRow({
             formik,
-            label: "Expire after",
+            label: "到期时间",
             name: "snapshots_expiry",
+            help: "快照删除时间",
+            inputHelp: "定义快照应在何时被删除。",
             defaultValue: "",
-            children: (
-              <Input placeholder="Enter expiry expression" type="text" />
-            ),
+            children: <Input placeholder="请输入到期表达式" type="text" />,
           }),
 
           getConfigurationRow({
             formik,
-            label: "Snapshot stopped instances",
+            label: "为已停止实例创建快照",
             name: "snapshots_schedule_stopped",
+            help: "是否自动为已停止实例创建快照",
+            inputHelp: "控制是否为已停止状态的实例自动创建快照。",
             defaultValue: "",
             readOnlyRenderer: (val) => optionRenderer(val, optionYesNo),
             children: <Select options={optionYesNo} />,
@@ -81,8 +85,10 @@ const InstanceSnapshotsForm: FC<Props> = ({ formik }) => {
 
           getConfigurationRow({
             formik,
-            label: "Schedule",
+            label: "计划",
             name: "snapshots_schedule",
+            help: "实例自动快照计划",
+            inputHelp: "设置实例自动创建快照的执行计划。",
             defaultValue: "",
             children: (
               <SnapshotScheduleInput

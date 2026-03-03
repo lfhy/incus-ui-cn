@@ -28,7 +28,7 @@ const PermissionGroupsFilter: FC<Props> = ({
         onSearch={handleSearchChange}
         onChange={handleSearchChange}
         value={value}
-        placeholder="Search groups"
+        placeholder="搜索组"
         disabled={disabled}
         className={className}
       />

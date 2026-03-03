@@ -15,14 +15,14 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
     <>
       <div className="ip-address-selector">
         <RadioInput
-          label="Auto"
+          label="自动"
           checked={address === "auto"}
           onChange={() => {
             setAddress("auto");
           }}
         />
         <RadioInput
-          label="None"
+          label="无"
           checked={address === "none"}
           onChange={() => {
             setAddress("none");
@@ -31,8 +31,8 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
       </div>
       <div className="ip-address-selector ip-address-custom">
         <RadioInput
-          label="Custom"
-          aria-label="custom"
+          label="自定义"
+          aria-label="自定义"
           checked={isCustom}
           onChange={() => {
             setAddress("");
@@ -42,7 +42,7 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
           id={id}
           name={id}
           type="text"
-          placeholder="Enter address"
+          placeholder="请输入地址"
           onChange={(e) => {
             setAddress(e.target.value);
           }}
@@ -50,10 +50,10 @@ const IpAddressSelector: FC<Props> = ({ id, address, setAddress, family }) => {
           disabled={!isCustom}
           help={
             <>
-              Use CIDR notation.
+              使用 CIDR 表示法。
               <br />
-              You can set the option to <code>none</code> to turn off {family},
-              or to <code>auto</code> to generate a new random unused subnet.
+              可将该选项设为 <code>none</code> 以关闭 {family}，或设为{" "}
+              <code>auto</code> 以生成新的随机未占用子网。
             </>
           }
         />

@@ -72,11 +72,11 @@ const SettingForm: FC<Props> = ({
 
     mutation
       .then(() => {
-        toastNotify.success(<>Setting {settingLabel} updated.</>);
+        toastNotify.success(<>设置 {settingLabel} 已更新。</>);
         setEditMode(false);
       })
       .catch((e) => {
-        notify.failure("Setting update failed", e, settingLabel);
+        notify.failure("更新设置失败", e, settingLabel);
       })
       .finally(() => {
         queryClient.invalidateQueries({
@@ -95,7 +95,7 @@ const SettingForm: FC<Props> = ({
   const getReadModeValue = () => {
     // special case: secret values are provided by the api as boolean for the read mode
     if (isSecret) {
-      return <em>{value ? "set" : "not set"}</em>;
+      return <em>{value ? "已设置" : "未设置"}</em>;
     }
     if (typeof value === "boolean") {
       return String(value);
@@ -121,7 +121,7 @@ const SettingForm: FC<Props> = ({
         disableReason={
           canEditServerConfiguration()
             ? undefined
-            : "You do not have permission to edit server configuration"
+            : "你没有编辑服务器配置的权限"
         }
         configField={configField}
         onSubmit={onSubmit}
@@ -193,9 +193,7 @@ const SettingForm: FC<Props> = ({
               hasIcon
               disabled={!canEditServerConfiguration()}
               title={
-                canEditServerConfiguration()
-                  ? ""
-                  : "You do not have permission to edit server configuration"
+                canEditServerConfiguration() ? "" : "你没有编辑服务器配置的权限"
               }
             >
               <div className="readmode-value u-truncate">

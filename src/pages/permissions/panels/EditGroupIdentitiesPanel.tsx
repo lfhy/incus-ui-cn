@@ -285,7 +285,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
         headers={headers}
         rows={sortedRows}
         sortable
-        emptyStateMsg="No identities found"
+        emptyStateMsg="未找到身份"
         itemName="identity"
         parentName="server"
         selectedNames={Array.from(selectedIdentities)}
@@ -338,7 +338,7 @@ const EditGroupIdentitiesPanel: FC<Props> = ({ groups }) => {
             onClick={closePanel}
             className="u-no-margin--bottom"
           >
-            Cancel
+            取消
           </Button>
           <ActionButton
             appearance="positive"

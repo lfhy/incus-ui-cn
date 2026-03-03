@@ -15,7 +15,7 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
         {state && (
           <>
             <tr>
-              <th className="u-text--muted">Uptime</th>
+              <th className="u-text--muted">运行时长</th>
               <td>
                 {state?.sysinfo.uptime
                   ? formatSeconds(state?.sysinfo.uptime)
@@ -23,11 +23,11 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
               </td>
             </tr>
             <tr>
-              <th className="u-text--muted">Load averages</th>
+              <th className="u-text--muted">平均负载</th>
               <td>{state?.sysinfo.load_averages.join(" ")}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Processes</th>
+              <th className="u-text--muted">进程数</th>
               <td>{state?.sysinfo.processes}</td>
             </tr>
           </>
@@ -37,27 +37,27 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
           <td>{resources?.system.uuid}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Vendor</th>
+          <th className="u-text--muted">厂商</th>
           <td>{resources?.system.vendor}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Product</th>
+          <th className="u-text--muted">产品</th>
           <td>{resources?.system.product}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Family</th>
-          <td>{resources?.system.family || "N/A"}</td>
+          <th className="u-text--muted">系列</th>
+          <td>{resources?.system.family || "不适用"}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Version</th>
+          <th className="u-text--muted">版本</th>
           <td>{resources?.system.version}</td>
         </tr>
         <tr>
           <th className="u-text--muted">SKU</th>
-          <td>{resources?.system.sku || "N/A"}</td>
+          <td>{resources?.system.sku || "不适用"}</td>
         </tr>
         <tr>
-          <th className="u-text--muted">Type</th>
+          <th className="u-text--muted">类型</th>
           <td>{resources?.system.type}</td>
         </tr>
 
@@ -65,15 +65,15 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
         {resources?.system.firmware && (
           <>
             <tr>
-              <th className="u-text--muted">Firmware Vendor</th>
+              <th className="u-text--muted">固件厂商</th>
               <td>{resources.system.firmware.vendor}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Firmware Date</th>
+              <th className="u-text--muted">固件日期</th>
               <td>{resources.system.firmware.date}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Firmware Version</th>
+              <th className="u-text--muted">固件版本</th>
               <td>{resources.system.firmware.version}</td>
             </tr>
           </>
@@ -83,20 +83,20 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
         {resources?.system.chassis && (
           <>
             <tr>
-              <th className="u-text--muted">Chassis Vendor</th>
+              <th className="u-text--muted">机箱厂商</th>
               <td>{resources.system.chassis.vendor}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Chassis Type</th>
+              <th className="u-text--muted">机箱类型</th>
               <td>{resources.system.chassis.type}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Chassis Serial</th>
-              <td>{resources.system.chassis.serial || "N/A"}</td>
+              <th className="u-text--muted">机箱序列号</th>
+              <td>{resources.system.chassis.serial || "不适用"}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Chassis Version</th>
-              <td>{resources.system.chassis.version || "N/A"}</td>
+              <th className="u-text--muted">机箱版本</th>
+              <td>{resources.system.chassis.version || "不适用"}</td>
             </tr>
           </>
         )}
@@ -105,20 +105,20 @@ const ClusterMemberDetailSystem: FC<Props> = ({ resources, state }) => {
         {resources?.system.motherboard && (
           <>
             <tr>
-              <th className="u-text--muted">Motherboard Vendor</th>
+              <th className="u-text--muted">主板厂商</th>
               <td>{resources.system.motherboard.vendor}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Motherboard Product</th>
+              <th className="u-text--muted">主板产品</th>
               <td>{resources.system.motherboard.product}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Motherboard Serial</th>
-              <td>{resources.system.motherboard.serial || "N/A"}</td>
+              <th className="u-text--muted">主板序列号</th>
+              <td>{resources.system.motherboard.serial || "不适用"}</td>
             </tr>
             <tr>
-              <th className="u-text--muted">Motherboard Version</th>
-              <td>{resources.system.motherboard.version || "N/A"}</td>
+              <th className="u-text--muted">主板版本</th>
+              <td>{resources.system.motherboard.version || "不适用"}</td>
             </tr>
           </>
         )}

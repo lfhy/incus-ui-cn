@@ -22,14 +22,14 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
     <div>
       <div className="cpu-limit-label">
         <RadioInput
-          label="number"
+          label="数量"
           checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.DYNAMIC}
           onChange={() => {
             setCpuLimit({ selectedType: CPU_LIMIT_TYPE.DYNAMIC });
           }}
         />
         <RadioInput
-          label="fixed"
+          label="固定核"
           checked={cpuLimit.selectedType === CPU_LIMIT_TYPE.FIXED}
           onChange={() => {
             setCpuLimit({ selectedType: CPU_LIMIT_TYPE.FIXED });
@@ -43,7 +43,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           type="number"
           min="1"
           step="1"
-          placeholder="Number of exposed cores"
+          placeholder="请输入暴露的核心数量"
           onChange={(e) => {
             setCpuLimit({ ...cpuLimit, dynamicValue: e.target.value });
           }}
@@ -57,7 +57,7 @@ const CpuLimitSelector: FC<Props> = ({ cpuLimit, setCpuLimit, help }) => {
           id="limits_cpu"
           name="limits_cpu"
           type="text"
-          placeholder="Comma-separated core numbers"
+          placeholder="请输入逗号分隔的核心编号"
           onChange={(e) => {
             setCpuLimit({ ...cpuLimit, fixedValue: e.target.value });
           }}

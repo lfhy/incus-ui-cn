@@ -25,10 +25,25 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
     );
   };
 
+  const getStatusLabel = (status: string) => {
+    return (
+      {
+        Error: "错误",
+        Frozen: "已冻结",
+        Freezing: "冻结中",
+        Ready: "就绪",
+        Running: "运行中",
+        Stopped: "已停止",
+        Starting: "启动中",
+        Stopping: "停止中",
+      }[status] ?? status
+    );
+  };
+
   return loadingType ? (
     <>
       <Icon className="u-animation--spin status-icon" name="spinner" />
-      <i>{loadingType}</i>
+      <i>{getStatusLabel(loadingType)}</i>
     </>
   ) : (
     <>
@@ -38,7 +53,7 @@ const InstanceStatusIcon: FC<Props> = ({ instance }) => {
           "u-animation--spin": instance.status === "Freezing",
         })}
       />
-      {instance.status}
+      {getStatusLabel(instance.status)}
     </>
   );
 };

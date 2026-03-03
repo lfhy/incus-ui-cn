@@ -38,6 +38,13 @@ interface Props {
 
 const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
   const getFormProps = (id: "network" | "name" | "description" | "parent") => {
+    const placeholders = {
+      network: "请输入网络名称",
+      name: "请输入名称",
+      description: "请输入描述",
+      parent: "请输入父网络",
+    };
+
     return {
       id: id,
       name: id,
@@ -48,7 +55,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
       },
       value: formik.values[id] ?? "",
       error: formik.touched[id] ? (formik.errors[id] as ReactNode) : null,
-      placeholder: `Enter ${id.replaceAll("_", " ")}`,
+      placeholder: placeholders[id],
     };
   };
 
@@ -63,7 +70,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
       <div className="u-sv3">
         <div className="general-field">
           <div className="general-field-label">
-            <Label forId="networkType">Type</Label>
+            <Label forId="networkType">类型</Label>
           </div>
           <div className="general-field-content">
             {formik.values.isCreating ? (
@@ -72,7 +79,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
               <>
                 {renderNetworkType(formik.values.networkType)}
                 {!isManagedNetwork && (
-                  <span className="u-text--muted">, not managed</span>
+                  <span className="u-text--muted">，未托管</span>
                 )}
               </>
             )}
@@ -82,7 +89,7 @@ const NetworkFormMain: FC<Props> = ({ formik, project, isClustered }) => {
           <div className="general-field">
             <div className="general-field-label">
               <Label forId="name" required={formik.values.isCreating}>
-                Name
+                名称
               </Label>
             </div>
             <div className="general-field-content">

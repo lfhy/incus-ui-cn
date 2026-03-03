@@ -11,29 +11,29 @@ const ClusterMemberDetailUSB: FC<Props> = ({ resources }) => {
       <tbody>
         {resources?.usb.devices?.length === 0 && (
           <tr>
-            <td className="u-text--muted">No USB devices found</td>
+            <td className="u-text--muted">未找到 USB 设备</td>
           </tr>
         )}
         {resources?.usb.devices?.map((device, i) => (
           <tr key={i}>
-            <th className="u-text--muted">Device #{i + 1}</th>
+            <th className="u-text--muted">设备 #{i + 1}</th>
             <td>
-              <div>Bus Address: {device.bus_address}</div>
-              <div>Device Address: {device.device_address}</div>
-              {device.vendor && <div>Vendor: {device.vendor}</div>}
-              {device.product && <div>Product: {device.product}</div>}
+              <div>总线地址： {device.bus_address}</div>
+              <div>设备地址： {device.device_address}</div>
+              {device.vendor && <div>厂商： {device.vendor}</div>}
+              {device.product && <div>产品： {device.product}</div>}
               {device.serial && device.serial !== "" && (
-                <div>Serial: {device.serial}</div>
+                <div>序列号： {device.serial}</div>
               )}
               {(device.interfaces ?? []).length > 0 && (
                 <div>
-                  Interfaces:
+                  接口：
                   <ul>
                     {(device.interfaces ?? []).map((iface, j) => (
                       <li key={j}>
-                        <div>Class: {iface.class}</div>
-                        <div>Subclass: {iface.subclass}</div>
-                        <div>Protocol: {iface.protocol}</div>
+                        <div>类别： {iface.class}</div>
+                        <div>子类别： {iface.subclass}</div>
+                        <div>协议： {iface.protocol}</div>
                       </li>
                     ))}
                   </ul>
