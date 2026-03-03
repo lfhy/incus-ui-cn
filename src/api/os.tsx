@@ -18,14 +18,19 @@ const prepareOSURL = (url: string, target: string) => {
 };
 
 export const isIncusOS = async (): Promise<boolean> => {
-  return fetch("/os/1.0")
-    .then(handleResponse)
-    .then((response: LxdApiResponse<null>) => {
-      if (response.error_code == 0) {
-        return true;
-      }
-      return false;
-    });
+  const response = await fetch("/os/1.0");
+  if (response.status === 403 || response.status === 404) {
+    return false;
+  }
+  if (!response.ok) {
+    return false;
+  }
+
+  const payload = (await response
+    .json()
+    .catch(() => ({}))) as LxdApiResponse<null> & { error_code?: number };
+
+  return payload.error_code === 0;
 };
 
 export const fetchOS = async (target: string): Promise<IncusOSSettings> => {

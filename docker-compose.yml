@@ -6,10 +6,15 @@ services:
     image: incus-ui:local
     container_name: incus-ui
     ports:
-      - "8080:80"
+      - "8444:443"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     environment:
-      BACKEND_HOST: "host.docker.internal"
-      BACKEND_PORT: "8443"
-      BACKEND_SSL_VERIFY: "none"
+      BACKEND_HOST: "${BACKEND_HOST:-host.docker.internal}"
+      BACKEND_PORT: "${BACKEND_PORT:-8443}"
+      BACKEND_SSL_VERIFY: "${BACKEND_SSL_VERIFY:-required}"
+      BASIC_AUTH_USERNAME: "${BASIC_AUTH_USERNAME:-admin}"
+      BASIC_AUTH_PASSWORD: "${BASIC_AUTH_PASSWORD:-incus123}"
+      BACKEND_CA_CERT_PEM: "${BACKEND_CA_CERT_PEM:-}"
+      BACKEND_CLIENT_CERT_PEM: "${BACKEND_CLIENT_CERT_PEM:-}"
+      BACKEND_CLIENT_KEY_PEM: "${BACKEND_CLIENT_KEY_PEM:-}"

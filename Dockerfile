@@ -10,17 +10,18 @@ RUN yarn build
 FROM node:20-alpine
 
 WORKDIR /srv
-RUN apk add --no-cache bash haproxy && npm install --global serve@14.2.4
+RUN apk add --no-cache bash haproxy openssl && npm install --global serve@14.2.4
 
 COPY --from=build /srv/build /srv/build
+COPY docker /srv/docker
 COPY docker/docker-entrypoint.sh /srv/docker-entrypoint.sh
 RUN chmod +x /srv/docker-entrypoint.sh
 
 ENV FRONTEND_PORT=8080
-ENV PUBLIC_PORT=80
+ENV PUBLIC_PORT=443
 ENV BACKEND_PORT=8443
-ENV BACKEND_SSL_VERIFY=none
+ENV BACKEND_SSL_VERIFY=required
 
-EXPOSE 80
+EXPOSE 443
 
 ENTRYPOINT ["/srv/docker-entrypoint.sh"]

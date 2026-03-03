@@ -77,7 +77,7 @@ const initializeProjectName = (
 
 const Navigation: FC = () => {
   const { t } = useI18n();
-  const { isRestricted, isOidc } = useAuth();
+  const { isRestricted } = useAuth();
   const { menuCollapsed, setMenuCollapsed } = useMenuCollapsed();
   const {
     project,
@@ -756,7 +756,7 @@ const Navigation: FC = () => {
                       </div>
                     </SideNavigationItem>
                   )}
-                  {isOidc && (
+                  {isAuthenticated && (
                     <SideNavigationItem>
                       <a
                         className="p-side-navigation__link"

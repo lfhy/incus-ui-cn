@@ -7,7 +7,6 @@ import ProjectLoader from "pages/projects/ProjectLoader";
 import { useAuth } from "context/auth";
 import { setTitle } from "util/title";
 import NoMatch from "components/NoMatch";
-import { logout } from "util/helpers";
 import lazy from "util/lazyWithRetry";
 import { applyTheme, loadTheme, Spinner } from "@canonical/react-components";
 import { ALL_PROJECTS } from "util/loginProject";
@@ -176,10 +175,6 @@ const App: FC = () => {
 
   if (isAuthLoading) {
     return <Spinner className="u-loader" text={t("loading")} isMainComponent />;
-  }
-
-  if (!isAuthenticated) {
-    logout();
   }
 
   if (!isAuthenticated && !window.location.href.includes("/ui/login")) {

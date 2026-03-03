@@ -179,7 +179,7 @@ export const humanCpuUsage = (nseconds: number): string => {
     return "-";
   }
 
-  return (nseconds/1000000000).toFixed(2);
+  return (nseconds / 1000000000).toFixed(2);
 };
 
 export const getWsErrorMsg = (code: number): string => {
@@ -298,12 +298,16 @@ export const getParentsBottomSpacing = (element: Element): number => {
   return sum;
 };
 
-export const logout = (): void =>
-  void fetch("/oidc/logout").then(() => {
+export const logout = (): void => {
+  const performLogout = async () => {
+    await fetch("/auth/logout", { method: "POST" }).catch(() => null);
     if (!window.location.href.includes("/ui/login")) {
       window.location.href = "/ui/login";
     }
-  });
+  };
+
+  void performLogout();
+};
 
 export const capitalizeFirstLetter = (val: string): string =>
   val.charAt(0).toUpperCase() + val.slice(1);
