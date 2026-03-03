@@ -1,0 +1,15 @@
+services:
+  incus-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: incus-ui:local
+    container_name: incus-ui
+    ports:
+      - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      BACKEND_HOST: "host.docker.internal"
+      BACKEND_PORT: "8443"
+      BACKEND_SSL_VERIFY: "none"

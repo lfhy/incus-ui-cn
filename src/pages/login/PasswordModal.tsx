@@ -18,7 +18,7 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
     password: Yup.string(),
     passwordConfirm: Yup.string().oneOf(
       [Yup.ref("password"), ""],
-      "Passwords must match",
+      "两次输入的密码必须一致",
     ),
   });
 
@@ -40,11 +40,11 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
   return (
     <Modal
       close={onClose}
-      title="Add a password"
+      title="设置密码"
       buttonRow={
         <>
           <Button className="u-no-margin--bottom" onClick={handleSkip}>
-            Skip
+            跳过
           </Button>
           <ActionButton
             appearance="positive"
@@ -55,26 +55,26 @@ const PasswordModal: FC<Props> = ({ onConfirm, onClose }) => {
               formik.values.password.length === 0
             }
           >
-            Generate certificate
+            生成证书
           </ActionButton>
         </>
       }
     >
-      <p>Protect your certificate by adding a password.</p>
+      <p>为证书设置密码以增强安全性。</p>
       <Input
         id="password"
         type="password"
-        label="Password"
+        label="密码"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.password}
         error={formik.touched.password ? formik.errors.password : null}
-        help="For macOS an empty password is not allowed. On other systems this step can be skipped."
+        help="macOS 不允许空密码。其他系统可跳过此步骤。"
       />
       <Input
         id="passwordConfirm"
         type="password"
-        label="Password confirmation"
+        label="确认密码"
         onBlur={formik.handleBlur}
         onChange={formik.handleChange}
         value={formik.values.passwordConfirm}

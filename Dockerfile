@@ -1,40 +1,26 @@
-# Build js / css
-FROM node:22 AS yarn-dependencies
+FROM node:20-alpine AS build
+
 WORKDIR /srv
+COPY package.json yarn.lock ./
+RUN yarn install --frozen-lockfile --network-concurrency 2
+
 COPY . .
-RUN yarn --network-concurrency 2
-RUN yarn run build
-RUN mkdir /srv/deploy
-RUN mv build /srv/deploy/
-RUN mv entrypoint /srv/deploy/
-RUN mv haproxy-demo.cfg /srv/deploy/
+RUN yarn build
 
-# Build the demo image
-FROM ubuntu:noble
+FROM node:20-alpine
 
-# Set up environment
-ENV LANG C.UTF-8
 WORKDIR /srv
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        haproxy \
-        apt-transport-https \
-        build-essential \
-        ca-certificates \
-        curl \
-        git \
-        libssl-dev \
-        wget
+RUN apk add --no-cache bash haproxy && npm install --global serve@14.2.4
 
-# Install serve
-ENV NVM_DIR /usr/local/nvm
-RUN mkdir /usr/local/nvm \
-    && wget --no-check-certificate https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh \
-    && bash install.sh \
-    && . $NVM_DIR/nvm.sh \
-    && nvm install v16 \
-    && npm install --global serve
+COPY --from=build /srv/build /srv/build
+COPY docker/docker-entrypoint.sh /srv/docker-entrypoint.sh
+RUN chmod +x /srv/docker-entrypoint.sh
 
-# Import code
-COPY --from=yarn-dependencies /srv/deploy /srv
+ENV FRONTEND_PORT=8080
+ENV PUBLIC_PORT=80
+ENV BACKEND_PORT=8443
+ENV BACKEND_SSL_VERIFY=none
 
-ENTRYPOINT ["./entrypoint"]
+EXPOSE 80
+
+ENTRYPOINT ["/srv/docker-entrypoint.sh"]
