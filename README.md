@@ -1,72 +1,66 @@
 # LXD-UI
 
-LXD-UI is a browser frontend for LXD. It enables easy and accessible container and virtual machine management.
-Targets small and large scale private clouds.
+LXD-UI 是 LXD 的浏览器前端。它使容器和虚拟机管理变得简单易用。
+适用于小规模和大规模私有云。
 
-# Install
+**注意：此仓库 (https://github.com/lfhy/incus-ui-cn) 是原项目 https://github.com/zabbly/incus-ui-canonical 的汉化版本，旨在为中国用户提供中文界面和文档。**
 
-1. Get the LXD snap
+# 安装
+
+1. 获取 LXD snap 包
 
        sudo snap install lxd
 
-   Or refresh to ensure at least version 5.21 LTS is installed. Be aware, that downgrading to a previous channel will not be possible. 
+   或者刷新确保至少安装了 5.21 LTS 版本。请注意，降级到之前的渠道将不可行。
 
        sudo snap refresh --channel=latest/stable lxd
 
-2. Make sure that your LXD server is exposed to the network. For example listen on port 8443 of all available interfaces:
+   或者在 Fedora 系统上使用 dnf 安装:
+
+       sudo dnf install lxd
+
+2. 确保您的 LXD 服务器已暴露到网络中。例如监听所有可用接口的 8443 端口：
 
        lxc config set core.https_address :8443
 
-3. Done. Access the UI in your browser by entering the server address (for example on localhost, https://127.0.0.1:8443). You can find more information on the UI in the [LXD documentation](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/).
+3. 完成。在浏览器中输入服务器地址以访问 UI（例如在本地主机上，https://127.0.0.1:8443）。您可以在 [LXD 文档](https://documentation.ubuntu.com/lxd/en/latest/howto/access_ui/) 中找到有关 UI 的更多信息。
 
-# Contributing
+# 贡献
 
-You might want to:
+您可能想要：
 
-- Read the [contributing guide](CONTRIBUTING.md), to learn about our development process and how to build and test your changes.
-- [View the source](https://github.com/canonical/lxd-ui) on GitHub.
+- 阅读 [贡献指南](CONTRIBUTING.md)，了解我们的开发流程以及如何构建和测试您的更改。
+- 在 GitHub 上[查看源码](https://github.com/canonical/lxd-ui)。
 
-# Architecture
+# 架构
 
-LXD-UI is a single page application written in TypeScript and React. See [Architecture](ARCHITECTURE.MD) for details on bundling with [LXD](https://github.com/canonical/lxd) and the dev setup.
+LXD-UI 是一个使用 TypeScript 和 React 编写的单页应用程序。请参阅 [架构](ARCHITECTURE.MD) 了解与 [LXD](https://github.com/canonical/lxd) 的捆绑详情和开发设置。
 
-# Changelog
+# 更新日志
 
-The [changelog](https://github.com/canonical/lxd-ui/releases) is regularly updated to reflect what's changed in each new release.
+[更新日志](https://github.com/canonical/lxd-ui/releases) 会定期更新以反映每个新版本的变化。
 
-# Roadmap
-Future plans and high-priority features and enhancements can be found in the [roadmap](ROADMAP.md).
+# 路线图
+未来计划和高优先级的功能及增强功能可在 [路线图](ROADMAP.md) 中找到。
 
-# Examples
+# 示例
 
-| Create an instance   | Instance list        |
+| 创建实例             | 实例列表               |
 |----------------------|----------------------|
-| ![create-instance](https://assets.ubuntu.com/v1/7c8e3805-create-instance.png) | ![instance-list](https://assets.ubuntu.com/v1/a45c20d0-instance-list.png) |
+| ![create-instance](public/image/create-instance.png) | ![instance-list](public/image/instance-list.png) |
 
-|  Instance terminal   | Graphic console      |
+|  实例终端             | 图形控制台             |
 |----------------------|----------------------|
-| ![instance-terminal](https://assets.ubuntu.com/v1/8b5c1144-instance-terminal.png) | ![instance-graphical-console](https://assets.ubuntu.com/v1/6c9f268f-instance-graphical-console.png) |
+| ![instance-terminal](public/image/instance-terminal.png) | ![instance-graphical-console](public/image/instance-graphical-console.png) |
 
-| Storage pools         | Storage volume       |
+| 存储池                | 存储卷                 |
 |----------------------|----------------------|
-| ![storage-pool-list](https://assets.ubuntu.com/v1/697d98b1-storage-pool-list.png)  | ![storage-volume-snap](https://assets.ubuntu.com/v1/0d407301-storage-volume-snap.png) |
+| ![storage-pool-list](public/image/storage-pool-list.png)  | ![storage-volume-snap](public/image/storage-volume-snap.png) |
 
-| Network              | Network ACL          | 
+| 网络                  | 网络 ACL             | 
 |----------------------|----------------------|
-| ![network-detail](https://assets.ubuntu.com/v1/cea32c07-network-detail.png) | ![network-acl-create](https://assets.ubuntu.com/v1/c9e5e114-network-acl-create.png) |
+| ![network-detail](public/image/network-detail.png) | ![network-acl-create](public/image/network-acl-create.png) |
 
-| Create a group       | Assign permissions   |
+| 配置文件              | 警告                   |
 |----------------------|----------------------|
-| ![group-create-overview](https://assets.ubuntu.com/v1/48d3cea4-group-create-overview.png) | ![group-create-permission](https://assets.ubuntu.com/v1/c92cbd68-group-create-permission.png) |
-
-| Permission groups    | Operations           |
-|----------------------|----------------------|
-| ![group-list](https://assets.ubuntu.com/v1/ecab47f6-group-list.png) | ![operations-list](https://assets.ubuntu.com/v1/b5b214ea-operations-list.png) |
-
-| Profiles             | Warnings             |
-|----------------------|----------------------|
-| ![profile-list](https://assets.ubuntu.com/v1/acb5f1d6-profile-list.png) | ![warnings-list](https://assets.ubuntu.com/v1/5c7eae10-warnings-list.png) |
-
-| Cluster groups       | Server settings      |
-|----------------------|----------------------|
-| ![cluster-list](https://assets.ubuntu.com/v1/12019e05-cluster-list.png) | ![server-settings](https://assets.ubuntu.com/v1/566fac1a-server-settings.png) |
+| ![profile-list](public/image/profile-list.png) | ![warnings-list](public/image/warnings-list.png) |
