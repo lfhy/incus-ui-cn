@@ -26,14 +26,14 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
 
   const getTitle = () => {
     if (!canManageInstanceBackups(instance)) {
-      return "You do not have permission to export this instance.";
+      return "你没有导出此实例的权限。";
     }
 
     if (backupDisabled) {
-      return `Project "${project?.name}" doesn't allow for backup creation.`;
+      return `项目 "${project?.name}" 不允许创建备份。`;
     }
 
-    return "Export instance";
+    return "导出实例";
   };
 
   return (
@@ -51,7 +51,7 @@ const ExportInstanceBtn: FC<Props> = ({ instance, classname, onClose }) => {
         disabled={!canManageInstanceBackups(instance) || backupDisabled}
       >
         <Icon name="export" />
-        <span>Export</span>
+        <span>导出</span>
       </Button>
     </>
   );

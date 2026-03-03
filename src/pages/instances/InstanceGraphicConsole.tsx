@@ -39,11 +39,17 @@ const InstanceGraphicConsole: FC<Props> = ({
   const notify = useNotify();
   const spiceRef = useRef<HTMLDivElement>(null);
   const [isVgaLoading, setVgaLoading] = useState<boolean>(false);
+  const localizeFetchError = (e: unknown): unknown => {
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      return new Error("网络请求失败");
+    }
+    return e;
+  };
 
   const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
-    onFailure("Console error", e);
+    onFailure("控制台错误", e);
   };
 
   const handleResize = () => {
@@ -65,7 +71,7 @@ const InstanceGraphicConsole: FC<Props> = ({
     const result = await connectInstanceVga(name, project).catch((e) => {
       setVgaLoading(false);
       if (isRunning) {
-        onFailure("Connection failed", e);
+        onFailure("连接失败", localizeFetchError(e));
       }
     });
     if (!result) {
@@ -83,7 +89,7 @@ const InstanceGraphicConsole: FC<Props> = ({
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure("Console error", event.reason, getWsErrorMsg(event.code));
+        onFailure("控制台错误", event.reason, getWsErrorMsg(event.code));
       }
     };
 
@@ -105,7 +111,7 @@ const InstanceGraphicConsole: FC<Props> = ({
       });
     } catch (e) {
       if (isRunning) {
-        onFailure("Connection failed", e);
+        onFailure("连接失败", localizeFetchError(e));
       }
     }
 
@@ -152,7 +158,7 @@ const InstanceGraphicConsole: FC<Props> = ({
       .requestFullscreen()
       .then(handleResize)
       .catch((e) => {
-        onFailure("Failed to enter full-screen mode", e);
+        onFailure("进入全屏失败", e);
       });
   };
   onMount(handleFullScreen);
@@ -160,7 +166,7 @@ const InstanceGraphicConsole: FC<Props> = ({
   return (
     <>
       {isVgaLoading ? (
-        <Spinner className="u-loader" text="Loading VGA session..." />
+        <Spinner className="u-loader" text="正在加载图形控制台会话..." />
       ) : (
         <div id="spice-area" ref={spiceRef}>
           <div id="spice-screen" className="spice-screen" />

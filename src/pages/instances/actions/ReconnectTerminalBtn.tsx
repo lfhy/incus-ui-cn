@@ -39,7 +39,7 @@ const ReconnectTerminalBtn: FC<Props> = ({ payload, reconnect, instance }) => {
       )}
       <Button className="u-no-margin--bottom" hasIcon onClick={openModal}>
         <Icon name="connected" />
-        <span>Reconnect</span>
+        <span>重新连接</span>
       </Button>
     </>
   );

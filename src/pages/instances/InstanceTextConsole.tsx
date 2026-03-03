@@ -38,6 +38,12 @@ const InstanceTextConsole: FC<Props> = ({
   const [userInteracted, setUserInteracted] = useState(false);
   const xtermRef = useRef<Terminal>(null);
   const notify = useNotify();
+  const localizeFetchError = (e: unknown): unknown => {
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      return new Error("网络请求失败");
+    }
+    return e;
+  };
 
   usePrompt({
     when: userInteracted,
@@ -54,7 +60,7 @@ const InstanceTextConsole: FC<Props> = ({
   const isRunning = isInstanceRunning(instance);
 
   const handleError = (e: object) => {
-    onFailure("Error", e);
+    onFailure("错误", e);
   };
 
   const openWebsockets = async () => {
@@ -74,7 +80,7 @@ const InstanceTextConsole: FC<Props> = ({
     const result = await connectInstanceConsole(name, project).catch((e) => {
       setLoading(false);
       if (isRunning) {
-        onFailure("Connection failed", e);
+        onFailure("连接失败", localizeFetchError(e));
       } else {
         showNotRunningInfo();
       }
@@ -99,7 +105,7 @@ const InstanceTextConsole: FC<Props> = ({
 
     control.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure("Error", event.reason, getWsErrorMsg(event.code));
+        onFailure("错误", event.reason, getWsErrorMsg(event.code));
       }
     };
 
@@ -111,7 +117,7 @@ const InstanceTextConsole: FC<Props> = ({
 
     data.onclose = (event) => {
       if (1005 !== event.code) {
-        onFailure("Error", event.reason, getWsErrorMsg(event.code));
+        onFailure("错误", event.reason, getWsErrorMsg(event.code));
       }
       setDataWs(null);
       setUserInteracted(false);
@@ -176,7 +182,7 @@ const InstanceTextConsole: FC<Props> = ({
   return (
     <>
       {isLoading ? (
-        <Spinner className="u-loader" text="Loading text console..." />
+        <Spinner className="u-loader" text="正在加载文本控制台..." />
       ) : (
         <Xterm
           ref={xtermRef}

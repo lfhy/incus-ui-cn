@@ -17,7 +17,11 @@ interface Props {
   isLoading: boolean;
 }
 
-const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
+const InstanceDetailActions: FC<Props> = ({
+  instance,
+  project: _project,
+  isLoading,
+}) => {
   const isSmallScreen = useIsScreenBelow(largeScreenBreakpoint);
 
   const classname = isSmallScreen
@@ -53,10 +57,10 @@ const InstanceDetailActions: FC<Props> = ({ instance, project, isLoading }) => {
       {isSmallScreen ? (
         <ContextualMenu
           closeOnOutsideClick={false}
-          toggleLabel="Actions"
+          toggleLabel="操作"
           position="left"
           hasToggleIcon
-          title="actions"
+          title="操作"
         >
           {(close: () => void) => (
             <span>

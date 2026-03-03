@@ -1,7 +1,6 @@
 import { Icon } from "@canonical/react-components";
 import { useOperations } from "context/operationsProvider";
 import { Link } from "react-router-dom";
-import { pluralize } from "util/instanceBulkActions";
 import { useIsScreenBelow } from "context/useIsScreenBelow";
 
 const OperationStatus = () => {
@@ -13,8 +12,8 @@ const OperationStatus = () => {
   }
 
   const operationsStatus = isSmallScreen
-    ? `${runningOperations.length} ${pluralize("op", runningOperations.length)}...`
-    : `${runningOperations.length} ${pluralize("operation", runningOperations.length)} in progress...`;
+    ? `${runningOperations.length} 个操作...`
+    : `${runningOperations.length} 个操作进行中...`;
 
   return (
     <div className="operation-status" role="alert">

@@ -51,15 +51,15 @@ const OSLogs: FC<Props> = ({ target }) => {
   });
 
   if (error) {
-    notify.failure("Loading logs failed", error);
+    notify.failure("加载日志失败", error);
   }
 
   return (
     <>
       <NotificationRow />
-      {isLoading && <Spinner className="u-loader" text="Loading logs..." />}
+      {isLoading && <Spinner className="u-loader" text="正在加载日志..." />}
       {!isLoading && logs.length === 0 && (
-        <div className="u-align-text--center">There are no logs.</div>
+        <div className="u-align-text--center">暂无日志。</div>
       )}
       {!isLoading && logs.length > 0 && (
         <pre>

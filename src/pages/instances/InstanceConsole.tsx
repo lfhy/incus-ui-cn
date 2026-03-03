@@ -131,7 +131,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               onClick={() => handleConnection()}
               >
                 <Icon name="connected" />
-                <span>Reconnect</span>
+                <span>重新连接</span>
               </Button>}
         </div>
       )}
@@ -162,7 +162,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
               onClick={() => handleConnection()}
               >
                 <Icon name="connected" />
-                <span>Reconnect</span>
+                <span>重新连接</span>
               </Button>}
               {isGraphic && hasCustomVolumeIso && <AttachIsoBtn instance={instance} />}
               {isGraphic &&
@@ -172,7 +172,7 @@ const InstanceConsole: FC<Props> = ({ instance }) => {
                   handleFullScreen();
                 }}
               >
-                <span>Fullscreen</span>
+                <span>全屏</span>
               </Button>}
               {isGraphic &&
               <ContextualMenu

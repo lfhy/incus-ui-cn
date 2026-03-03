@@ -102,6 +102,12 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
   const [version, setVersion] = useState(0);
   const { canUpdateInstanceState, canExecInstance } = useInstanceEntitlements();
   const lastFailureOp = useRef<LxdOperation | null>(null);
+  const localizeFetchError = (e: unknown): unknown => {
+    if (e instanceof Error && e.message === "Failed to fetch") {
+      return new Error("网络请求失败");
+    }
+    return e;
+  };
 
   usePrompt({
     when: userInteracted,
@@ -129,7 +135,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
     const result = await connectInstanceExec(name, project, payload).catch(
       (e) => {
         setLoading(false);
-        notify.failure("Connection failed", e);
+        notify.failure("连接失败", localizeFetchError(e));
       },
     );
     if (!result) {
@@ -317,7 +323,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
               onClick={handleFullscreen}
               disabled={isLoading || !controlWs}
             >
-              Fullscreen
+              全屏
             </Button>
             <ReconnectTerminalBtn
               reconnect={setPayload}
@@ -327,7 +333,7 @@ const InstanceTerminal: FC<Props> = ({ instance, refreshInstance }) => {
           </div>
           <NotificationRow />
           {isLoading && (
-            <Spinner className="u-loader" text="Loading terminal session..." />
+            <Spinner className="u-loader" text="正在加载终端会话..." />
           )}
           {controlWs && (
             <Xterm

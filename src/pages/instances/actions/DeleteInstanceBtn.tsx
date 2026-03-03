@@ -29,7 +29,7 @@ const DeleteInstanceBtn: FC<Props> = ({
   instance,
   classname,
   onClose,
-  label = "Delete",
+  label = "删除",
 }) => {
   const eventQueue = useEventQueue();
   const toastNotify = useToastNotification();
@@ -56,29 +56,26 @@ const DeleteInstanceBtn: FC<Props> = ({
             );
             toastNotify.success(
               <>
-                Instance{" "}
+                实例{" "}
                 <ResourceLabel
                   bold
                   type={instance.type}
                   value={instance.name}
                 />{" "}
-                deleted.
+                已删除。
               </>,
             );
           },
-          (msg) =>
-            toastNotify.failure(
-              "Instance deletion failed",
-              new Error(msg),
-              instanceLink,
-            ),
+          (msg) => {
+            toastNotify.failure("删除实例失败", new Error(msg), instanceLink);
+          },
           () => {
             setLoading(false);
           },
         );
       })
       .catch((e) => {
-        toastNotify.failure("Instance deletion failed", e, instanceLink);
+        toastNotify.failure("删除实例失败", e, instanceLink);
         setLoading(false);
       });
   };
@@ -91,12 +88,12 @@ const DeleteInstanceBtn: FC<Props> = ({
     !canDeleteInstance(instance);
   const getHoverText = () => {
     if (!canDeleteInstance(instance)) {
-      return "You do not have permission to delete this instance";
+      return "你没有删除此实例的权限";
     }
     if (!isDeletableStatus) {
-      return "Stop the instance to delete it";
+      return "请先停止实例再删除";
     }
-    return "Delete instance";
+    return "删除实例";
   };
 
   return (
@@ -107,17 +104,17 @@ const DeleteInstanceBtn: FC<Props> = ({
       loading={isLoading}
       confirmationModalProps={{
         close: onClose,
-        title: "Confirm delete",
+        title: "确认删除",
         children: (
           <p>
-            This will permanently delete instance{" "}
+            这将永久删除实例{" "}
             <ResourceLabel type={instance.type} value={instance.name} bold />.
             <br />
-            This action cannot be undone, and can result in data loss.
+            此操作不可撤销，并可能导致数据丢失。
           </p>
         ),
         onConfirm: handleDelete,
-        confirmButtonLabel: "Delete",
+        confirmButtonLabel: "删除",
       }}
       disabled={isDisabled || isLoading}
       shiftClickEnabled

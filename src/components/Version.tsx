@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { Icon, Tooltip } from "@canonical/react-components";
 import { useSettings } from "context/useSettings";
-import { RECENT_MAJOR_SERVER_VERSION, UI_VERSION } from "util/version";
+import { UI_VERSION } from "util/version";
 
 const Version: FC = () => {
   const { data: settings } = useSettings();
@@ -11,9 +11,6 @@ const Version: FC = () => {
     return null;
   }
 
-  const serverMajor = serverVersion.includes(".")
-    ? serverVersion.split(".")[0]
-    : undefined;
   const isOutdated = false;
 
   return (
@@ -21,14 +18,14 @@ const Version: FC = () => {
       <span className="server-version p-text--small">
         {isOutdated && (
           <Tooltip
-            message="You are using an outdated server version. Update your LXD server to benefit from the latest features."
+            message="你正在使用较旧的服务器版本。更新 LXD 服务器可获得最新特性。"
             tooltipClassName="version-warning"
             zIndex={1000}
           >
             <Icon name="warning" className="version-warning-icon" />
           </Tooltip>
         )}
-        Version {serverVersion}-ui-{UI_VERSION}
+        版本 {serverVersion}-ui-{UI_VERSION}
       </span>
     </>
   );

@@ -34,7 +34,7 @@ const CopyInstanceBtn: FC<Props> = ({
     // when copying an instance, the user must always have permission to create instances in the source project
     // LXD internally creates a new instance in the source project and then copies it to the target project
     if (!canCreateInstances(currentProject) || !validTargetProjects?.length) {
-      return "You do not have permission to copy instances";
+      return "你没有复制实例的权限";
     }
 
     if (isLoading) {
@@ -53,14 +53,14 @@ const CopyInstanceBtn: FC<Props> = ({
       )}
       <Button
         appearance="default"
-        aria-label="Copy instance"
+        aria-label="复制实例"
         className={classNames("u-no-margin--bottom has-icon", classname)}
         disabled={Boolean(getDisableReason())}
         onClick={openPortal}
-        title={getDisableReason() || "Copy instance"}
+        title={getDisableReason() || "复制实例"}
       >
         <Icon name="canvas" />
-        <span>Copy</span>
+        <span>复制</span>
       </Button>
     </>
   );

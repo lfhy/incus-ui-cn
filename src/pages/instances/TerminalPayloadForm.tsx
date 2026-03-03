@@ -138,7 +138,7 @@ const TerminalPayloadForm: FC<Props> = ({
   return (
     <Modal
       close={close}
-      title="Reconnect terminal"
+      title="重新连接终端"
       buttonRow={
         <>
           <Button
@@ -164,7 +164,7 @@ const TerminalPayloadForm: FC<Props> = ({
             aria-label="submit reconnect"
             onClick={() => void formik.submitForm()}
           >
-            Reconnect
+            重新连接
           </ActionButton>
         </>
       }

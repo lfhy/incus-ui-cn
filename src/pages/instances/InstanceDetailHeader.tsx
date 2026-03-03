@@ -27,6 +27,21 @@ interface Props {
   isLoading: boolean;
 }
 
+const getInstanceStatusLabel = (status: string): string => {
+  return (
+    {
+      Error: "错误",
+      Frozen: "已冻结",
+      Freezing: "冻结中",
+      Ready: "就绪",
+      Running: "运行中",
+      Stopped: "已停止",
+      Starting: "启动中",
+      Stopping: "停止中",
+    }[status] ?? status
+  );
+};
+
 const InstanceDetailHeader: FC<Props> = ({
   name,
   instance,
@@ -132,14 +147,14 @@ const InstanceDetailHeader: FC<Props> = ({
         name={name}
         titleClassName="instance-detail-title"
         parentItems={[
-              <Link
-                to={
-                  canViewProject
-                    ? `/ui/project/${encodeURIComponent(project)}/instances`
-                    : "/ui/all-projects/instances"
-                }
-                key={1}
-              >
+          <Link
+            to={
+              canViewProject
+                ? `/ui/project/${encodeURIComponent(project)}/instances`
+                : "/ui/all-projects/instances"
+            }
+            key={1}
+          >
             实例
           </Link>,
         ]}
@@ -147,7 +162,9 @@ const InstanceDetailHeader: FC<Props> = ({
         centerControls={
           instance ? (
             <div className="instance-header-state-controls">
-              <i className="status u-text--muted">{instance.status}</i>
+              <i className="status u-text--muted">
+                {getInstanceStatusLabel(instance.status)}
+              </i>
               <InstanceStateActions key="state" instance={instance} />
             </div>
           ) : null
